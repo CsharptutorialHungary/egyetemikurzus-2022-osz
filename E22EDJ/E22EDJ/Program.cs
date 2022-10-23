@@ -1,20 +1,29 @@
-﻿using E22EDJ;
+﻿namespace E22EDJ;
 
-Console.WriteLine("Starting Game Time Tracker app");
-Console.WriteLine("To get the available commands type 'help'");
+//TODO: run  dotnet ef migrations add "Create Games and GamesStates tables"
 
-var loader = new CommandLoader();
-
-while (true)
+public static class Program
 {
-	Console.Write("Type in a  command: ");
-	var command = Console.ReadLine();
-	if (!string.IsNullOrEmpty(command) && loader.Commands.ContainsKey(command))
+	static void Main(string[] args)
 	{
-		loader.Commands[command].Execute();
+		CreateAppLoop();
 	}
-	else
+
+	private static void CreateAppLoop()
 	{
-		Console.WriteLine($"There is no such command as: '{command}'");
+		Console.WriteLine("Starting Game Time Tracker app");
+		Console.WriteLine("To get the available commands type 'help'");
+
+		var loader = new CommandLoader();
+
+		while (true)
+		{
+			Console.Write("Type in a  command: ");
+			var command = Console.ReadLine();
+			if (!string.IsNullOrEmpty(command) && loader.Commands.ContainsKey(command))
+				loader.Commands[command].Execute();
+			else
+				Console.WriteLine($"There is no such command as: '{command}'");
+		}
 	}
 }
