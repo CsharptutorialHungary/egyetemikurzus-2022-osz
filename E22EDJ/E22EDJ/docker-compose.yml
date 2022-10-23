@@ -9,6 +9,6 @@ services:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: GameTimeTracker
     ports:
-      -   "3306:3306"
+      - "3306:3306"
     volumes:
-      -   ./database/db:/var/lib/mysql
+      - ./database/db:/var/lib/mysql
