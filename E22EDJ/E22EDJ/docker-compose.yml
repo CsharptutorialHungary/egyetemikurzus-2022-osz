@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql
+    container_name: GTT_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: GameTimeTracker
+    ports:
+      -   "3306:3306"
+    volumes:
+      -   ./database/db:/var/lib/mysql
