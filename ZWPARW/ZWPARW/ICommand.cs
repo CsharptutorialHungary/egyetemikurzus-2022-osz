@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZWPARW.Object;
 
 namespace ZWPARW
 {
@@ -11,7 +12,7 @@ namespace ZWPARW
         public string Name { get;}
         public string Description { get;}
 
-        string[] Execute(string[] strings);
+        Leltar Execute(Leltar leltar);
 
         void Help(string message);
 

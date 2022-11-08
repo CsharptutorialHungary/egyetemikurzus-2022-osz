@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZWPARW.Object;
 
 namespace ZWPARW.Command
 {
@@ -12,16 +13,14 @@ namespace ZWPARW.Command
 
         public string Description => throw new NotImplementedException();
 
-        public string[] Execute(string[] strings)
+        public Leltar Execute(Leltar leltar)
         {
-            Console.WriteLine(strings[0]);
-
-            return strings;
+            return leltar;
         }
 
         public void Help(string message)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(message);
         }
     }
 }
