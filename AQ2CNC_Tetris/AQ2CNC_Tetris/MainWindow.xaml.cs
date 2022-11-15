@@ -117,6 +117,8 @@ namespace AQ2CNC_Tetris
                 gameState.MoveBlockDown();
                 Draw(gameState);
             }
+
+            GameOverMenu.Visibility = Visibility.Visible;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -155,9 +157,11 @@ namespace AQ2CNC_Tetris
             await GameLoop();
         }
 
-        private void Play_Again_Click(object sender, RoutedEventArgs e)
+        private async void Play_Again_Click(object sender, RoutedEventArgs e)
         {
-
+            gameState = new GameState();
+            GameOverMenu.Visibility = Visibility.Hidden;
+            await GameLoop();
         }
     }
 }
