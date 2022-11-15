@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AQ2CNC_Tetris
 {
-    internal abstract class Block
+    public abstract class Block
     {
         protected abstract Position[][] Tiles { get; }
         protected abstract Position StartOffSet { get; }
