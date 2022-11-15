@@ -57,7 +57,7 @@ namespace AQ2CNC_Tetris
         private Image[,] SetupGameCanvas(GameGrid grid)
         {
             Image[,] imageControls = new Image[grid.Rows, grid.Columns];
-            int cellSize = 25; //width 250 height 510 = 25 pixel marad a látható celláknak
+            int cellSize = 25; //width 250 height 500 = 25 pixel marad a látható celláknak
 
             for (int r = 0; r < grid.Rows; r++)
             {
@@ -101,10 +101,18 @@ namespace AQ2CNC_Tetris
             }
         }
 
+        private void DrawNextBlock(BlockQueue blockQueue)
+        {
+            Block next = blockQueue.NextBlock;
+            NextImage.Source = blockImages[next.Id];
+        }
+
         private void Draw(GameState gameState) 
         {
             DrawGrid(gameState.GameGrid);
             DrawBlock(gameState.CurrentBlock);
+            DrawNextBlock(gameState.BlockQueue);
+            ScoreText.Text = $"Score: {gameState.Score}";
         }
 
         private async Task GameLoop()
@@ -119,6 +127,7 @@ namespace AQ2CNC_Tetris
             }
 
             GameOverMenu.Visibility = Visibility.Visible;
+            FinalScoreText.Text = $"Score: {gameState.Score}";
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
