@@ -33,11 +33,15 @@ namespace AQ2CNC_Tetris
         public bool GameOver { get; private set; }
         public int Score { get; private set; }
 
+        public Block HeldBlock { get; private set; }
+        public bool CanHold { get; private set; }
+
         public GameState()
         {
             GameGrid = new GameGrid(22, 10); // +2 sor a blockok spawnolása miatt
             BlockQueue = new BlockQueue();
             CurrentBlock = BlockQueue.GetAndUpdate();
+            CanHold = true;
         }
 
         private bool BlockFits() //checkolom hogy a block ne menjen ki a gamegrid-ből vagy overlapeljen egy tile-al.
@@ -51,6 +55,27 @@ namespace AQ2CNC_Tetris
             }
 
             return true;
+        }
+
+        public void HoldBlock()
+        {
+            if (!CanHold)
+            {
+                return;
+            }
+            if(HeldBlock == null)
+            {
+                HeldBlock = currentBlock;
+                currentBlock = BlockQueue.GetAndUpdate();
+            }
+            else
+            {
+                Block tmp = CurrentBlock;
+                CurrentBlock = HeldBlock;
+                HeldBlock = tmp;
+            }
+
+            CanHold = false;
         }
 
         public void RotateBlockCW()
@@ -114,6 +139,7 @@ namespace AQ2CNC_Tetris
             else
             {
                 CurrentBlock = BlockQueue.GetAndUpdate();
+                CanHold = true;
             }
         }
 
@@ -126,6 +152,36 @@ namespace AQ2CNC_Tetris
                 CurrentBlock.Move(-1, 0);
                 PlaceBlock();
             }
+        }
+
+        private int TileDropDistance(Position position)
+        {
+            int drop = 0;
+
+            while (GameGrid.IsEmpty(position.Row + drop + 1, position.Column))
+            {
+                drop++;
+            }
+
+            return drop;
+        }
+
+        public int BlockDropDistance()
+        {
+            int drop = GameGrid.Rows;
+
+            foreach (Position position in CurrentBlock.TilePositions())
+            {
+                drop = System.Math.Min(drop, TileDropDistance(position));
+            }
+
+            return drop;
+        }
+
+        public void DropBlock()
+        {
+            CurrentBlock.Move(BlockDropDistance(), 0);
+            PlaceBlock();
         }
     }
 }
