@@ -45,6 +45,9 @@ namespace AQ2CNC_Tetris
         };
 
         private readonly Image[,] imageControls;
+        private readonly int maxDelay = 1000;
+        private readonly int minDelay = 75;
+        private readonly int delayDecrease = 25;
 
         private GameState gameState = new GameState();
           
@@ -119,9 +122,21 @@ namespace AQ2CNC_Tetris
             }
         }
 
+        private void DrawGhostBlock(Block block)
+        {
+            int dropDistance = gameState.BlockDropDistance();
+
+            foreach (Position position in block.TilePositions())
+            {
+                imageControls[position.Row + dropDistance, position.Column].Opacity = 0.25; //láthatóság
+                imageControls[position.Row + dropDistance, position.Column].Source = tileImages[block.Id];
+            }
+        }
+
         private void Draw(GameState gameState) 
         {
             DrawGrid(gameState.GameGrid);
+            DrawGhostBlock(gameState.CurrentBlock);
             DrawBlock(gameState.CurrentBlock);
             DrawNextBlock(gameState.BlockQueue);
             DrawHeldBlock(gameState.HeldBlock);
@@ -134,7 +149,8 @@ namespace AQ2CNC_Tetris
 
             while (!gameState.GameOver)
             {
-                await Task.Delay(500);
+                int delay = Math.Max(minDelay, maxDelay - (gameState.Score * delayDecrease)); // pontonként csökken a maxDelay minDelay-ig
+                await Task.Delay(delay);
                 gameState.MoveBlockDown();
                 Draw(gameState);
             }
