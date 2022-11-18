@@ -15,21 +15,9 @@ namespace ZWPARW.Object
     public partial class Leltar
     {
 
-        private LeltarAzonosito[] azonositoField;
-
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Azonosito")]
-        public LeltarAzonosito[] Azonosito
-        {
-            get
-            {
-                return this.azonositoField;
-            }
-            set
-            {
-                this.azonositoField = value;
-            }
-        }
+        public HashSet<LeltarAzonosito> azonosito = new HashSet<LeltarAzonosito>();
     }
 
     /// <remarks/>
@@ -38,6 +26,7 @@ namespace ZWPARW.Object
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class LeltarAzonosito
     {
+        
 
         private string termekField;
 
@@ -130,6 +119,9 @@ namespace ZWPARW.Object
                 this.idField = value;
             }
         }
+
+
+        
     }
 
 

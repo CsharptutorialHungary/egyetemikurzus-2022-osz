@@ -12,7 +12,7 @@ namespace ZWPARW
         public string Name { get;}
         public string Description { get;}
 
-        Leltar Execute(Leltar leltar);
+        Leltar Execute(Leltar leltar, string eleres = "Leltar.xml");
 
         void Help(string message);
 

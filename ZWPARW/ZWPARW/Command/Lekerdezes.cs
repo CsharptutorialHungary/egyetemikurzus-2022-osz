@@ -13,8 +13,11 @@ namespace ZWPARW.Command
 
         public string Description => throw new NotImplementedException();
 
-        public Leltar Execute(Leltar leltar)
+        public Leltar Execute(Leltar leltar, string eleres)
         {
+            LeltarAzonosito azonosito = leltar.azonosito.MinBy(y => y.JelenDarabszam);
+            Console.WriteLine(azonosito.JelenDarabszam);
+
             return leltar;
         }
 
