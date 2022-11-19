@@ -197,7 +197,8 @@ namespace AQ2CNC_Tetris
 
             foreach (Position position in CurrentBlock.TilePositions())
             {
-                drop = System.Math.Min(drop, TileDropDistance(position));
+                int[] dropArray = { drop, TileDropDistance(position)};
+                drop = dropArray.Min();
             }
 
             return drop;

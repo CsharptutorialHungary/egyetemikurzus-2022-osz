@@ -16,6 +16,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
 using Microsoft.VisualBasic;
+using System.Net.Http.Json;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace AQ2CNC_Tetris
 {
@@ -54,7 +56,9 @@ namespace AQ2CNC_Tetris
         private readonly int delayDecrease = 25;
 
         private GameState gameState = new GameState();
-          
+
+        public object JsonConvert { get; private set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -157,11 +161,11 @@ namespace AQ2CNC_Tetris
 
         private string FileToString()
         {
-            string fileName = "Topscore.json";
-            string jsonString = File.ReadAllText(fileName);
-            string lastscore = JsonSerializer.Deserialize<string>(jsonString)!;
             try
             {
+                string fileName = "Topscore.json";
+                string jsonString = File.ReadAllText(fileName);
+                string lastscore = JsonSerializer.Deserialize<string>(jsonString)!;
                 string finalscore = LastScoreText.Text = $"LastScore: {lastscore[7]}";
                 return finalscore;
             }
@@ -170,7 +174,7 @@ namespace AQ2CNC_Tetris
                 Console.WriteLine(e.Message);
                 string finalscore = LastScoreText.Text = $"LastScore: 0";
                 return finalscore;
-            }
+           }
         }
 
         private async Task GameLoop()
@@ -179,7 +183,8 @@ namespace AQ2CNC_Tetris
 
             while (!gameState.GameOver)
             {
-                int delay = Math.Max(minDelay, maxDelay - (gameState.Score * delayDecrease)); // pontonként csökken a maxDelay minDelay-ig
+                int[] delayArray = { minDelay, maxDelay - (gameState.Score * delayDecrease) };  // pontonként csökken a maxDelay minDelay-ig
+                int delay = delayArray.Max();
                 await Task.Delay(delay);
                 gameState.MoveBlockDown();
                 Draw(gameState);
