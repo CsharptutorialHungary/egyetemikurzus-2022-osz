@@ -59,23 +59,31 @@ namespace AQ2CNC_Tetris
 
         public void HoldBlock()
         {
-            if (!CanHold)
+            try
             {
-                return;
-            }
-            if(HeldBlock == null)
-            {
-                HeldBlock = currentBlock;
-                currentBlock = BlockQueue.GetAndUpdate();
-            }
-            else
-            {
-                Block tmp = CurrentBlock;
-                CurrentBlock = HeldBlock;
-                HeldBlock = tmp;
-            }
+                if (!CanHold)
+                {
+                    return;
+                }
+                if (HeldBlock == null)
+                {
+                    HeldBlock = currentBlock;
+                    currentBlock = BlockQueue.GetAndUpdate();
+                }
+                else
+                {
+                    Block tmp = CurrentBlock;
+                    CurrentBlock = HeldBlock;
+                    HeldBlock = tmp;
+                }
 
-            CanHold = false;
+                CanHold = false;
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
         }
 
         public void RotateBlockCW()
@@ -125,33 +133,50 @@ namespace AQ2CNC_Tetris
 
         private void PlaceBlock()
         {
-            foreach (Position p in CurrentBlock.TilePositions())
+            try
             {
-                GameGrid[p.Row, p.Column] = CurrentBlock.Id;
-            }
+                foreach (Position p in CurrentBlock.TilePositions())
+                {
+                    GameGrid[p.Row, p.Column] = CurrentBlock.Id;
+                }
 
-           Score += GameGrid.ClearFullRows();
+                Score += GameGrid.ClearFullRows();
 
-            if (IsGameOver())
-            {
-                GameOver = true;
+                if (IsGameOver())
+                {
+                    GameOver = true;
+                }
+                else
+                {
+                    CurrentBlock = BlockQueue.GetAndUpdate();
+                    CanHold = true;
+                }
             }
-            else
+            catch (Exception e)
             {
-                CurrentBlock = BlockQueue.GetAndUpdate();
-                CanHold = true;
+
+                Console.WriteLine(e.Message);
             }
         }
 
         public void MoveBlockDown()
         {
-            CurrentBlock.Move(1, 0);
-
-            if (!BlockFits())
+            try
             {
-                CurrentBlock.Move(-1, 0);
-                PlaceBlock();
+                CurrentBlock.Move(1, 0);
+
+                if (!BlockFits())
+                {
+                    CurrentBlock.Move(-1, 0);
+                    PlaceBlock();
+                }
             }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message);
+            }
+
         }
 
         private int TileDropDistance(Position position)

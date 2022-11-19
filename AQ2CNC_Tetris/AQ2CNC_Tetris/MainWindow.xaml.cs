@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.IO;
+using Microsoft.VisualBasic;
 
 namespace AQ2CNC_Tetris
 {
@@ -133,6 +137,13 @@ namespace AQ2CNC_Tetris
             }
         }
 
+        private void SaveScoreToFile()
+        {
+            string fileName = "Topscore.json";
+            string jsonString = JsonSerializer.Serialize(FinalScoreText.Text);
+            File.WriteAllText(fileName, jsonString);
+        }
+
         private void Draw(GameState gameState) 
         {
             DrawGrid(gameState.GameGrid);
@@ -141,6 +152,23 @@ namespace AQ2CNC_Tetris
             DrawNextBlock(gameState.BlockQueue);
             DrawHeldBlock(gameState.HeldBlock);
             ScoreText.Text = $"Score: {gameState.Score}";
+            LastScoreText.Text = FileToString();
+        }
+
+        private string FileToString()
+        {
+            string jsonString = JsonSerializer.Serialize(FinalScoreText.Text);
+            string lastscore = JsonSerializer.Deserialize<string>(jsonString);
+            try
+            {
+                string finalscore = LastScoreText.Text = $"LastScore: {lastscore[7]}";
+                return finalscore;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
         private async Task GameLoop()
@@ -157,6 +185,7 @@ namespace AQ2CNC_Tetris
 
             GameOverMenu.Visibility = Visibility.Visible;
             FinalScoreText.Text = $"Score: {gameState.Score}";
+            SaveScoreToFile();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -207,5 +236,6 @@ namespace AQ2CNC_Tetris
             GameOverMenu.Visibility = Visibility.Hidden;
             await GameLoop();
         }
+
     }
 }
