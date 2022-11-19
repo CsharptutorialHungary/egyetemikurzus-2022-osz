@@ -9,8 +9,6 @@ namespace AQ2CNC_Tetris.BlockTypes
     public class SBlock : Block
     {
         public override int Id => 5;
-
-        //protected override Position StartOffSet => throw new NotImplementedException();
         protected override Position StartOffSet => new(0, 3);
         protected override Position[][] Tiles => new Position[][]
         {
