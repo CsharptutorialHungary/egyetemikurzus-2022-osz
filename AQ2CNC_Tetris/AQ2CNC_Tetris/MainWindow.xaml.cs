@@ -157,8 +157,9 @@ namespace AQ2CNC_Tetris
 
         private string FileToString()
         {
-            string jsonString = JsonSerializer.Serialize(FinalScoreText.Text);
-            string lastscore = JsonSerializer.Deserialize<string>(jsonString);
+            string fileName = "Topscore.json";
+            string jsonString = File.ReadAllText(fileName);
+            string lastscore = JsonSerializer.Deserialize<string>(jsonString)!;
             try
             {
                 string finalscore = LastScoreText.Text = $"LastScore: {lastscore[7]}";
@@ -167,7 +168,8 @@ namespace AQ2CNC_Tetris
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return null;
+                string finalscore = LastScoreText.Text = $"LastScore: 0";
+                return finalscore;
             }
         }
 
