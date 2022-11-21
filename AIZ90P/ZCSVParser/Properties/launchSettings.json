@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ZCSVParser": {
+      "commandName": "Project",
+      "commandLineArgs": "D:\\SZTE\\5\\CSModern\\AIZ90P\\ZCSVParser\\DATA D:\\SZTE\\5\\CSModern\\AIZ90P\\ZCSVParser\\OUTPUTDATA"
+    }
+  }
+}
