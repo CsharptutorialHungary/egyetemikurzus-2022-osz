@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using ZWPARW.Object;
 
 namespace ZWPARW.Command
@@ -20,17 +15,17 @@ namespace ZWPARW.Command
 
             string filename = $"BackUp_Leltar_{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day}_[{DateTime.Now.Hour}Hour_{DateTime.Now.Minute}Min].xml";
 
-            string directory = Path.Combine(AppContext.BaseDirectory,"BackUp");
+            string directory = Path.Combine(AppContext.BaseDirectory, "BackUp");
 
             if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, "BackUp")))
                 Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "BackUp"));
 
 
-                using (var read = File.Create(Path.Combine(directory,filename)))
-                {
-                    serializer.Serialize(read, leltar);
-                }
-                return leltar;
+            using (var read = File.Create(Path.Combine(directory, filename)))
+            {
+                serializer.Serialize(read, leltar);
+            }
+            return leltar;
         }
 
         public void Help(string message)

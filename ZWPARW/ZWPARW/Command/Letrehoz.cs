@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using ZWPARW.Object;
 
 namespace ZWPARW.Command
@@ -22,6 +17,7 @@ namespace ZWPARW.Command
             if (File.Exists(filename))
             {
                 Console.WriteLine("A fájl már létezik nem kell ujat létrehozni");
+                Sikeres.sikeresLetrehozva = true;
             }
             else
             {
@@ -31,6 +27,7 @@ namespace ZWPARW.Command
                 {
                     serializer.Serialize(create, leltar);
                 }
+                Sikeres.sikeresLetrehozva = true;
 
             }
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ZWPARW.Object
+﻿namespace ZWPARW.Object
 {
     // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
     /// <remarks/>
@@ -24,9 +18,9 @@ namespace ZWPARW.Object
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class LeltarAzonosito
+    public partial class LeltarAzonosito 
     {
-        
+
 
         private string termekField;
 
@@ -36,7 +30,9 @@ namespace ZWPARW.Object
 
         private int kivantDarabszamField;
 
-        private ushort bruttoArField;
+        private int bruttoArField;
+
+        private int GramSulyaField;
 
         private uint idField;
 
@@ -94,7 +90,7 @@ namespace ZWPARW.Object
         }
 
         /// <remarks/>
-        public ushort BruttoAr
+        public int BruttoAr
         {
             get
             {
@@ -103,6 +99,19 @@ namespace ZWPARW.Object
             set
             {
                 this.bruttoArField = value;
+            }
+        }
+
+        /// <remarks/>
+        public int GramSulya
+        {
+            get
+            {
+                return this.GramSulyaField;
+            }
+            set
+            {
+                this.GramSulyaField = value;
             }
         }
 
@@ -119,9 +128,6 @@ namespace ZWPARW.Object
                 this.idField = value;
             }
         }
-
-
-        
     }
 
 

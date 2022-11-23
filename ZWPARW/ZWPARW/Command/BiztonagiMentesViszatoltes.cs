@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ZWPARW.Object;
+﻿using ZWPARW.Object;
 
 namespace ZWPARW.Command
 {
@@ -21,9 +16,10 @@ namespace ZWPARW.Command
 
             for (int i = 0; i < elemek.Length; i++)
             {
-                Console.WriteLine(i+". "+elemek[i].Split("\\").Last());
+                Console.WriteLine(i + ". " + elemek[i].Split("\\").Last());
             }
-            while(true){
+            while (true)
+            {
                 try
                 {
                     Console.WriteLine("Add meg a viszaálitani kivánt fájl számát");
@@ -39,7 +35,8 @@ namespace ZWPARW.Command
                 {
                     Console.WriteLine("Nem számot adtál meg.");
                     break;
-                }catch (IndexOutOfRangeException e)
+                }
+                catch (IndexOutOfRangeException e)
                 {
                     Console.WriteLine("Tull nagy számot adtál meg.");
                     break;
