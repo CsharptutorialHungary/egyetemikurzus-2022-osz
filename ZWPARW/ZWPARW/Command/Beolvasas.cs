@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using ZWPARW.Object;
 
 namespace ZWPARW.Command
@@ -41,11 +36,12 @@ namespace ZWPARW.Command
                         }
                     }
                 }
-                SikeresBeolvasas.sikeresBeolvasas = true;
+                Sikeres.sikeresBeolvasas = true;
+                Sikeres.sikeresLetrehozva = true;
             }
             catch (IOException)
             {
-                SikeresBeolvasas.sikeresBeolvasas = false;
+                Sikeres.sikeresBeolvasas = false;
                 Console.WriteLine("Nem létezik a fájl.");
             }
 

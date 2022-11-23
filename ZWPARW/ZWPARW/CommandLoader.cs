@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace ZWPARW
 {
@@ -11,7 +6,8 @@ namespace ZWPARW
     {
         public Dictionary<string, ICommand> Commands { get; }
 
-        public CommandLoader(){
+        public CommandLoader()
+        {
 
             Commands = new Dictionary<string, ICommand>();
             Assembly? asm = Assembly.GetAssembly(typeof(CommandLoader));
