@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,13 @@ namespace OQQA67.Commands
             }
         }
 
+        private void WriteCards(List<string> cards)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"\nYour cards: ");
+            cards.ForEach(x => Console.Write($"{x} "));
+            Console.WriteLine($"Current points: {cards}");
+        }
         private int GetPoints(List<string> cards)
         {
             int points = 0;
@@ -115,12 +123,11 @@ namespace OQQA67.Commands
 
             int playerPoints = GetPoints(playerCards);
             int dealerPoints = GetPoints(dealerCards);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"\nYour cards: ");
-            playerCards.ForEach(x => Console.Write($"{x} "));
-            Console.WriteLine($"Current points: {playerPoints}");
+
+            WriteCards(playerCards);
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Dealer cards: {dealerCards.ElementAt(0)}, ?");
+
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("\nDo you want to double your points? (type 'yes' if you want, anything else if you don't)");
             Console.Write("Answer: ");
@@ -162,11 +169,8 @@ namespace OQQA67.Commands
                 else if(action == "!card")
                 {
                     playerCards.Add(cardQueue.Dequeue());
-                
-                    Console.Write($"\nYour cards: ");
-                    playerCards.ForEach(x=> Console.Write($"{x} "));
-                    playerPoints = GetPoints(playerCards);
-                    Console.WriteLine($"Current points: {playerPoints}");
+
+                    WriteCards(playerCards);
 
                     if (playerPoints >= 21) break ;
                 }
@@ -182,10 +186,12 @@ namespace OQQA67.Commands
                 dealerCards.Add(cardQueue.Dequeue());
                 dealerPoints = GetPoints(dealerCards);
             }
+
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write($"\nDealer cards:");
             dealerCards.ForEach(x => Console.Write($"{x} "));
             Console.WriteLine($"Current points: {dealerPoints}");
+
             if ((dealerPoints > 21 || playerPoints > dealerPoints) && playerPoints<=21)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
