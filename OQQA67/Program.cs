@@ -6,32 +6,39 @@ namespace OQQA67
     {
         private static async Task Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Amazing BlackJack game");
-
+            Console.ForegroundColor = ConsoleColor.Magenta;
             Player player=null;
             var loader = new CommandLoader();
 
-            bool user = false;
-            while (!user)
+            while (true)
             {
                 Console.WriteLine();
                 Console.Write("Username: ");
                 string? name = Console.ReadLine();
                 if (!string.IsNullOrEmpty(name) && name.Length >= 4)
                 {
-                    player = new Player() {name = name};
-                    user = true;
+                    player = new Player() { name = name };
+                    break;
                 }
-                else Console.WriteLine("Username must contain at least 4 letters!");
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Username must contain at least 4 letters!");
+                }
+
             }
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("\nActions: '!free', '!balance', '!play'");
             try
             {
                 while (true)
                 {
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
-                    Console.Write("Action: ");
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write("\nAction: ");
                     string? command = Console.ReadLine();
+                    
                     if (!string.IsNullOrEmpty(command)
                         && loader.Commands.ContainsKey(command))
                     {
@@ -40,9 +47,9 @@ namespace OQQA67
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Invalid command!");
+                        Console.WriteLine("Invalid action!");
                     }
-                    await Task.Delay(500);
+                    await Task.Delay(200);
                 }
             }
             catch (Exception ex)

@@ -115,13 +115,13 @@ namespace OQQA67.Commands
 
             int playerPoints = GetPoints(playerCards);
             int dealerPoints = GetPoints(dealerCards);
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write($"\nYour cards:");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"\nYour cards: ");
             playerCards.ForEach(x => Console.Write($"{x} "));
             Console.WriteLine($"Current points: {playerPoints}");
-            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Dealer cards: {dealerCards.ElementAt(0)}, ?");
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("\nDo you want to double your points? (type 'yes' if you want, anything else if you don't)");
             Console.Write("Answer: ");
             string? answer = Console.ReadLine();
@@ -132,7 +132,7 @@ namespace OQQA67.Commands
                 {
                     player.balance -= bet;
                     bet *= 2;
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Your new bet: {bet}");
                 }
                 else
@@ -147,9 +147,9 @@ namespace OQQA67.Commands
                 Console.WriteLine("You didn't double your bet!");
             }
 
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("\nPlaying actions: '!stop', '!double', '!card'");
-            
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("\nPlaying actions: '!stop', '!card'");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             while (true)
             {
                 Console.WriteLine();
@@ -163,7 +163,7 @@ namespace OQQA67.Commands
                 {
                     playerCards.Add(cardQueue.Dequeue());
                 
-                    Console.Write($"\nYour cards:");
+                    Console.Write($"\nYour cards: ");
                     playerCards.ForEach(x=> Console.Write($"{x} "));
                     playerPoints = GetPoints(playerCards);
                     Console.WriteLine($"Current points: {playerPoints}");
@@ -172,6 +172,7 @@ namespace OQQA67.Commands
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid action!");
                 }
             }
@@ -181,11 +182,10 @@ namespace OQQA67.Commands
                 dealerCards.Add(cardQueue.Dequeue());
                 dealerPoints = GetPoints(dealerCards);
             }
-
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.Write($"\nDealer cards:");
             dealerCards.ForEach(x => Console.Write($"{x} "));
             Console.WriteLine($"Current points: {dealerPoints}");
-            Console.ForegroundColor = ConsoleColor.Red;
             if ((dealerPoints > 21 || playerPoints > dealerPoints) && playerPoints<=21)
             {
                 Console.ForegroundColor = ConsoleColor.Green;

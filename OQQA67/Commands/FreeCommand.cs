@@ -15,10 +15,12 @@ namespace OQQA67.Commands
             if(player.balance <100)
             {
                 player.balance = 1000;
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("You got 1000 free credits!");
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("You already have credits, use them!");
             }
         }

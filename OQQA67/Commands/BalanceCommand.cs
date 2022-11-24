@@ -12,6 +12,7 @@ namespace OQQA67.Commands
 
         public void Execute(Player player)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Your balance: {player.balance}");
         }
     }

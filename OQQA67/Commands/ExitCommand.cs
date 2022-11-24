@@ -12,7 +12,9 @@ namespace OQQA67.Commands
 
         public void Execute(Player player)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Thanks for playing!");
+            Console.ForegroundColor = ConsoleColor.Red;
             Environment.Exit(0);
         }
     }
