@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace OQQA67.Commands
 {
@@ -23,6 +25,41 @@ namespace OQQA67.Commands
             }
         }
 
+        private int GetPoints(List<string> cards)
+        {
+            int points = 0;
+
+            Dictionary<string, int> values = new() { { "2", 2 }, { "3", 3 }, { "4", 4 }, { "5", 5 },
+                                                     { "6", 6 }, { "7", 7 }, { "8", 8 }, { "9", 9 },
+                                                     { "10", 10 }, { "J", 10 }, { "Q", 10 }, { "K", 10 },
+            };
+
+            points = cards.Sum(item => values.ContainsKey(item) ? values[item] : 0);
+
+            int aces = cards.Where(item => item == "A").Count();
+            int usedAces = 0;
+
+            for(int i=0; i<aces; i++)
+            {
+                if (points + 11 <= 21)
+                {
+                    points += 11;
+                    usedAces++;
+                }
+                else
+                {
+                    points++;
+                }
+            }
+            for(int i = 0; i < usedAces;i++)
+            {
+                if (points > 21)
+                {
+                    points -= 10;
+                }
+            }
+            return points;
+        }
         public void Execute(Player player)
         {
             if (player.balance == 0)
@@ -32,12 +69,15 @@ namespace OQQA67.Commands
             }
 
             bool checker = false;
+            bool losePlayer = false;
+            bool loseDealer = false;
+
+            int bet = 0;
             while (!checker)
             {
                 Console.WriteLine();
                 Console.Write("Place your bet: ");
                 string? line = Console.ReadLine();
-                int bet;
                 if (!int.TryParse(line, out bet))
                 {
                     Console.WriteLine("You must enter an integer!");
@@ -73,7 +113,34 @@ namespace OQQA67.Commands
 
             Console.WriteLine($"Your cards: {playerCards.ElementAt(0)}, {playerCards.ElementAt(1)}");
             Console.WriteLine($"Dealer cards: {dealerCards.ElementAt(0)}, ?");
-            
+
+            Console.WriteLine();
+            Console.WriteLine($"Current points: {GetPoints(playerCards)}");
+            Console.WriteLine("Actions: '!stop', '!double', '!card'");
+            while (play)
+            {
+                Console.Write("Action: ");
+                string? action = Console.ReadLine();
+                if(action == "!stop")
+                {
+                    play = false;
+                }
+                else if(action == "!double")
+                {
+                    Console.WriteLine($"New bet: {bet}");
+                    player.balance -= bet;
+                    bet *= 2;
+
+                }
+                else if(action == "!card")
+                {
+                    playerCards.Add(cardQueue.Dequeue());
+                }
+                else
+                {
+                    Console.WriteLine("Invalid action!");
+                }
+            }
 
         }
     }
