@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OQQA67.Commands
 {
-    internal class FreeCommand : IBlackJackCommands
+    internal sealed class FreeCommand : IBlackJackCommands
     {
         public string Name => "!free";
 

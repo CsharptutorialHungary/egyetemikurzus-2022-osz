@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OQQA67.Commands
 {
-    internal class BalanceCommand : IBlackJackCommands
+    internal sealed class BalanceCommand : IBlackJackCommands
     {
         public string Name => "!balance";
 

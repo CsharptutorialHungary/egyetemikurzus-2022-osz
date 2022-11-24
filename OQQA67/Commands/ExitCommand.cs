@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OQQA67.Commands
 {
-    internal sealed class PlayCommand : IBlackJackCommands
+    internal sealed class ExitCommand : IBlackJackCommands
     {
-        public string Name => "!play";
+        public string Name => "!exit";
 
         public void Execute(Player player)
         {
