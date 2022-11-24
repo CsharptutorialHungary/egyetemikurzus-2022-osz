@@ -12,7 +12,15 @@ namespace OQQA67.Commands
 
         public void Execute(Player player)
         {
-            throw new NotImplementedException();
+            if(player.balance == 0)
+            {
+                player.balance = 1000;
+                Console.WriteLine("You got 1000 free credits!");
+            }
+            else
+            {
+                Console.WriteLine("You already have credits, use them!");
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace OQQA67
 {
     internal interface IBlackJackCommands
     {
-        string Name { get; }
-        void Execute(Player player);
+        public string Name { get; }
+        public void Execute(Player player);
     }
 }

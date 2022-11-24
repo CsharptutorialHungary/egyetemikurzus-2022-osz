@@ -8,7 +8,7 @@ namespace OQQA67
 {
     internal sealed class Player
     {
-        string name { get;set; }
-        int balance { get; set; }
+        public string name { get;set; }
+        public int balance { get; set; }
     }
 }
