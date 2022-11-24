@@ -12,7 +12,27 @@ namespace OQQA67.Commands
 
         public void Execute(Player player)
         {
-            throw new NotImplementedException();
+            if (player.balance == 0)
+            {
+                Console.WriteLine("You don't have any credits! Use '!free'");
+                return;
+            }
+            Console.Write("Place your bet!");
+            string? line = Console.ReadLine();
+            int bet;
+            if (!int.TryParse(line, out bet))
+            {
+                Console.WriteLine("You must enter an integer!");
+                return;
+            }
+            if(bet > player.balance)
+            {
+                Console.WriteLine("You don't have enough credits!");
+                return;
+            }
+
+
+
         }
     }
 }
