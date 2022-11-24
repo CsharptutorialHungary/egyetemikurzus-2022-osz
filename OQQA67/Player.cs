@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OQQA67
 {
-    internal sealed class Player
+    internal sealed record Player
     {
-        public string name { get;set; }
+        public string name { get; init; }
         public int balance { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace OQQA67.Commands
 
         public void Execute(Player player)
         {
-            if(player.balance == 0)
+            if(player.balance <100)
             {
                 player.balance = 1000;
                 Console.WriteLine("You got 1000 free credits!");
