@@ -12,7 +12,8 @@ namespace OQQA67.Commands
 
         public void Execute(Player player)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Thanks for playing!");
+            Environment.Exit(0);
         }
     }
 }
