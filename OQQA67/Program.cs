@@ -7,8 +7,8 @@ namespace OQQA67
         private static async Task Main(string[] args)
         {
             Console.WriteLine("Amazing BlackJack game");
-            
-            Player player = new Player();
+
+            Player player=null;
             var loader = new CommandLoader();
 
             bool user = false;
@@ -19,7 +19,7 @@ namespace OQQA67
                 string? name = Console.ReadLine();
                 if (!string.IsNullOrEmpty(name) && name.Length >= 4)
                 {
-                    player.name = name;
+                    player = new Player() {name = name};
                     user = true;
                 }
                 else Console.WriteLine("Username must contain at least 4 letters!");

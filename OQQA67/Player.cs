@@ -10,5 +10,7 @@ namespace OQQA67
     {
         public string name { get; init; }
         public int balance { get; set; }
+
+
     }
 }

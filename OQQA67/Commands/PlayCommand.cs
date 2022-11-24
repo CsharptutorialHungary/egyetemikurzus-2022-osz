@@ -63,13 +63,17 @@ namespace OQQA67.Commands
             List<string> dealerCards = new();
 
             Console.WriteLine("Lets play!");
+            var cardQueue = new Queue<string>(cards);
             bool play = true;
+            
+            playerCards.Add(cardQueue.Dequeue());
+            playerCards.Add(cardQueue.Dequeue());
+            dealerCards.Add(cardQueue.Dequeue());
+            dealerCards.Add(cardQueue.Dequeue());
 
-            while (play)
-            {
-
-
-            }
+            Console.WriteLine($"Your cards: {playerCards.ElementAt(0)}, {playerCards.ElementAt(1)}");
+            Console.WriteLine($"Dealer cards: {dealerCards.ElementAt(0)}, ?");
+            
 
         }
     }
