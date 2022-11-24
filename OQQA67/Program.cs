@@ -1,10 +1,54 @@
-﻿namespace OQQA67
+﻿using System.Reflection;
+
+namespace OQQA67
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Console.WriteLine("Amazing BlackJack game");
+            
+            Player player = new Player();
+            var loader = new CommandLoader();
+
+            bool user = false;
+            while (!user)
+            {
+                Console.WriteLine();
+                Console.Write("Username: ");
+                string? name = Console.ReadLine();
+                if (!string.IsNullOrEmpty(name) && name.Length >= 4)
+                {
+                    player.name = name;
+                    user = true;
+                }
+                else Console.WriteLine("Username must contain at least 4 letters!");
+            }
+            try
+            {
+                while (true)
+                {
+                    Console.WriteLine();
+                    Console.Write("Action: ");
+                    string? command = Console.ReadLine();
+                    if (!string.IsNullOrEmpty(command)
+                        && loader.Commands.ContainsKey(command))
+                    {
+                        loader.Commands[command].Execute(player);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid command!");
+                    }
+                    await Task.Delay(500);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
+            
         }
     }
 }
