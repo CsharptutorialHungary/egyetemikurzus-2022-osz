@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace OQQA67
 {
-    internal interface IBlackJackCommands
+    internal sealed class CommandLoader
     {
-        string Name { get; }
-        void Execute(Player player);
     }
 }
