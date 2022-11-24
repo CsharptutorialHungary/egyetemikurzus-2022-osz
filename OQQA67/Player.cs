@@ -8,7 +8,7 @@ namespace OQQA67
 {
     internal sealed record Player
     {
-        public string name { get; init; }
+        public string Name { get; init; }
         public int balance { get; set; }
 
 

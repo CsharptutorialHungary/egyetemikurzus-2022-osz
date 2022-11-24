@@ -31,7 +31,7 @@ namespace OQQA67.Commands
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write($"\nYour cards: ");
             cards.ForEach(x => Console.Write($"{x} "));
-            Console.WriteLine($"Current points: {cards}");
+            Console.WriteLine($"Current points: {GetPoints(cards)}");
         }
         private int GetPoints(List<string> cards)
         {
@@ -144,7 +144,6 @@ namespace OQQA67.Commands
                 }
                 else
                 {
-                    
                     Console.WriteLine("You dont have enough credits!");
                 }
                
@@ -156,11 +155,10 @@ namespace OQQA67.Commands
 
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("\nPlaying actions: '!stop', '!card'");
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
             while (true)
             {
-                Console.WriteLine();
-                Console.Write("Playing action: ");
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.Write("\nPlaying action: ");
                 string? action = Console.ReadLine();
                 if(action == "!stop")
                 {
@@ -169,7 +167,7 @@ namespace OQQA67.Commands
                 else if(action == "!card")
                 {
                     playerCards.Add(cardQueue.Dequeue());
-
+                    playerPoints = GetPoints(playerCards);
                     WriteCards(playerCards);
 
                     if (playerPoints >= 21) break ;
@@ -199,7 +197,7 @@ namespace OQQA67.Commands
                 player.balance += bet * 2;
                
             }
-            if (dealerPoints > playerPoints || playerPoints > 21)
+            if ((dealerPoints > playerPoints || playerPoints > 21 )&& dealerPoints <= 21)
             {
                 Console.WriteLine("\nYou've lost!");
                 

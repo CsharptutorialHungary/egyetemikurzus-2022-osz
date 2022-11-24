@@ -9,7 +9,11 @@ namespace OQQA67
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Amazing BlackJack game");
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Player player=null;
+
+            List<Player> ? players = PlayerLoaderSaver.LoadUsers();
+            
+            Player? player=null;
+
             var loader = new CommandLoader();
 
             while (true)
@@ -19,7 +23,18 @@ namespace OQQA67
                 string? name = Console.ReadLine();
                 if (!string.IsNullOrEmpty(name) && name.Length >= 4)
                 {
-                    player = new Player() { name = name };
+                    foreach(var play in players)
+                    {
+                        if(play.Name == name)
+                        {
+                            player = play;
+                        }
+                    }
+                    if(player == null)
+                    {
+                        player = new Player() { Name = name };
+                        players.Add(player);
+                    }
                     break;
                 }
                 else
@@ -27,10 +42,9 @@ namespace OQQA67
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Username must contain at least 4 letters!");
                 }
-
             }
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("\nActions: '!free', '!balance', '!play'");
+            Console.WriteLine("\nActions: '!free', '!balance', '!play', '!exit'");
             try
             {
                 while (true)
@@ -49,6 +63,7 @@ namespace OQQA67
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid action!");
                     }
+                    PlayerLoaderSaver.SaveUsers(players);
                     await Task.Delay(200);
                 }
             }
@@ -58,6 +73,7 @@ namespace OQQA67
                 Console.WriteLine($"Error: {ex.Message}");
             }
 
+           
             
         }
     }
