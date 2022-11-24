@@ -64,33 +64,37 @@ namespace OQQA67.Commands
         {
             if (player.balance == 0)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("You don't have any credits! Use '!free'");
+                Console.ResetColor();
                 return;
             }
-
-            bool checker = false;
-            bool losePlayer = false;
-            bool loseDealer = false;
-
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~BlackJack~~~~~~~~~~~~~~~~~~");
             int bet = 0;
-            while (!checker)
+            while (true)
             {
                 Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write("Place your bet: ");
                 string? line = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+
                 if (!int.TryParse(line, out bet))
                 {
                     Console.WriteLine("You must enter an integer!");
                 }
                 else if (bet > player.balance)
                 {
+                    
                     Console.WriteLine("You don't have enough credits!");
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Your bet: {bet}");
                     player.balance -= bet;
-                    checker = true;
+                    break;
                 }
             }
 
@@ -101,47 +105,108 @@ namespace OQQA67.Commands
 
             List<string> playerCards = new();
             List<string> dealerCards = new();
-
-            Console.WriteLine("Lets play!");
+           
             var cardQueue = new Queue<string>(cards);
-            bool play = true;
-            
+ 
             playerCards.Add(cardQueue.Dequeue());
             playerCards.Add(cardQueue.Dequeue());
             dealerCards.Add(cardQueue.Dequeue());
             dealerCards.Add(cardQueue.Dequeue());
 
-            Console.WriteLine($"Your cards: {playerCards.ElementAt(0)}, {playerCards.ElementAt(1)}");
+            int playerPoints = GetPoints(playerCards);
+            int dealerPoints = GetPoints(dealerCards);
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($"\nYour cards:");
+            playerCards.ForEach(x => Console.Write($"{x} "));
+            Console.WriteLine($"Current points: {playerPoints}");
+            Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine($"Dealer cards: {dealerCards.ElementAt(0)}, ?");
-
-            Console.WriteLine();
-            Console.WriteLine($"Current points: {GetPoints(playerCards)}");
-            Console.WriteLine("Actions: '!stop', '!double', '!card'");
-            while (play)
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nDo you want to double your points? (type 'yes' if you want, anything else if you don't)");
+            Console.Write("Answer: ");
+            string? answer = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            if (answer == "yes")
             {
-                Console.Write("Action: ");
+                if (player.balance - bet >= 0)
+                {
+                    player.balance -= bet;
+                    bet *= 2;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"Your new bet: {bet}");
+                }
+                else
+                {
+                    
+                    Console.WriteLine("You dont have enough credits!");
+                }
+               
+            }
+            else
+            {
+                Console.WriteLine("You didn't double your bet!");
+            }
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\nPlaying actions: '!stop', '!double', '!card'");
+            
+            while (true)
+            {
+                Console.WriteLine();
+                Console.Write("Playing action: ");
                 string? action = Console.ReadLine();
                 if(action == "!stop")
                 {
-                    play = false;
-                }
-                else if(action == "!double")
-                {
-                    Console.WriteLine($"New bet: {bet}");
-                    player.balance -= bet;
-                    bet *= 2;
-
+                    break;
                 }
                 else if(action == "!card")
                 {
                     playerCards.Add(cardQueue.Dequeue());
+                
+                    Console.Write($"\nYour cards:");
+                    playerCards.ForEach(x=> Console.Write($"{x} "));
+                    playerPoints = GetPoints(playerCards);
+                    Console.WriteLine($"Current points: {playerPoints}");
+
+                    if (playerPoints >= 21) break ;
                 }
                 else
                 {
                     Console.WriteLine("Invalid action!");
                 }
             }
+           
+            while(dealerPoints <= 16)
+            {
+                dealerCards.Add(cardQueue.Dequeue());
+                dealerPoints = GetPoints(dealerCards);
+            }
 
+            Console.Write($"\nDealer cards:");
+            dealerCards.ForEach(x => Console.Write($"{x} "));
+            Console.WriteLine($"Current points: {dealerPoints}");
+            Console.ForegroundColor = ConsoleColor.Red;
+            if ((dealerPoints > 21 || playerPoints > dealerPoints) && playerPoints<=21)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\nYou've won!");
+                player.balance += bet * 2;
+               
+            }
+            if (dealerPoints > playerPoints || playerPoints > 21)
+            {
+                Console.WriteLine("\nYou've lost!");
+                
+                
+            }
+            if(playerPoints == dealerPoints && playerPoints<=21)
+            {
+                Console.WriteLine("\nTie!");
+                player.balance += bet;
+               
+            }
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
     }
 }

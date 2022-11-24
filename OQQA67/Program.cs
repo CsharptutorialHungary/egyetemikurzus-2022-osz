@@ -29,6 +29,7 @@ namespace OQQA67
                 while (true)
                 {
                     Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.Write("Action: ");
                     string? command = Console.ReadLine();
                     if (!string.IsNullOrEmpty(command)
@@ -38,6 +39,7 @@ namespace OQQA67
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid command!");
                     }
                     await Task.Delay(500);
@@ -45,6 +47,7 @@ namespace OQQA67
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Error: {ex.Message}");
             }
 
