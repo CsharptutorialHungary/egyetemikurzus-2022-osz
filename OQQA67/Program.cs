@@ -57,14 +57,19 @@ namespace OQQA67
                         && loader.Commands.ContainsKey(command))
                     {
                         loader.Commands[command].Execute(player);
+                        if (!PlayerLoaderSaver.SaveUsers(players))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Couldn't save the profile!");
+                        }
                     }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid action!");
                     }
-                    PlayerLoaderSaver.SaveUsers(players);
-                    await Task.Delay(200);
+                    
+                    await Task.Delay(300);
                 }
             }
             catch (Exception ex)

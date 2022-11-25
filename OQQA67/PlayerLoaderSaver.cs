@@ -34,7 +34,7 @@ namespace OQQA67
             return players;
         }
 
-        public static void SaveUsers(List<Player> players)
+        public static bool SaveUsers(List<Player> players)
         {
             
             var options = new JsonSerializerOptions
@@ -52,7 +52,9 @@ namespace OQQA67
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                return false;
             }
+            return true;
         }
 
     }

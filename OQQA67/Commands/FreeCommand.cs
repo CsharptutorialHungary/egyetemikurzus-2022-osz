@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OQQA67.Interfaces;
 
 namespace OQQA67.Commands
 {
-    internal sealed class FreeCommand : IBlackJackCommands
+    internal sealed class FreeCommand : IMenuCommands
     {
         public string Name => "!free";
 
