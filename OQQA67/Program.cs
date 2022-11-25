@@ -1,36 +1,33 @@
-﻿using System.Reflection;
-
-namespace OQQA67
+﻿namespace OQQA67
 {
     internal class Program
     {
         private static async Task Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Amazing BlackJack game");
-            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("Main menu");
 
-            List<Player> ? players = PlayerLoaderSaver.LoadUsers();
-            
-            Player? player=null;
+            List<Player>? players = PlayerLoaderSaver.LoadUsers();
+
+            Player? player = null;
 
             var loader = new CommandLoader();
 
             while (true)
             {
-                Console.WriteLine();
-                Console.Write("Username: ");
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.Write("\nUsername: ");
                 string? name = Console.ReadLine();
                 if (!string.IsNullOrEmpty(name) && name.Length >= 4)
                 {
-                    foreach(var play in players)
+                    foreach (var play in players)
                     {
-                        if(play.Name == name)
+                        if (play.Name == name)
                         {
                             player = play;
                         }
                     }
-                    if(player == null)
+                    if (player == null)
                     {
                         player = new Player() { Name = name };
                         players.Add(player);
@@ -44,7 +41,12 @@ namespace OQQA67
                 }
             }
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("\nActions: '!free', '!balance', '!play', '!exit'");
+            Console.Write("\nActions: ");
+            foreach (var entry in loader.Commands)
+            {
+                Console.Write($"'{entry.Key}' ");
+            }
+
             try
             {
                 while (true)
@@ -52,12 +54,12 @@ namespace OQQA67
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.Write("\nAction: ");
                     string? command = Console.ReadLine();
-                    
+
                     if (!string.IsNullOrEmpty(command)
                         && loader.Commands.ContainsKey(command))
                     {
                         loader.Commands[command].Execute(player);
-                        if (!PlayerLoaderSaver.SaveUsers(players))
+                        if (!await PlayerLoaderSaver.SaveUsers(players))
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Couldn't save the profile!");
@@ -68,7 +70,6 @@ namespace OQQA67
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid action!");
                     }
-                    
                     await Task.Delay(300);
                 }
             }
@@ -78,8 +79,8 @@ namespace OQQA67
                 Console.WriteLine($"Error: {ex.Message}");
             }
 
-           
-            
+
+
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OQQA67.GameLogics
+﻿namespace OQQA67.GameLogics
 {
     internal static class BlackJackGameLogic
     {
@@ -71,7 +65,6 @@ namespace OQQA67.GameLogics
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("You don't have any credits! Use '!free'");
-                Console.ResetColor();
                 return;
             }
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -126,42 +119,53 @@ namespace OQQA67.GameLogics
             Console.WriteLine($"Dealer cards: {dealerCards.ElementAt(0)}, ?");
 
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("\nDo you want to double your points? (type 'yes' if you want, anything else if you don't)");
-            Console.Write("Answer: ");
-            string? answer = Console.ReadLine();
-            Console.ForegroundColor = ConsoleColor.Red;
-            if (answer == "yes")
+            Console.WriteLine("\nDo you want to double your bet? ('yes' or 'no')");
+
+            while (true)
             {
-                if (player.balance - bet >= 0)
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write("Answer: ");
+                string? answer = Console.ReadLine();
+                if (answer == "yes")
                 {
-                    player.balance -= bet;
-                    bet *= 2;
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Your new bet: {bet}");
+                    if (player.balance - bet >= 0)
+                    {
+                        player.balance -= bet;
+                        bet *= 2;
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"Your new bet: {bet}");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("You dont have enough credits!");
+                    }
+                    break;
+                }
+                else if (answer == "no")
+                {
+                    Console.WriteLine("You didn't double your bet!");
+                    break;
                 }
                 else
                 {
-                    Console.WriteLine("You dont have enough credits!");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid action!\n");
                 }
-
-            }
-            else
-            {
-                Console.WriteLine("You didn't double your bet!");
             }
 
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("\nPlaying actions: '!stop', '!card'");
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
-                Console.Write("\nPlaying action: ");
+                Console.WriteLine("\nDo you want another card? ('yes' or 'no') ");
+                Console.Write("Answer: ");
                 string? action = Console.ReadLine();
-                if (action == "!stop")
+
+                if (action == "no")
                 {
                     break;
                 }
-                else if (action == "!card")
+                else if (action == "yes")
                 {
                     playerCards.Add(cardQueue.Dequeue());
                     playerPoints = GetPoints(playerCards);
@@ -172,7 +176,7 @@ namespace OQQA67.GameLogics
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Invalid action!");
+                    Console.WriteLine("Invalid action!\n");
                 }
             }
 

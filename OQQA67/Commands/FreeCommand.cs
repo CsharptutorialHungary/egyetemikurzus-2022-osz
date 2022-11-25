@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OQQA67.Interfaces;
+﻿using OQQA67.Interfaces;
 
 namespace OQQA67.Commands
 {
@@ -13,7 +8,7 @@ namespace OQQA67.Commands
 
         public void Execute(Player player)
         {
-            if(player.balance <100)
+            if (player.balance < 100)
             {
                 player.balance = 1000;
                 Console.ForegroundColor = ConsoleColor.Green;

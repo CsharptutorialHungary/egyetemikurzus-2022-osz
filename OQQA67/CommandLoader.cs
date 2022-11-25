@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using OQQA67.Interfaces;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using OQQA67.Interfaces;
 
 namespace OQQA67
 {
