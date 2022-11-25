@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using Spectre.Console;
 
 namespace E22EDJ.Commands;
 
@@ -8,6 +8,8 @@ public class QuitCommand : IConsoleCommand
 	public string Description => "Closes the application";
 	public void Execute()
 	{
-		System.Environment.Exit(0);
+		AnsiConsole.Write($"App closed. Bye! {Emoji.Known.WavingHand}");
+		Thread.Sleep(2000);
+		Environment.Exit(0);
 	}
 }

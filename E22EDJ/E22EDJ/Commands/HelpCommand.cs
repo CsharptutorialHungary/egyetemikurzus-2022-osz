@@ -1,3 +1,5 @@
+using Spectre.Console;
+
 namespace E22EDJ.Commands;
 
 public class HelpCommand : IConsoleCommand
@@ -10,11 +12,18 @@ public class HelpCommand : IConsoleCommand
 		var loader = new CommandLoader();
 
 		var commandList = loader.Commands;
-		Console.WriteLine("-------------");
+
+		var table = new Table();
+
+		
+		table.AddColumn(new TableColumn("[green]Name[/]"));
+		table.AddColumn(new TableColumn("[green]Description[/]"));
+		
 		foreach (var command in commandList)
 		{
-			Console.WriteLine($"{command.Value.Name} : {command.Value.Description}");
+			table.AddRow(command.Value.Name, command.Value.Description);
 		}
-		Console.WriteLine("-------------");
+
+		AnsiConsole.Write(table);
 	}
 }

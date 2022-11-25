@@ -51,6 +51,12 @@ public class Time
 
 		return currentTime;
 	}
+
+	public static Time operator ++(Time time)
+	{
+		time.Seconds++;
+		return time;
+	}
 	
 	[Required]
 	public int Minutes
@@ -88,6 +94,9 @@ public class Time
 
 	public override string ToString()
 	{
-		return $"{Hours}:{Minutes}:{Seconds}";
+		var formattedMinutes = Minutes < 10 ? $"0{Minutes}" : Minutes.ToString();
+		var formattedSeconds = Seconds < 10 ? $"0{Seconds}" : Seconds.ToString();
+
+		return $"{Hours}:{formattedMinutes}:{formattedSeconds}";
 	}
 }

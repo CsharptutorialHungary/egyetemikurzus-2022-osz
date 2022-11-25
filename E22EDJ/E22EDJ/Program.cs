@@ -1,11 +1,19 @@
-﻿namespace E22EDJ;
+﻿using E22EDJ.DBModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Spectre.Console;
 
-//TODO: run  dotnet ef migrations add "Create Games and GamesStates tables"
+namespace E22EDJ;
 
 public static class Program
 {
 	static void Main(string[] args)
 	{
+		using IHost host = Host.CreateDefaultBuilder(args)
+			.ConfigureServices((_, services) =>
+			{
+				services.AddSingleton<GttContext>();
+			}).Build();
 		CreateAppLoop();
 	}
 

@@ -1,4 +1,3 @@
-using System.Reflection;
 using E22EDJ.TimeHandler;
 
 namespace E22EDJTests.TimeHandler;
@@ -113,6 +112,20 @@ public class TimeTests
 		Assert.AreEqual(time.Minutes, 2);
 		Assert.AreEqual(time.Seconds, 3);
 	}
+
+	[TestMethod]
+	public void ToStringDisplaysTheRightTimeIfSegmentValueIsUnder10()
+	{
+		var time = new Time(1,1,1);
+		Assert.AreEqual(time.ToString(), "1:01:01");
+	}
+
+	[TestMethod]
+	public void ToStringDisplaysTheRightTimeIfSegmentValueIsOver10()
+	{
+		var time = new Time(1,34,41);
+		Assert.AreEqual(time.ToString(), "1:34:41");
+	} 
 	
 	
 }
