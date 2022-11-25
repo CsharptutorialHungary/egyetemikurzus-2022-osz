@@ -14,14 +14,30 @@ public class GetGamesCommand : IConsoleCommand
 	public void Execute()
 	{
 		
-		List<Game> games = new();
-		AnsiConsole
-			.Status()
-			.Spinner(Spinner.Known.CircleQuarters)
-			.Start("Loading game list...", _ =>
-			{
-				games = _gameService.GetAllGames();
-			});
+		List<Game?> games = new();
+		try
+		{
+			AnsiConsole
+				.Status()
+				.Spinner(Spinner.Known.CircleQuarters)
+				.Start("Loading game list...", _ =>
+				{
+					try
+					{
+						games = _gameService.GetAllGames();
+					}
+					catch (Exception e)
+					{
+						AnsiConsole.Write(new Markup("[red]Error getting games from the database[/] \n"));
+						throw;
+					}
+				});
+		}
+		catch (Exception e)
+		{
+			return;
+		}
+		
 
 		var table = new Table();
 

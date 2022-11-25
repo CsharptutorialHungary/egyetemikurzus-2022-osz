@@ -6,7 +6,7 @@ namespace E22EDJ;
 
 public class GttContext : DbContext
 {
-	public DbSet<Game> Games { get; set; }
+	public DbSet<Game?> Games { get; set; }
 	public DbSet<GameState> GameStates { get; set; }
 	
 
@@ -17,12 +17,13 @@ public class GttContext : DbContext
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		modelBuilder.Entity<Game>()
-			.HasKey(game => game.Id);
+		modelBuilder.Entity<Game>().HasKey(game => game.Id);
+
 		modelBuilder
 			.Entity<Game>()
 			.Property(game => game.TimeSpent)
 			.HasConversion<TimeConverter>();
+		
 		modelBuilder.Entity<Game>().Property(game => game.Id).ValueGeneratedOnAdd();
 
 		modelBuilder.Entity<GameState>()

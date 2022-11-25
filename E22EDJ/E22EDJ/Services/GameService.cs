@@ -9,14 +9,19 @@ public class GameService
 
 	private readonly GameRepository _gameRepository = new();
 
-	public List<Game> GetAllGames()
+	public List<Game?> GetAllGames()
 	{
 		return _gameRepository.GetAll();
 	}
 	
-	public List<Game> GetNotCompletedGames()
+	public List<Game?> GetNotCompletedGames()
 	{
 		return _gameRepository.GetNotCompleted();
+	}
+
+	public List<Game> GetDeletedGames()
+	{
+		return _gameRepository.GetDeletedGames();
 	}
 	
 	public Game GetGameById(int id)

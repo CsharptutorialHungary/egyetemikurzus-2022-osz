@@ -5,7 +5,7 @@ namespace E22EDJ.Commands;
 
 public static class GameConsoleCommandHelper
 {
-	public static Game PromptUserToSelectGame(List<Game> games, string promptText = "[green]Which game are you playing?[/]")
+	public static Game? PromptUserToSelectGame(List<Game?> games, string promptText = "[green]Which game are you playing?[/]")
 	{
 		var selectedTitle = AnsiConsole.Prompt(
 			new SelectionPrompt<string>()
@@ -17,7 +17,7 @@ public static class GameConsoleCommandHelper
 		return games.Find(game => game.Name == selectedTitle)!;
 	}
 	
-	private static List<String> GetGameTitles(List<Game> games)
+	private static List<String> GetGameTitles(List<Game?> games)
 	{
 		return games.Select(game => game.Name).ToList();
 	}

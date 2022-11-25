@@ -10,20 +10,38 @@ public class GameRepository : Repository<Game>
 
 	private readonly GttContext _database = ContextProvider.Context;
 
-	public new List<Game> GetAll()
+	public new List<Game?> GetAll()
 	{
-		return _database.Games.Include(game => game.GameState).Where(game => !game.IsDeleted).ToList();
+		try
+		{
+			return _database.Games.Include(game => game.GameState).Where(game => !game.IsDeleted).ToList();
+
+		}
+		catch (Exception e)
+		{
+			throw;
+		}
 	}
 
-	public List<Game> GetNotCompleted()
+	public List<Game?> GetNotCompleted()
 	{
 		return _database.Games.Include(game => game.GameState).Where(game => !game.IsDeleted && game.GameState.Name != "Completed").ToList();
 	}
 
-	public async void CreateGame(string name, int stateId = 1)
+	public List<Game?> GetDeletedGames()
 	{
-		await _database.Games.AddAsync(new Game(name, stateId));
-		await _database.SaveChangesAsync();
+		return _database.Games.Include(game => game.GameState).Where(game => game.IsDeleted).ToList();
+	}
+
+	public void CreateGame(string name, int stateId = 1)
+	{
+		Game newGame = new()
+		{
+			Name = name,
+			GameStateId = stateId
+		};
+		_database.Games.Add(newGame);
+		_database.SaveChanges();
 	}
 
 	public void SoftDeleteGame(int gameId)

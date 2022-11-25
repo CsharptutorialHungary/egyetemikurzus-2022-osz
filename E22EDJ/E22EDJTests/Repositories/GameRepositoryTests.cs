@@ -19,7 +19,7 @@ public class GameRepositoryTests
 	[TestMethod]
 	public void GetAllShouldReturnAListofGames()
 	{
-		List<Game> games = _gameRepository.GetAll();
+		List<Game?> games = _gameRepository.GetAll();
 		Assert.IsTrue(games.Count >= 0);
 	}
 

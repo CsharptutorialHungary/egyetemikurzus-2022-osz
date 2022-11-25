@@ -4,7 +4,7 @@ using Spectre.Console;
 
 namespace E22EDJ.Commands.GameRelated;
 
-public class CreateGameCommand : IConsoleCommand
+public class AddGameCommand : IConsoleCommand
 {
 	public string Name => "add_game";
 	public string Description => "Add a brand new game you are playing";
@@ -22,7 +22,7 @@ public class CreateGameCommand : IConsoleCommand
 			_gameService.Create(title);
 			AnsiConsole.Write(new Markup($"[green]Game created successfully with title[/]: {title} \n"));
 		}
-		catch (Exception)
+		catch (Exception e)
 		{
 			AnsiConsole.Write(new Markup($"[red]Error creating the game[/] {Emoji.Known.CryingFace} \n"));
 		}

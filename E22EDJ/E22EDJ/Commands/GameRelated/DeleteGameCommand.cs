@@ -1,3 +1,4 @@
+using E22EDJ.DBModels;
 using E22EDJ.Services;
 using Spectre.Console;
 
@@ -11,7 +12,16 @@ public class DeleteGameCommand : IConsoleCommand
 	private readonly GameService _gameService = new();
 	public void Execute()
 	{
-		var games = _gameService.GetAllGames();
+		List<Game?> games;
+		try
+		{
+			games = _gameService.GetNotCompletedGames();
+		}
+		catch (Exception)
+		{
+			AnsiConsole.Write(new Markup("[red]Error getting games from the database[/] \n"));
+			return;
+		}
 
 		while (true)
 		{
@@ -19,7 +29,15 @@ public class DeleteGameCommand : IConsoleCommand
 
 			if (AnsiConsole.Confirm($"Are you sure you want to delete the game: [red]{selectedGame.Name}[/]?"))
 			{
-				_gameService.Delete(selectedGame.Id);
+				try
+				{
+					_gameService.Delete(selectedGame.Id);
+					AnsiConsole.Write(new Markup("[green]Successfully deleted the game[/] \n"));
+				}
+				catch (Exception )
+				{
+					AnsiConsole.Write(new Markup("[red]Error deleting the game from the database[/] \n"));
+				}
 				break;
 			}
 			if (!AnsiConsole.Confirm($"Do you want to select another game?"))

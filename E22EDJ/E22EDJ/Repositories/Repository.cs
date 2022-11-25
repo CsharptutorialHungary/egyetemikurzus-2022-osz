@@ -13,24 +13,40 @@ public abstract class Repository<T> where T : Model
 	
 	public List<T> GetAll()
 	{
-		return _database
-			.Set<T>()
-			.Where(entity => !entity.IsDeleted).ToList();
+		try
+		{
+			return _database
+				.Set<T>()
+				.Where(entity => !entity.IsDeleted).ToList();
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			throw;
+		}
 	}
 
 	public T GetById(int id)
 	{
-		T? entity = _database
-			.Set<T>()
-			.Where(entity => !entity.IsDeleted && entity.Id == id)
-			.FirstOrDefault();
-
-		if (entity == null)
+		
+		try
 		{
-			throw new EntityNotFoundException($"Could not find resource with id: {id}");
-		}
+			T? entity = _database
+				.Set<T>()
+				.Where(entity => !entity.IsDeleted && entity.Id == id)
+				.FirstOrDefault();
 
-		return entity;
+			if (entity == null)
+			{
+				throw new EntityNotFoundException($"Could not find resource with id: {id}");
+			}
+			return entity;
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			throw;
+		}
 	}
 	
 	public T GetByName(string name)
@@ -66,17 +82,17 @@ public abstract class Repository<T> where T : Model
 			}
 		}
 
-		_database.SaveChanges();
+		try
+		{
+			_database.SaveChanges();
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			throw;
+		}
 
 		return entity;
 	}
-
-	public void Delete(int id)
-	{
-		T entity = GetById(id);
-		_database.Remove(entity);
-		_database.SaveChanges();
-	}
-	
 	
 }

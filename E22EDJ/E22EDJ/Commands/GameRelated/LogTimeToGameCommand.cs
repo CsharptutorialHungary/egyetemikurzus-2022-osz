@@ -14,8 +14,17 @@ public class LogTimeToGameCommand : IConsoleCommand
 	public void Execute()
 	{
 		const char quitButton = 'q';
+		List<Game?> games;
+		try
+		{
+			games = _gameService.GetNotCompletedGames();
+		}
+		catch (Exception)
+		{
+			AnsiConsole.Write(new Markup("[red]Error getting games from the database[/] \n"));
+			return;
+		}
 		
-		var games = _gameService.GetNotCompletedGames();
 		var selectedGame = GameConsoleCommandHelper.PromptUserToSelectGame(games, "[green]Which game are you playing?[/] [gray](completed games are not listed)[/]");
 		
 		AnsiConsole.Write(new Markup($"Press [green]'{quitButton}'[/] to stop the timer \n"));
@@ -30,7 +39,7 @@ public class LogTimeToGameCommand : IConsoleCommand
 			while (!isQuitButtonPressed)
 			{
 				//Couldn't figure out how to write this in multiple lines.
-				AnsiConsole.Write($"\rTime spent in [red]current session[/]: {currentSessionTimer} Time spent in [red]total[/]: {selectedGame.TimeSpent}");
+				AnsiConsole.Write(new Markup($"\rTime spent in [red]current session[/]: {currentSessionTimer} Time spent in [red]total[/]: {selectedGame!.TimeSpent}"));
 				Thread.Sleep(1000);
 				currentSessionTimer++;
 				selectedGame.TimeSpent++;

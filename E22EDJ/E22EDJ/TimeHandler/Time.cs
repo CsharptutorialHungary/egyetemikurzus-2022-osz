@@ -52,6 +52,32 @@ public class Time
 		return currentTime;
 	}
 
+	public static Time operator +(Time currentTime, Time anotherTime)
+	{
+		string[] segments = anotherTime.ToString().Split(":");
+		var hoursToAdd = int.Parse(segments[0]);
+		var minutesToAdd = int.Parse(segments[1]);
+		var secondsToAdd = int.Parse(segments[2]);
+
+		currentTime.Hours += hoursToAdd;
+		currentTime.Minutes += minutesToAdd;
+		currentTime.Seconds += secondsToAdd;
+
+		return currentTime;
+	}
+
+	public static Time operator +(Time currentTime, int secondsToAdd)
+	{
+		currentTime.Seconds += secondsToAdd;
+		return currentTime;
+	}
+
+	public static Time operator +(Time currentTime, double secondsToAdd)
+	{
+		currentTime.Seconds += (int)Math.Round(secondsToAdd, MidpointRounding.AwayFromZero);
+		return currentTime;
+	}
+
 	public static Time operator ++(Time time)
 	{
 		time.Seconds++;
@@ -98,5 +124,20 @@ public class Time
 		var formattedSeconds = Seconds < 10 ? $"0{Seconds}" : Seconds.ToString();
 
 		return $"{Hours}:{formattedMinutes}:{formattedSeconds}";
+	}
+
+	public int InSeconds()
+	{
+		return HoursToSeconds() + MinutesToSeconds() + Seconds;
+	}
+
+	private int HoursToSeconds()
+	{
+		return Hours * 60 * 60;
+	}
+
+	private int MinutesToSeconds()
+	{
+		return Minutes * 60;
 	}
 }

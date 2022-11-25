@@ -125,7 +125,38 @@ public class TimeTests
 	{
 		var time = new Time(1,34,41);
 		Assert.AreEqual(time.ToString(), "1:34:41");
-	} 
-	
-	
+	}
+
+	[TestMethod]
+	public void AddIngTwoTimesTogetherShouldReturnWithTheRightValue()
+	{
+		var time = new Time(1,34,41);
+		var time2 = new Time(1,34,41);
+		time += time2;
+		Assert.AreEqual(time.ToString(), "3:09:22");
+	}
+
+	[TestMethod]
+	public void ConvertingTimeToSecondsShouldProvideTheRightValue()
+	{
+		var time = new Time(1, 34, 41);
+		Assert.AreEqual(time.InSeconds(), 5681);
+	}
+
+	[TestMethod]
+	public void AddingSecondsToTimeShouldReturnTheRightValue()
+	{
+		var time = new Time(0,0,0);
+		time += 100;
+		Assert.AreEqual(time.ToString(), "0:01:40");
+	}
+
+	[TestMethod]
+	public void AddingDoubleToTimeShouldReturnTheRightValue()
+	{
+		var time = new Time(0, 0, 0);
+
+		time += 27.7;
+		Assert.AreEqual(time.ToString(), "0:00:28");
+	}
 }
