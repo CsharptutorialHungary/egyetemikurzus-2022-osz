@@ -1,7 +1,7 @@
 ﻿using System.Xml.Serialization;
 using ZWPARW.Object;
 
-namespace ZWPARW.Command
+namespace ZWPARW.Command.FajlSzerkesztes
 {
     internal class Mentes : ICommand
     {

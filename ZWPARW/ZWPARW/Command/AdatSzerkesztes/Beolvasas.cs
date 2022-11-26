@@ -1,7 +1,7 @@
 ﻿using System.Xml.Serialization;
 using ZWPARW.Object;
 
-namespace ZWPARW.Command
+namespace ZWPARW.Command.AdatSzerkesztes
 {
     internal class Beolvasas : ICommand
     {
@@ -50,7 +50,7 @@ namespace ZWPARW.Command
 
         public void Help(string message)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Beolvasa az adot fájlt amely egy xml fájl");
         }
     }
 }

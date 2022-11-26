@@ -10,15 +10,19 @@ namespace ZWPARW.Command
 
         public Leltar Execute(Leltar leltar, string eleres)
         {
-            LeltarAzonosito azonosito = leltar.azonosito.MinBy(y => y.JelenDarabszam);
-            Console.WriteLine(azonosito.JelenDarabszam);
+            Console.WriteLine("Termek\tUtolso ellenorzes\tJelenlegi Darabszam\tKivant Darabszam\tBrutto ar\tSulya gramban");
+
+            foreach (var elem in leltar.azonosito)
+            {
+                Console.WriteLine($"{elem.Termek}\t{elem.UtolsoEllenorzes}\t{elem.JelenDarabszam}\t\t\t{elem.KivantDarabszam}\t\t\t{elem.BruttoAr}\t\t{elem.GramSulya}");
+            }
 
             return leltar;
         }
 
         public void Help(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine("Kiirja a képernyőre ay ép aktuális adatokat");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Xml.Serialization;
 using ZWPARW.Object;
 
-namespace ZWPARW.Command
+namespace ZWPARW.Command.FajlSzerkesztes
 {
     internal class Letrehoz : ICommand
 
@@ -36,7 +36,8 @@ namespace ZWPARW.Command
 
         public void Help(string message)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Létrehoz egy leltár.xml fájlt");
+
         }
     }
 }

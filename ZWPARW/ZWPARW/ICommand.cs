@@ -9,7 +9,7 @@ namespace ZWPARW
 
         Leltar Execute(Leltar leltar, string eleres = "Leltar.xml");
 
-        void Help(string message);
+        void Help(string message = "");
 
 
     }

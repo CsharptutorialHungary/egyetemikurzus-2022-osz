@@ -1,6 +1,6 @@
 ﻿using ZWPARW.Object;
 
-namespace ZWPARW.Command
+namespace ZWPARW.Command.AdatSzerkesztes
 {
     internal class AdatFelvitel : ICommand
     {
@@ -18,7 +18,7 @@ namespace ZWPARW.Command
             if (uj.Termek != null)
             {
             Hiba:
-                var termek =leltar.azonosito.Where(z => z.Termek.Contains(uj.Termek));
+                var termek = leltar.azonosito.Where(z => z.Termek.Contains(uj.Termek));
                 if (termek.Count() == 0)
                 {
                     try
@@ -67,24 +67,36 @@ namespace ZWPARW.Command
                 Console.WriteLine("Nem let megadva termeknév");
                 goto termek;
             }
+        darab:
+            try
+            {
+                Console.WriteLine("A termék Jelen darabszáma");
+                uj.JelenDarabszam = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("A termék Jelen darabszáma");
-            uj.JelenDarabszam = int.Parse(Console.ReadLine());
+                Console.WriteLine("A termék kivánt darabszáma");
+                uj.KivantDarabszam = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("A termék kivánt darabszáma");
-            uj.KivantDarabszam = int.Parse(Console.ReadLine());
+                Console.WriteLine("A termék jelenlegi ára");
+                uj.BruttoAr = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("A termék jelenlegi ára");
-            uj.BruttoAr = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("A termék sulya gramban");
-            uj.GramSulya = int.Parse(Console.ReadLine());
-
-            uj.id = ((uint)leltar.azonosito.Count());
+                Console.WriteLine("A termék sulya gramban");
+                uj.GramSulya = int.Parse(Console.ReadLine());
+            }
+            catch (Exception e) when (e is FormatException || e is NullReferenceException)
+            {
+                Console.WriteLine("Nem számot adtál meg");
+                goto darab;
+            }
+            uj.id = (uint)leltar.azonosito.Count();
 
             leltar.azonosito.Add(uj);
 
-            Sikeres.t.Start();
+
+            CommandLoader loader = new CommandLoader();
+            Task t = new Task(async () => loader.Commands["BiztonsagiMentes"].Execute(leltar));
+
+            t.Start();
+
 
             return leltar;
 
@@ -92,7 +104,7 @@ namespace ZWPARW.Command
 
         public void Help(string message)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Egy uj terméket lehet felvini az adatbáyisba ha még nem az nem létezik");
         }
     }
 }

@@ -18,7 +18,7 @@
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class LeltarAzonosito 
+    public partial class LeltarAzonosito
     {
 
 
@@ -115,6 +115,7 @@
             }
         }
 
+
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public uint id
@@ -128,6 +129,9 @@
                 this.idField = value;
             }
         }
+
+
+
     }
 
 

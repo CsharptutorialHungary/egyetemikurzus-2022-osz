@@ -1,6 +1,6 @@
 ﻿using ZWPARW.Object;
 
-namespace ZWPARW.Command
+namespace ZWPARW.Command.FajlSzerkesztes
 {
     internal class BiztonagiMentesViszatoltes : ICommand
     {
@@ -48,7 +48,7 @@ namespace ZWPARW.Command
 
         public void Help(string message)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Biytonsági mentést lehet viszatölteni");
         }
     }
 }
