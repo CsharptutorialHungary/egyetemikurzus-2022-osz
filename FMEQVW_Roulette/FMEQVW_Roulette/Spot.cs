@@ -12,7 +12,7 @@ public sealed record Spot
 	}
 	public override string ToString()
 	{
-        return String.Format("Szám:{0}, Szín:{1}",this.number, this.color);
+        return String.Format("Number:{0}, Color:{1}",this.number, this.color);
     }
 
 }
