@@ -1,6 +1,6 @@
 ﻿Console.WriteLine("Enter player name:");
 Player player = new Player();
-try { player.name = Console.ReadLine(); } catch (Exception ex) { Console.WriteLine(ex.StackTrace); }
+player.name = Console.ReadLine();
 string? input = string.Empty;
 Wheel wheel = new Wheel();
 while (input!="Q"){
@@ -9,6 +9,7 @@ while (input!="Q"){
     Console.WriteLine("Current bets:");
     wheel.bets.OrderBy(bet => bet.number).ToList().ForEach(bet => Console.WriteLine(bet.ToString()));
     input = Console.ReadLine();
+    if (null == input) { continue; };
     switch (input)
     {
         case "P":
