@@ -30,7 +30,7 @@
 
         private int kivantDarabszamField;
 
-        private int bruttoArField;
+        private ushort bruttoArField;
 
         private int GramSulyaField;
 
@@ -116,6 +116,19 @@
         }
 
         /// <remarks/>
+        public int GramSulya
+        {
+            get
+            {
+                return this.GramSulyaField;
+            }
+            set
+            {
+                this.GramSulyaField = value;
+            }
+        }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public uint id
         {
@@ -128,6 +141,9 @@
                 this.idField = value;
             }
         }
+
+
+        
     }
 
 

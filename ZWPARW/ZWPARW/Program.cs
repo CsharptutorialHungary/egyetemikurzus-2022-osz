@@ -30,10 +30,16 @@ internal class Program
                     {
                         loader.Commands[commands[0]].Help("Itt kivanak irva az adatok amik szerepelnek a leltárban");
 
+                        }
+                        else
+                        {
+                            leltar = loader.Commands[commands[0]].Execute(leltar);
+
+                        }
                     }
                     else
                     {
-                        leltar = loader.Commands[commands[0]].Execute(leltar);
+
                     }
                 }
                 else
