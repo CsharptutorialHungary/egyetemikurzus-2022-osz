@@ -16,7 +16,7 @@ namespace TUITodo.Views
         public void StartEditing(TodoItem item)
         {
             editedItem = item;
-            titleTextField.Text = item.Text;
+            titleTextField.Text = item.name;
             descriptionTextView.Text = item.description;
         }
 
@@ -35,20 +35,54 @@ namespace TUITodo.Views
             Height = Dim.Fill() - 1,
         };
 
-        StatusBar statusBar = new StatusBar(new StatusItem[]
-        {
-            new StatusItem(Key.Esc, "Exit", () => {
-                Trace.WriteLine("Exit");
-                Program.SwitchToView(Program.TaskListView); 
-            })
-        })
+        public StatusBar statusBar { get; } = new StatusBar()
         {
 
         };
+
+        void Save()
+        {
+            if (editedItem == null) return;
+
+            editedItem.name = (string)titleTextField.Text;
+            editedItem.description = (string)descriptionTextView.Text;
+        }
+        //Check for actual changes. TextField and TextView have an isDirty field,
+        //but it seems they are set to true even when we only just entered them and haven't made any edits
+        bool isDirty()
+        {
+            return editedItem?.name != titleTextField.Text || 
+                editedItem?.description != descriptionTextView.Text;
+        }
+
+        void Exit()
+        {
+            if (isDirty())
+            {
+                int buttonIndex = MessageBox.Query(
+                    "Unsaved changes", "Would you like to save?", "Save and exit", "Discard changes", "Stay editing");
+
+                if (buttonIndex == 0) Save();
+                if (buttonIndex == -1 || buttonIndex == 2) return;
+            }
+
+            Program.SwitchToView(Program.TaskListView);
+        }
+
+        void SaveAndExit()
+        {
+            Save();
+            Exit();
+        }
+
         public EditorView()
         {
+            statusBar.Items = new StatusItem[]
+            {
+                new StatusItem(Key.Esc, "~Esc Exit", Exit)
+            };
+            Add(titleTextField, descriptionTextView);
             statusBar.Y = Pos.Bottom(descriptionTextView);
-            Add(titleTextField, descriptionTextView, statusBar);
         }
     }
 }

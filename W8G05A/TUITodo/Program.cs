@@ -38,6 +38,10 @@ namespace TUITodo
         {
             MainWindow.RemoveAll();
             MainWindow.Add(view);
+            if(view == EditorView)
+            {
+                MainWindow.Add(EditorView.statusBar);
+            }
         }
 
         static void Main(string[] args)
