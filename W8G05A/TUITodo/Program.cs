@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Terminal.Gui;
 using Terminal.Gui.Trees;
+using TUITodo.Utils;
 using TUITodo.Views;
 
 namespace TUITodo
@@ -56,8 +57,11 @@ namespace TUITodo
             SwitchToView(TaskListView);
         }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
+
+            List<TodoItem> savedTodos = await TodoItemSerializer.ReadFromJSON() ?? new List<TodoItem>();
+
             Application.Init();
 
             #region Color scheme, style setup
@@ -80,11 +84,10 @@ namespace TUITodo
             #endregion
 
 
-            var micsin = new TodoItem("subtask", "asd", new List<TodoItem> { new TodoItem("micsin", "asd"), new TodoItem("nenen") });
-            TodoItem t = new TodoItem("Feladatka", "Ez egy taszk", new List<TodoItem> { micsin, new TodoItem("kettes") });
+            //var micsin = new TodoItem("subtask", "asd", new List<TodoItem> { new TodoItem("micsin", "asd"), new TodoItem("nenen") });
+            //TodoItem t = new TodoItem("Feladatka", "Ez egy taszk", new List<TodoItem> { micsin, new TodoItem("kettes") });
 
-            TaskListView.AddItem(t);
-
+            savedTodos.ForEach(t => TaskListView.AddItem(t));
             ShowTaskListView();
 
             TaskListView.ExpandAll();

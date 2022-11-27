@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Terminal.Gui.Trees;
@@ -19,11 +20,12 @@ namespace TUITodo
         public TodoItem? parentTask { get; protected set; }
 
         public bool Done { get; protected set; }
+        [JsonInclude]
         public string name;
+        [JsonInclude]
         public string description;
 
-        public List<TodoItem> Subtasks { get; protected set; }
-
+        public List<TodoItem> Subtasks { get; set; }
         public TodoItem(string name, string description = "") : this(name, description, new List<TodoItem>()) { }
 
         public TodoItem(string name, string description, List<TodoItem> subtasks)
@@ -37,13 +39,25 @@ namespace TUITodo
 
         }
 
+        [JsonConstructor]
+        public TodoItem()
+        {
+            Done = false; ;
+            this.name = "";
+            this.description = "";
+            Subtasks = new List<TodoItem>();
+        }
+
+        [JsonIgnore]
         public string Text
         {
             get => $"{(Done ? Checked : Unchecked)} {name}"; set { name = value; }
         }
 
+        [JsonIgnore]
         public IList<ITreeNode> Children => Subtasks.Cast<ITreeNode>().ToList();
 
+        [JsonIgnore]
         public object Tag
         {
             get => name; set { name = (string)value; }

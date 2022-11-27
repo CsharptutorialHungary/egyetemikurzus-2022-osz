@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terminal.Gui;
+using TUITodo.Utils;
 
 namespace TUITodo.Views
 {
@@ -47,6 +48,8 @@ namespace TUITodo.Views
 
             editedItem.name = (string)titleTextField.Text;
             editedItem.description = (string)descriptionTextView.Text;
+
+            Task.Run(() => TodoItemSerializer.WriteToJSON(Program.TaskListView.Items));
         }
 
         //Check for actual changes. TextField and TextView have an isDirty field,
