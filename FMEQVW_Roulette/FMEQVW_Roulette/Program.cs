@@ -7,24 +7,12 @@ while (input!="Q"){
     
     Console.Write(String.Format("Name: {0}\t\tCurrency: {1}\nQuit: Q\t\tSpin: S\t\tSelect all red tiles: red\t\tSelect all black tiles: black\n\n",player.name,player.currency));
     Console.WriteLine("Current bets:");
-    wheel.bets.OrderBy(bet => bet.number).ToList().ForEach(bet => Console.WriteLine(bet.ToString()));
+    wheel.selections.OrderBy(bet => bet.number).ToList().ForEach(bet => Console.WriteLine(bet.ToString()));
+    Console.WriteLine("\n");
     input = Console.ReadLine();
     if (null == input) { continue; };
-    switch (input)
-    {
-        case "P":
-            {
-                Console.WriteLine(wheel.spin().ToString());
-                break;
-            }
-        default:
-            {
-                wheel.addBets(input);
-                break;
-            }
-    }
+    wheel.Command(input, player);
     Console.Clear();
-    //TODO: game loop
 }
 
 Console.ReadKey();
