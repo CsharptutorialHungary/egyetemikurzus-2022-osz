@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace TUITodo
 
         public object Tag
         {
-            get => description; set { description = (string)value; }
+            get => name; set { name = (string)value; }
         }
 
         /// <param name="chainToSubtasks"> Make every subtask recursively inherit the done value</param>
@@ -71,6 +72,12 @@ namespace TUITodo
         {
             Subtasks.Add(task);
             task.parentTask = this;
+        }
+
+        public void RemoveSubtask(TodoItem task)
+        {
+            task.parentTask = null;
+            Subtasks.Remove(task);
         }
     }
 }

@@ -28,29 +28,37 @@ namespace TUITodo.Views
 
         public TaskListView(List<TodoItem>? items = null)
         {
+            #region status bar items
             statusBar.Items = new StatusItem[]
             {
-                new StatusItem(Key.E, "~Shift + E~ Edit task", () => {
+                new (Key.E, "~Shift + E~ Edit task", () => {
                     if (SelectedObject is TodoItem selected) Program.EnterEditMode(selected);
                 }),
-                new StatusItem((Key)'+', "~+~ New task", () => {
+                new ((Key)'+', "~+~ New task", () => {
                     AddItem(new TodoItem("New task"));
                 }),
-                new StatusItem((Key)'-', "~-~ New subtask", () => {
+                new ((Key)'-', "~-~ New subtask", () => {
                     if (SelectedObject is TodoItem selected)
                         AddItem(new TodoItem("New subtask"), parent:selected);
                 }),
-                new StatusItem(Key.Space, "~Space~ Task complete", () => {
+                new (Key.Space, "~Space~ Task complete", () => {
                     if (SelectedObject is TodoItem selected){
                         selected.ToggleDone();
-                        SetNeedsDisplay(); 
+                        SetNeedsDisplay();
+                    }
+                }),
+                new (Key.D, "~Shift + D~ Delete", () => {
+                    if (SelectedObject is TodoItem selected){
+                        if (MessageBox.Query("Delete task", 
+                            $"Are you sure you want to delete the task '{selected.name}'?",
+                            "Delete it", "Nevermind") == 0) DeleteItem(selected);
                     }
                 })
             };
 
+            #endregion
+
             Items = items ?? new List<TodoItem>();
-
-
         }
 
         public void AddItem(TodoItem item, TodoItem? parent = null)
@@ -70,6 +78,26 @@ namespace TUITodo.Views
 
             this.Expand();
             this.GoTo(item);
+        }
+
+        void DeleteItem(TodoItem item)
+        {
+            //Remove(item);
+            items.Remove(item);
+            var parent = item.parentTask;
+            if(parent != null)
+                parent.RemoveSubtask(item);
+
+            RebuildTreeFromScratch();
+            this.GoTo(parent);
+        }
+        //apparently RebuildTree() and RefreshObject do not work to get rid of a removed item,
+        //so we'll rebuild tree for real ourselves
+        void RebuildTreeFromScratch()
+        {
+            base.ClearObjects();
+            AddObjects(items);
+            ExpandAll();
         }
 
 

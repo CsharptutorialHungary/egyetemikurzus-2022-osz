@@ -36,7 +36,6 @@ namespace TUITodo
 
         private static void SwitchToView(View view)
         {
-            Application.Top.RemoveAll();
             MainWindow.RemoveAll();
             Application.Top.Add(MainWindow);
             MainWindow.Add(view);
@@ -44,15 +43,17 @@ namespace TUITodo
 
         public static void EnterEditMode(TodoItem editedItem)
         {
-            SwitchToView(EditorView);
+            Application.Top.RemoveAll();
             Application.Top.Add(EditorView.statusBar);
+            SwitchToView(EditorView);
             EditorView.StartEditing(editedItem);
         }
 
         public static void ShowTaskListView()
         {
-            SwitchToView(TaskListView);
+            Application.Top.RemoveAll();
             Application.Top.Add(TaskListView.statusBar);
+            SwitchToView(TaskListView);
         }
 
         static void Main(string[] args)
