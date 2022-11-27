@@ -1,4 +1,5 @@
-﻿using Terminal.Gui;
+﻿using System.Text;
+using Terminal.Gui;
 using Terminal.Gui.Trees;
 using TUITodo.Views;
 
@@ -6,14 +7,48 @@ namespace TUITodo
 {
     internal class Program
     {
+        #region Views
+        public static View MainWindow { get; protected set; } = new Window("Task list")
+        {
+            X = 0,
+            Y = 1,
+            Width = Dim.Fill(),
+            Height = Dim.Fill() - 1
+        };
+
+        public static TaskListView TaskListView { get; protected set; } = new()
+        {
+            X = 1,
+            Y = 1,
+            Width = 40,
+            Height = Dim.Percent(60)
+        };
+
+        public static EditorView EditorView { get; protected set; } = new()
+        {
+            X = 1,
+            Y = 1,
+            Width = 40,
+            Height = Dim.Percent(60)
+        };
+
+        #endregion
+
+        public static void SwitchToView(View view)
+        {
+            MainWindow.RemoveAll();
+            MainWindow.Add(view);
+        }
 
         static void Main(string[] args)
         {
             Application.Init();
 
-            #region Color scheme
+            #region Color scheme, style setup
             Colors.Base.Normal = Application.Driver.MakeAttribute(Color.Green, Color.Black);
             Colors.Base.HotNormal = Application.Driver.MakeAttribute(Color.Brown, Color.Black);
+
+
             #endregion
 
             #region MenuBar
@@ -29,32 +64,18 @@ namespace TUITodo
             #endregion
 
 
-
-            var win = new Window("Task list")
-            {
-                X = 0,
-                Y = 1,
-                Width = Dim.Fill(),
-                Height = Dim.Fill() - 1
-            };
-
-
             var micsin = new TodoItem("subtask", "asd", new List<TodoItem> { new TodoItem("micsin", "asd"), new TodoItem("nenen") });
             TodoItem t = new TodoItem("Feladatka", "Ez egy taszk", new List<TodoItem> { micsin, new TodoItem("kettes") });
 
-            var tasklist = new TaskListView(new List<TodoItem> { t })
-            {
-                X = 1,
-                Y = 1,
-                Width = 40,
-                Height = Dim.Percent(60)
-            };
-            win.Add(tasklist);
+            TaskListView.AddItem(t);
 
-            tasklist.ExpandAll();
+            SwitchToView(TaskListView);
 
+            TaskListView.ExpandAll();
 
-            Application.Top.Add(menu, win);
+            Application.Top.Add(menu, MainWindow);
+
+            Application.Driver.SetCursorVisibility(CursorVisibility.Invisible);
             Application.Run();
             Application.Shutdown();
         }

@@ -26,7 +26,7 @@ namespace TUITodo
             }
         }
         public string name;
-        string description;
+        public string description;
 
         List<TodoItem> subtasks;
 

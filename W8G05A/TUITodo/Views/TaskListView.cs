@@ -24,9 +24,11 @@ namespace TUITodo.Views
             }
         }
 
-        public TaskListView(List<TodoItem> items)
+        public TaskListView(List<TodoItem>? items = null)
         {
-            Items = items;
+            
+            Items = items ?? new List<TodoItem>();
+
             KeyDown += e =>
             {
                 Key k = e.KeyEvent.Key;
@@ -49,6 +51,11 @@ namespace TUITodo.Views
 
                         SetNeedsDisplay();
                     });
+                }
+                if (k == Key.Enter && SelectedObject is TodoItem selected)
+                {
+                    Program.SwitchToView(Program.EditorView);
+                    Program.EditorView.StartEditing(selected);
                 }
 
             };
