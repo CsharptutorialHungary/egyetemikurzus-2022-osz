@@ -34,7 +34,11 @@ namespace TUITodo.Views
                     if (SelectedObject is TodoItem selected) Program.EnterEditMode(selected);
                 }),
                 new StatusItem((Key)'+', "~+~ New task", () => {
-                    AddItem(new TodoItem("HAO"));
+                    AddItem(new TodoItem("New task"));
+                }),
+                new StatusItem((Key)'-', "~-~ New subtask", () => {
+                    if (SelectedObject is TodoItem selected)
+                        AddItem(new TodoItem("New subtask"), parent:selected);
                 }),
                 new StatusItem(Key.Space, "~Space~ Task complete", () => {
                     if (SelectedObject is TodoItem selected){
@@ -49,9 +53,9 @@ namespace TUITodo.Views
 
         }
 
-        public void AddItem(TodoItem item)
+        public void AddItem(TodoItem item, TodoItem? parent = null)
         {
-            TodoItem? parent =  ((TodoItem)SelectedObject)?.parentTask;
+            parent ??= ((TodoItem)SelectedObject)?.parentTask;
 
             if (parent == null) //add to root level
             {
@@ -61,10 +65,11 @@ namespace TUITodo.Views
             else //add as sibling
             {
                 parent.AddSubtask(item);
+                RefreshObject(parent);
             }
 
-            SetNeedsDisplay();
-            SetChildNeedsDisplay();
+            this.Expand();
+            this.GoTo(item);
         }
 
 

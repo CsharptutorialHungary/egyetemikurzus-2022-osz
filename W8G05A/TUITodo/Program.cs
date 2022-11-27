@@ -88,6 +88,9 @@ namespace TUITodo
 
             TaskListView.ExpandAll();
 
+            //AddItem focuses the last item, let's go back to the top
+            TaskListView.GoToFirst();
+
             Application.Top.Add(menu, MainWindow);
 
             Application.Driver.SetCursorVisibility(CursorVisibility.Invisible);
