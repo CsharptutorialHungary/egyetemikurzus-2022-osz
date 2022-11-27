@@ -20,28 +20,39 @@ namespace TUITodo
         {
             X = 1,
             Y = 1,
-            Width = 40,
-            Height = Dim.Percent(60)
+            Width = Dim.Fill(),
+            Height = Dim.Fill() - 1
         };
 
         public static EditorView EditorView { get; protected set; } = new()
         {
             X = 1,
             Y = 1,
-            Width = 40,
-            Height = Dim.Percent(60)
+            Width = Dim.Fill(),
+            Height = Dim.Fill() - 1
         };
 
         #endregion
 
-        public static void SwitchToView(View view)
+        private static void SwitchToView(View view)
         {
+            Application.Top.RemoveAll();
             MainWindow.RemoveAll();
+            Application.Top.Add(MainWindow);
             MainWindow.Add(view);
-            if(view == EditorView)
-            {
-                MainWindow.Add(EditorView.statusBar);
-            }
+        }
+
+        public static void EnterEditMode(TodoItem editedItem)
+        {
+            SwitchToView(EditorView);
+            Application.Top.Add(EditorView.statusBar);
+            EditorView.StartEditing(editedItem);
+        }
+
+        public static void ShowTaskListView()
+        {
+            SwitchToView(TaskListView);
+            Application.Top.Add(TaskListView.statusBar);
         }
 
         static void Main(string[] args)
@@ -73,7 +84,7 @@ namespace TUITodo
 
             TaskListView.AddItem(t);
 
-            SwitchToView(TaskListView);
+            ShowTaskListView();
 
             TaskListView.ExpandAll();
 

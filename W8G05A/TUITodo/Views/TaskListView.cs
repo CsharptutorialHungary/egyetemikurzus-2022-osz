@@ -15,7 +15,7 @@ namespace TUITodo.Views
 
         public List<TodoItem> Items
         {
-            get => items; 
+            get => items;
             protected set
             {
                 items = value;
@@ -24,51 +24,49 @@ namespace TUITodo.Views
             }
         }
 
+        public StatusBar statusBar = new();
+
         public TaskListView(List<TodoItem>? items = null)
         {
-            
-            Items = items ?? new List<TodoItem>();
-
-            KeyDown += e =>
+            statusBar.Items = new StatusItem[]
             {
-                Key k = e.KeyEvent.Key;
-
-                if (k == Key.Space && SelectedObject is TodoItem t)
-                {        
-                    Application.MainLoop.Invoke(() =>
-                    {
-                        t.ToggleDone();
-
-                        // Tell view to redraw
-                        SetNeedsDisplay();
-                    });
-                }
-                if (k == (Key)'+')
-                {
-                    Application.MainLoop.Invoke(() =>
-                    {
-                        AddItem(new TodoItem("HAO"));
-
-                        SetNeedsDisplay();
-                    });
-                }
-                if (k == Key.Enter && SelectedObject is TodoItem selected)
-                {
-                    Program.SwitchToView(Program.EditorView);
-                    Program.EditorView.StartEditing(selected);
-                }
-
+                new StatusItem(Key.E, "~Shift + E~ Edit task", () => {
+                    if (SelectedObject is TodoItem selected) Program.EnterEditMode(selected);
+                }),
+                new StatusItem((Key)'+', "~+~ New task", () => {
+                    AddItem(new TodoItem("HAO"));
+                }),
+                new StatusItem(Key.Space, "~Space~ Task complete", () => {
+                    if (SelectedObject is TodoItem selected){
+                        selected.ToggleDone();
+                        SetNeedsDisplay(); 
+                    }
+                })
             };
 
-            
+            Items = items ?? new List<TodoItem>();
+
+
         }
 
         public void AddItem(TodoItem item)
         {
-            Items.Add(item);
-            AddObject(item);
+            TodoItem? parent =  ((TodoItem)SelectedObject)?.parentTask;
+
+            if (parent == null) //add to root level
+            {
+                Items.Add(item);
+                AddObject(item);
+            }
+            else //add as sibling
+            {
+                parent.AddSubtask(item);
+            }
+
+            SetNeedsDisplay();
+            SetChildNeedsDisplay();
         }
 
-        
+
     }
 }

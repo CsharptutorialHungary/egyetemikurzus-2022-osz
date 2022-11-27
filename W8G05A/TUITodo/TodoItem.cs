@@ -15,51 +15,62 @@ namespace TUITodo
         private const string Unchecked = "O";
         private const string Checked = "X";
 
-        bool _done;
-        public bool Done
-        {
-            get { return _done; }
-            set
-            {
-                _done = value;
-                subtasks.ForEach(t => t.Done = value);
-            }
-        }
+        public TodoItem? parentTask { get; protected set; }
+
+        public bool Done { get; protected set; }
         public string name;
         public string description;
 
-        List<TodoItem> subtasks;
+        public List<TodoItem> Subtasks { get; protected set; }
 
         public TodoItem(string name, string description = "") : this(name, description, new List<TodoItem>()) { }
 
         public TodoItem(string name, string description, List<TodoItem> subtasks)
         {
-            this._done = false;
+            this.Done = false;
             this.name = name;
             this.description = description;
 
-            this.subtasks = subtasks;
+            this.Subtasks = new();
+            subtasks.ForEach(AddSubtask);
 
         }
 
-        //public Markup GetMarkup(Style? style = null) => Markup.FromInterpolated($"{(Done ? Checked : Unchecked)} {name}", style);
-
-        //internal List<TodoItem> Subtasks { get => subtasks; set => subtasks = value; }
         public string Text
         {
             get => $"{(Done ? Checked : Unchecked)} {name}"; set { name = value; }
         }
 
-        public IList<ITreeNode> Children => subtasks.Cast<ITreeNode>().ToList();
+        public IList<ITreeNode> Children => Subtasks.Cast<ITreeNode>().ToList();
 
         public object Tag
         {
             get => description; set { description = (string)value; }
         }
 
-        public void ToggleDone()
+        /// <param name="chainToSubtasks"> Make every subtask recursively inherit the done value</param>
+        public void ToggleDone(bool chainToSubtasks = true)
         {
-            Done = !Done;
+            SetDone(!Done, chainToSubtasks);
+        }
+
+        /// <param name="chainToSubtasks"> Make every subtask recursively inherit the done value</param>
+        public void SetDone(bool value, bool chainToSubtasks = true)
+        {
+            Done = value;
+            if (chainToSubtasks)
+                Subtasks.ForEach(t => t.SetDone(value, chainToSubtasks));
+
+            //complete parent task if all of its subtasks are done
+            if (parentTask != null)
+                parentTask.SetDone(parentTask.Subtasks.All(t => t.Done), chainToSubtasks:false);
+
+        }
+
+        public void AddSubtask(TodoItem task)
+        {
+            Subtasks.Add(task);
+            task.parentTask = this;
         }
     }
 }
