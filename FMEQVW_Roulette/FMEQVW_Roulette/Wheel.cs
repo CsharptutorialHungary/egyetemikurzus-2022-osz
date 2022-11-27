@@ -48,6 +48,12 @@ public class Wheel
 		}
 		currentBetAmount = bet;
 	}
+	public static async Task GameOver()
+	{
+		Console.WriteLine("Game Over.");
+		await Task.Delay(3000);
+		Console.WriteLine("Thank you for playing.");
+	}
 	public void Command(string command, Player player)
 	{
 		string[] parts = command.Split(" ");
