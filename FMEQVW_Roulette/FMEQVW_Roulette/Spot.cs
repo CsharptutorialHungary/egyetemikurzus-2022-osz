@@ -2,17 +2,17 @@
 
 public sealed record Spot
 {
-	public int number { get; }
-	public string color { get; }
+	public int Number { get; }
+	public string Color { get; }
 
 	public Spot(int number, string color)
 	{
-		this.number = number;
-		this.color = color;
+		this.Number = number;
+		this.Color = color;
 	}
 	public override string ToString()
 	{
-        return String.Format("Number:{0}, Color:{1}",this.number, this.color);
+        return String.Format("Number:{0}, Color:{1}",this.Number, this.Color);
     }
 
 }

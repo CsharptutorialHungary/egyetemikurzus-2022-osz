@@ -1,11 +1,12 @@
-﻿using System;
+﻿using FMEQVW_Roulette;
+using System;
 using System.Runtime.ExceptionServices;
 
 public class Wheel
 {
 	public List<Spot> spots = new List<Spot>();
 	public HashSet<Spot> selections = new HashSet<Spot>();
-	int currentBetAmount = 0;
+	public int currentBetAmount = 0;
 
 	public Wheel()
 	{
@@ -17,13 +18,10 @@ public class Wheel
 	}
 	public void Spin(Player player)
 	{
-
 		Random random = new Random();
 		Spot result = spots[random.Next(37)];
-		Console.WriteLine(result.ToString() );
+		Console.WriteLine(String.Format("result: {0}", result.ToString()) );
 		int prize = currentBetAmount*(spots.Count/selections.Count);
-		Console.WriteLine(selections.Count.ToString() );
-		Console.WriteLine( spots.Count.ToString() );
 		if(selections.Contains(result))
 		{
             player.currency += prize;
@@ -32,10 +30,20 @@ public class Wheel
 	}
 	public void SetBet(Player player, string betAmount)
 	{
-		int bet = Convert.ToInt32(betAmount);
+		int bet = 0;
+		try { 
+			bet = Convert.ToInt32(betAmount);
+		}
+		catch(Exception e) 
+		{ 
+			Console.WriteLine("Hiba történt: {0}", e.Message);
+			Console.ReadKey();
+		}
+
 		if (player.currency < bet)
 		{
 			Console.WriteLine("Not enough money.");
+			Console.ReadKey();
 			return;
 		}
 		currentBetAmount = bet;
@@ -43,7 +51,7 @@ public class Wheel
 	public void Command(string command, Player player)
 	{
 		string[] parts = command.Split(" ");
-		if(parts.Length != 2 && parts[0]!="P")
+		if(parts.Length != 2 && parts[0]!="S")
 		{
 			Console.WriteLine("Invalid input.");
 			return;
@@ -52,7 +60,6 @@ public class Wheel
 		{
 			case "select":
 				{
-					player.currency += 10000;
 					AddSelections(parts[1]);
 					break;
 				}
@@ -66,13 +73,23 @@ public class Wheel
 					SetBet(player, parts[1]);
                     break;
                 }
-            case "P":
+            case "S":
                 {
 					player.currency -= currentBetAmount;
 					Spin(player);
 					Console.ReadKey();
                     break;
                 }
+			case "save":
+				{
+					WriteXml.Write(player, parts[1]);
+					break;
+                }
+			case "load":
+				{
+					WriteXml.Read(player, parts[1]);
+					break;
+				}
             default:
 				{
 					Console.WriteLine("Invalid input.");
@@ -88,13 +105,13 @@ public class Wheel
 		{
 			case "red":
 				{
-					IEnumerable<Spot> query = spots.Where(spot => spot.color == "Red");
+					IEnumerable<Spot> query = spots.Where(spot => spot.Color == "Red");
 					selections.UnionWith(query);
 					break;
                 }
             case "black":
 				{
-					IEnumerable<Spot> query = spots.Where(spot => spot.color == "Black");
+					IEnumerable<Spot> query = spots.Where(spot => spot.Color == "Black");
 					selections.UnionWith(query);
 					break;
 				}
@@ -120,12 +137,12 @@ public class Wheel
         {
             case "red":
                 {
-					selections.RemoveWhere(spot => spot.color == "Red");
+					selections.RemoveWhere(spot => spot.Color == "Red");
                     break;
                 }
             case "black":
                 {
-					selections.RemoveWhere(spot => spot.color == "Black");
+					selections.RemoveWhere(spot => spot.Color == "Black");
                     break;
                 }
             default:

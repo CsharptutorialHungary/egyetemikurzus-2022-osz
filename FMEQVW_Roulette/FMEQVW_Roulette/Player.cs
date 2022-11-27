@@ -2,18 +2,18 @@
 
 public class Player
 {
-	public string name { get; set; }
+	public string Name { get; set; }
 	public int currency { get; set; }
 
 	public Player()
 	{
-		name = string.Empty;
-		currency = 0;
+		Name = string.Empty;
+		currency = 50000;
 	}
 
 	public Player(string name, int currency)
 	{
-		this.name = name;
+		this.Name = name;
 		this.currency=currency;
 	}
 }
