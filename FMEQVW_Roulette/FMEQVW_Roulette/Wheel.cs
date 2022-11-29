@@ -18,7 +18,12 @@ public class Wheel
 	}
 	public void Spin(Player player)
 	{
-		Random random = new Random();
+        if (selections.Count == 0)
+        {
+            Console.WriteLine("Please select at least one spot.");
+            return;
+        }
+        Random random = new Random();
 		Spot result = spots[random.Next(37)];
 		Console.WriteLine(String.Format("result: {0}", result.ToString()) );
 		int prize = currentBetAmount*(spots.Count/selections.Count);
