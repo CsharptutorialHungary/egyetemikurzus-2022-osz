@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Weather.Models
 {
-    internal record WeatherReport
+    [Serializable]
+    internal sealed record ModelSys
     {
-        private 
+        public string? pod { get; set; }
     }
 }

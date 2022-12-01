@@ -10,6 +10,6 @@ namespace Weather.Commands
     {
         string Name { get; }
 
-        void Execute();
+        Task<bool> Execute();
     }
 }

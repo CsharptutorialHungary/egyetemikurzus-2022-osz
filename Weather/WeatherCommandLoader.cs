@@ -10,32 +10,25 @@ namespace Weather
 {
     internal class WeatherCommandLoader
     {
-        public Dictionary<string, IAsyncWeatherCommand> Commands { get; }
+        public Dictionary<string, IWeatherCommand> Commands { get; }
 
         public WeatherCommandLoader()
         {
-            Commands = new Dictionary<string, IAsyncWeatherCommand>();
-
+            Commands = new Dictionary<string, IWeatherCommand>();
             Assembly? asm = Assembly.GetAssembly(typeof(WeatherCommandLoader));
             if (asm == null)
-                throw new InvalidOperationException("something went wrong");
-
+            {
+                throw new InvalidOperationException("WeatherCommandLoader::WeatherCommand() -> Coulnd't get assembly object.");
+            }
             var types = asm.GetTypes()
                 .Where(type => type.IsClass
                         && !type.IsAbstract
-                        && type.IsAssignableTo(typeof(IAsyncWeatherCommand)));
-
-            var types2 = from type in asm.GetTypes()
-                         where type.IsClass
-                           && !type.IsAbstract
-                           && type.IsAssignableTo(typeof(IAsyncWeatherCommand))
-                         select type;
-
+                        && type.IsAssignableTo(typeof(IWeatherCommand)));
             try
             {
                 foreach (var type in types)
                 {
-                    if (Activator.CreateInstance(type) is IAsyncWeatherCommand command)
+                    if (Activator.CreateInstance(type) is IWeatherCommand command)
                     {
                         Commands.Add(command.Name, command);
                     }

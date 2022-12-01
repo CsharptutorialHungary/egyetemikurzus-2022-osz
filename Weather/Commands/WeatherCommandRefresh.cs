@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Weather.Controller;
+using Weather.Controllers;
+using Weather.Models;
 
 namespace Weather.Commands
 {
@@ -10,10 +13,25 @@ namespace Weather.Commands
     {
         public string Name => "refresh";
 
-        public void Execute()
+        public async Task<bool> Execute()
         {
-            throw new NotImplementedException();
-            //TODO call weather API's refresh logic
+            string apiResponse = String.Empty;
+            try
+            {
+                apiResponse = await WeatherAPI.GetWeatherDataAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+            if(await WeatherIO.WriteOut(apiResponse))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
+//ModelJsonResponse deserializedObject;
+//deserializedObject = WeatherReportParser.DeserializeModelWeather(apiResponse);

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Weather.Controllers
+namespace Weather.Models
 {
-    internal class WeatherSerializer
+    [Serializable]
+    internal sealed record ModelClouds
     {
+        public int all { get; set; }
     }
 }
