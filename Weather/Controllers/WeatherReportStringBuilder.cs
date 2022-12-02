@@ -36,7 +36,8 @@ namespace Weather.Controllers
 
         public string shortFromatWeatherReport(ModelWeatherReport weatherReport)
         {
-            if (weatherReport == null || weatherReport.weather == null || weatherReport.dt_txt == null) return string.Empty;
+            if (weatherReport == null || weatherReport.weather == null || weatherReport.dt_txt == null ||
+                weatherReport.main == null || weatherReport.clouds == null || weatherReport.wind == null) return string.Empty;
             if (sb.Length != 0) sb.Clear();
             DateTime res;
             sb.AppendLine($"Time: {((DateTime.TryParse(weatherReport.dt_txt, out res)) ? DateTime.Parse(weatherReport.dt_txt).TimeOfDay : "Error during parsing time.")}");
