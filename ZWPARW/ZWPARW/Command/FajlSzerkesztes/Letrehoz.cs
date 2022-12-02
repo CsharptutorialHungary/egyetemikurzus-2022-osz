@@ -17,7 +17,7 @@ namespace ZWPARW.Command.FajlSzerkesztes
             if (File.Exists(filename))
             {
                 Console.WriteLine("A fájl már létezik nem kell ujat létrehozni");
-                Sikeres.sikeresLetrehozva = true;
+                Global.sikeresLetrehozva = true;
             }
             else
             {
@@ -27,7 +27,7 @@ namespace ZWPARW.Command.FajlSzerkesztes
                 {
                     serializer.Serialize(create, leltar);
                 }
-                Sikeres.sikeresLetrehozva = true;
+                Global.sikeresLetrehozva = true;
 
             }
 

@@ -21,16 +21,16 @@ namespace ZWPARW.Command.FelhasznaloParancs
                         users = users1;
                     }
                 }
-                Sikeres.FelhasznalokBeolvas = true;
+                Global.FelhasznalokBeolvas = true;
                 return users;
             }
             catch (IOException)
             {
-                Sikeres.FelhasznalokBeolvas = false;
+                Global.FelhasznalokBeolvas = false;
                 Console.WriteLine("Nem létezik a Users.xml fájl.");
             }
 
-            if (Sikeres.FelhasznalokBeolvas == false)
+            if (Global.FelhasznalokBeolvas == false)
             {
                 Console.WriteLine("Alapertelmezet felhasznalo letrehozva");
                 Console.WriteLine("Name: Admin");

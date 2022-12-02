@@ -1,9 +1,9 @@
 ﻿using ZWPARW;
 using ZWPARW.Object;
-internal class Program
+public class Program
 {
 
-    static async void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         try
         {
@@ -20,12 +20,10 @@ internal class Program
             users = usersLoader.UserCommands["FelhasznalokBeolvasasa"].Execute(users);
 
 
-            Task<void> t = ( 
-                if (Sikeres.sikeresBeolvasas)
+            if (Global.sikeresBeolvasas)
             {
-                await (loader.Commands["BiztonsagiMentes"].Execute(leltar));
-
-            })
+                await Global.BMentes(leltar);
+            }
         Belepes:
             Console.Write("Felhasznalonev: ");
             string username = Console.ReadLine();
@@ -37,7 +35,7 @@ internal class Program
             {
                 foreach (User item in user)
                 {
-                    Sikeres.SikeresenBelepet = item;
+                    Global.SikeresenBelepet = item;
                 }
                 while (true)
                 {
@@ -49,9 +47,9 @@ internal class Program
                         string[] commands = command.Split(" ");
                         if (commands[0] == "User")
                         {
-                            if (Sikeres.SikeresenBelepet.Rank.Equals("Admin"))
+                            if (Global.SikeresenBelepet.Rank.Equals("Admin"))
                             {
-                                if (commands.Length >=2 && usersLoader.UserCommands.ContainsKey(commands[1]))
+                                if (commands.Length >= 2 && usersLoader.UserCommands.ContainsKey(commands[1]))
                                 {
                                     if (commands.Length >= 3 && commands[2].ToLower().Equals("help"))
                                     {
@@ -90,11 +88,17 @@ internal class Program
                             {
                                 loader.Commands["Help"].Execute(leltar);
                             }
+                        } else if (commands[0] == "Exit")
+                        {
+                            await Global.BMentes(leltar);
+                            Environment.Exit(0);
                         }
                         else
                         {
                             usersLoader.UserCommands["UserHelp"].Execute(users);
                             loader.Commands["Help"].Execute(leltar);
+                            Console.WriteLine("Exit");
+                            Console.WriteLine("\tKilép a programbol");
                         }
                     }
                     else
