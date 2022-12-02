@@ -13,7 +13,7 @@ namespace ZWPARW.Command.FajlSzerkesztes
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Leltar));
 
-            using (var read = File.Create(Path.Combine(AppContext.BaseDirectory, eleres)))
+            using (var read = File.Create(Path.Combine(AppContext.BaseDirectory, "Leltar.xml")))
             {
                 serializer.Serialize(read, leltar);
             }

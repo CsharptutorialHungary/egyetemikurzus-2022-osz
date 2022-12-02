@@ -36,12 +36,12 @@ namespace ZWPARW.Command.AdatSzerkesztes
                         }
                     }
                 }
-                Sikeres.sikeresBeolvasas = true;
-                Sikeres.sikeresLetrehozva = true;
+                Global.sikeresBeolvasas = true;
+                Global.sikeresLetrehozva = true;
             }
             catch (IOException)
             {
-                Sikeres.sikeresBeolvasas = false;
+                Global.sikeresBeolvasas = false;
                 Console.WriteLine("Nem létezik a fájl.");
             }
 

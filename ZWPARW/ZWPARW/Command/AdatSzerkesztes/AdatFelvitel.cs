@@ -8,7 +8,7 @@ namespace ZWPARW.Command.AdatSzerkesztes
 
         public string Description => throw new NotImplementedException();
 
-        public Leltar Execute(Leltar leltar, string eleres = "Leltar.xml")
+        Leltar ICommand.Execute(Leltar leltar, string eleres)
         {
             LeltarAzonosito uj = new LeltarAzonosito();
 
@@ -91,15 +91,19 @@ namespace ZWPARW.Command.AdatSzerkesztes
 
             leltar.azonosito.Add(uj);
 
-
-            CommandLoader loader = new CommandLoader();
-            Task t = new Task(async () => loader.Commands["BiztonsagiMentes"].Execute(leltar));
-
-            t.Start();
-
+            Ment(leltar);
+            NincsMentes(leltar);
 
             return leltar;
 
+        }
+        private async void Ment(Leltar leltar)
+        {
+            await Global.BMentes(leltar);
+        }
+        private async void NincsMentes(Leltar leltar)
+        {
+            await Global.Mentes(leltar);
         }
 
         public void Help(string message)

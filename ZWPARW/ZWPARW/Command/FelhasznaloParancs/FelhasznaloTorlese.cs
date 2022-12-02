@@ -19,7 +19,7 @@ namespace ZWPARW.Command.FelhasznaloParancs
 
                 foreach (User item in user)
                 {
-                    if (!item.Id.Equals(Sikeres.SikeresenBelepet.Id))
+                    if (!item.Id.Equals(Global.SikeresenBelepet.Id))
                     {
                         users.Felhasznalok.Remove(item);
                     }

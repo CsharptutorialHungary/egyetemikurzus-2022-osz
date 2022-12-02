@@ -13,12 +13,12 @@ namespace ZWPARW.Command.FajlSzerkesztes
             if (File.Exists(Path.Combine(AppContext.BaseDirectory, "Leltar.xml")) && eleres == "Leltar.xml")
             {
                 Console.WriteLine("A fájl már létezik");
-                Sikeres.sikeresLetrehozva = true;
+                Global.sikeresLetrehozva = true;
             }
             else
             {
                 Console.WriteLine("A fájl nem látezik");
-                Sikeres.sikeresLetrehozva = false;
+                Global.sikeresLetrehozva = false;
             }
             if (File.Exists(eleres) && eleres != "Leltar.xml")
             {
