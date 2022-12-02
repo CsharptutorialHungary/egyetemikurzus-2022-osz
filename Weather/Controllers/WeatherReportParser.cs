@@ -18,7 +18,7 @@ namespace Weather.Controllers
             Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
         };
 
-        private static ModelJsonResponse DeserializeModelWeather(string input)
+        private static ModelJsonResponse? DeserializeModelWeather(string input)
         {
             ModelJsonResponse? wObject = JsonSerializer.Deserialize<ModelJsonResponse>(input, parserOptions);
             if (wObject == null)
@@ -33,7 +33,7 @@ namespace Weather.Controllers
             return JsonSerializer.Serialize(input, parserOptions);
         }
 
-        public static async Task<ModelJsonResponse> GetCurrentWeather()
+        public static async Task<ModelJsonResponse?> GetCurrentWeather()
         {
             string data = await WeatherIO.ReadIn();
             ModelJsonResponse modelJsonResponse;

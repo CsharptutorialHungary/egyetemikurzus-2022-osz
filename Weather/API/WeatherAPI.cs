@@ -11,7 +11,7 @@ namespace Weather.Controller
         public static async Task<string> GetWeatherDataAsync()
         {
             HttpClient client = new HttpClient();
-            string res = null;
+            string res = String.Empty;
             HttpResponseMessage response = await client.GetAsync("https://api.openweathermap.org/data/2.5/forecast?lat=46.253&lon=20.14824&units=metric&appid=9c5ec3c52fdd66e52bba3b00dc4fcc37");
             if (response.IsSuccessStatusCode)
             {

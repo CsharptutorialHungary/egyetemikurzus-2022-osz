@@ -17,7 +17,6 @@ namespace Weather.Models
         public List<ModelWeather>? weather { get; set; }
         public ModelClouds? clouds { get; set; }
         public ModelWind? wind { get; set; }
-        public ModelRain? rain { get; set; }
         public ModelSys? sys { get; set; }
     }
 }

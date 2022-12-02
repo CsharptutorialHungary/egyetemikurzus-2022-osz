@@ -14,13 +14,9 @@ namespace Weather.Commands
 
         public async Task<bool> Execute()
         {
-            var modelJsonResponse = await WeatherReportParser.GetCurrentWeather();
-            if (modelJsonResponse.list == null)
-            {
-                Console.WriteLine("The API response doesn't contain any valid data.");
-                return false;
-            }
-            foreach (ModelWeatherReport i in modelJsonResponse.list)
+            var response = await WeatherReportParser.GetCurrentWeather();
+            if (response == null || response.list == null) return false;
+            foreach (ModelWeatherReport i in response.list)
             {
                 Console.WriteLine(i.ToString());
             }

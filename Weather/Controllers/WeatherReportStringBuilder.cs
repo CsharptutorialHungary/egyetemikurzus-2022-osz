@@ -28,7 +28,6 @@ namespace Weather.Controllers
             }
             sb.AppendLine("\t}");
             sb.AppendLine($"\t{weatherReport.clouds}");
-            //sb.AppendLine($"\t{weatherReport.rain}");
             sb.AppendLine($"\t{weatherReport.wind}");
             sb.Append($"\tVisibility: {weatherReport.visibility}");
             return sb.ToString();

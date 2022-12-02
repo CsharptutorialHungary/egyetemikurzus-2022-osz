@@ -14,13 +14,8 @@ namespace Weather.Commands
 
         public async Task<bool> Execute()
         {
-            ModelJsonResponse response = (await WeatherReportParser.GetCurrentWeather());
-            if (response == null) return false;
-            if (response.list == null)
-            {
-                Console.WriteLine("The API response doesn't contain any valid data.");
-                return false;
-            }
+            var response = await WeatherReportParser.GetCurrentWeather();
+            if (response == null || response.list == null) return false;
             DateTime time;
             var now = response.list.Find(x => DateTime.TryParse(x.dt_txt, out time) && DateTime.Parse(x.dt_txt) > DateTime.Now);
             if (now == null) return false;

@@ -25,7 +25,7 @@ namespace Weather.Commands
                 Console.WriteLine(e.Message);
                 return false;
             }
-            if(await WeatherIO.WriteOut(apiResponse))
+            if(!(await WeatherIO.WriteOut(apiResponse)))
             {
                 return false;
             }
