@@ -8,7 +8,6 @@ namespace ZWPARW.Object
         public HashSet<User> Felhasznalok = new HashSet<User>();
 
     }
-
     public record User
     {
         public int Id { get; init; }
@@ -26,8 +25,6 @@ namespace ZWPARW.Object
             Password = password;
             Rank = rank;
         }
-        public User()
-        {
-        }
+        public User() { }
     }
 }

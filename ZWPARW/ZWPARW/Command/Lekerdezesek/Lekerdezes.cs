@@ -1,6 +1,6 @@
 ﻿using ZWPARW.Object;
 
-namespace ZWPARW.Command
+namespace ZWPARW.Command.Lekerdezesek
 {
     internal class Lekerdezes : ICommand
     {
@@ -10,11 +10,12 @@ namespace ZWPARW.Command
 
         public Leltar Execute(Leltar leltar, string eleres)
         {
-            Console.WriteLine("Termek\tUtolso ellenorzes\tJelenlegi Darabszam\tKivant Darabszam\tBrutto ar\tSulya gramban");
+            SorKiir.fosor();
 
             foreach (var elem in leltar.azonosito)
             {
-                Console.WriteLine($"{elem.Termek}\t{elem.UtolsoEllenorzes}\t{elem.JelenDarabszam}\t\t\t{elem.KivantDarabszam}\t\t\t{elem.BruttoAr}\t\t{elem.GramSulya}");
+                SorKiir sor = new SorKiir(elem);
+                sor.adat();
             }
 
             return leltar;

@@ -16,7 +16,7 @@ namespace ZWPARW.Command
             Console.WriteLine();
             foreach (var item in loader.Commands)
             {
-                Console.WriteLine("Leletar " + item.Value.Name);
+                Console.WriteLine("Leltar " + item.Value.Name);
                 Console.Write("\t");
                 item.Value.Help("");
                 Console.WriteLine();

@@ -3,7 +3,7 @@ using ZWPARW.Object;
 internal class Program
 {
 
-    static void Main(string[] args)
+    static async void Main(string[] args)
     {
         try
         {
@@ -19,12 +19,13 @@ internal class Program
 
             users = usersLoader.UserCommands["FelhasznalokBeolvasasa"].Execute(users);
 
-            if (Sikeres.sikeresBeolvasas)
-            {
-                Task t = new Task(async () => loader.Commands["BiztonsagiMentes"].Execute(leltar));
 
-                t.Start();
-            }
+            Task<void> t = ( 
+                if (Sikeres.sikeresBeolvasas)
+            {
+                await (loader.Commands["BiztonsagiMentes"].Execute(leltar));
+
+            })
         Belepes:
             Console.Write("Felhasznalonev: ");
             string username = Console.ReadLine();
@@ -74,13 +75,20 @@ internal class Program
                         }
                         else if (commands[0] == "Leltar")
                         {
-                            if (commands.Length >= 3 && commands[2].ToLower().Equals("help"))
+                            if (commands.Length >= 2 && loader.Commands.ContainsKey(commands[1]))
                             {
-                                loader.Commands[commands[1]].Help();
+                                if (commands.Length >= 3 && commands[2].ToLower().Equals("help"))
+                                {
+                                    loader.Commands[commands[1]].Help();
+                                }
+                                else
+                                {
+                                    leltar = loader.Commands[commands[1]].Execute(leltar);
+                                }
                             }
                             else
                             {
-                                leltar = loader.Commands[commands[1]].Execute(leltar);
+                                loader.Commands["Help"].Execute(leltar);
                             }
                         }
                         else

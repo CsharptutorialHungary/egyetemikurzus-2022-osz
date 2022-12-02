@@ -15,7 +15,21 @@ namespace ZWPARW.Command.FelhasznaloParancs
                 Console.WriteLine("Torolni kivant felhasznalo idja");
                 int Id = int.Parse(Console.ReadLine());
 
-                users.Felhasznalok.Remove((User)users.Felhasznalok.Where(y => y.Id.Equals(Id)));
+                var user = users.Felhasznalok.Where(y => y.Id.Equals(Id));
+
+                foreach (User item in user)
+                {
+                    if (!item.Id.Equals(Sikeres.SikeresenBelepet.Id))
+                    {
+                        users.Felhasznalok.Remove(item);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Sajat magadat nem torolheted");
+                        return users;
+                    }
+                }
+
             }
             catch (Exception e) when (e is FormatException || e is NullReferenceException)
             {

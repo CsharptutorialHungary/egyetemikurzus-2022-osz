@@ -10,7 +10,7 @@ namespace ZWPARW.Command.FelhasznaloParancs
         public Users Execute(Users users)
         {
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Leltar));
+            XmlSerializer serializer = new XmlSerializer(typeof(Users));
 
             try
             {
