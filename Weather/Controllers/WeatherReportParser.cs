@@ -23,9 +23,8 @@ namespace Weather.Controllers
             ModelJsonResponse? wObject = JsonSerializer.Deserialize<ModelJsonResponse>(input, parserOptions);
             if (wObject == null)
             {
-                Console.WriteLine("Couldn't parse to ModelWeather object from string.");
+                Console.WriteLine("Couldn't parse to ModelJsonResponse object from input string.");
             }
-
             return wObject;
         }
 
@@ -50,7 +49,6 @@ namespace Weather.Controllers
             if (modelJsonResponse == null || modelJsonResponse.list == null)
             {
                 Console.WriteLine("The weather report which is provided by the weather API doesn't conatain any actual data.");
-                return null;
             }
             return modelJsonResponse;
         }

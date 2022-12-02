@@ -8,9 +8,9 @@ using Weather.Models;
 
 namespace Weather.Commands
 {
-    internal class WeatherCommandGetNow : IWeatherCommand
+    internal class WeatherCommandGetNowShort : IWeatherCommand
     {
-        public string Name => "get now";
+        public string Name => "get now short";
 
         public async Task<bool> Execute()
         {
@@ -25,7 +25,7 @@ namespace Weather.Commands
             var now = response.list.Find(x => DateTime.TryParse(x.dt_txt, out time) && DateTime.Parse(x.dt_txt) > DateTime.Now);
             if (now == null) return false;
             var builder = new WeatherReportStringBuilder();
-            Console.WriteLine($"At the time: {builder.formatWeatherReport(now)}");
+            Console.WriteLine($"{builder.shortFromatWeatherReport(now)}");
             return true;
         }
     }
