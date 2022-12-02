@@ -15,8 +15,6 @@ namespace Weather.Controllers
     {
         private static JsonSerializerOptions parserOptions = new()
         {
-            //PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            //DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
             Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
         };
 
@@ -36,13 +34,13 @@ namespace Weather.Controllers
             return JsonSerializer.Serialize(input, parserOptions);
         }
 
-        public static async Task<ModelJsonResponse> getCurrentWeather()
+        public static async Task<ModelJsonResponse> GetCurrentWeather()
         {
             string data = await WeatherIO.ReadIn();
             ModelJsonResponse modelJsonResponse;
             try
             {
-                modelJsonResponse = WeatherReportParser.DeserializeModelWeather(data);
+                modelJsonResponse = DeserializeModelWeather(data);
             }
             catch (Exception e)
             {

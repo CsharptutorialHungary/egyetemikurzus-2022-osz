@@ -33,5 +33,3 @@ namespace Weather.Commands
         }
     }
 }
-//ModelJsonResponse deserializedObject;
-//deserializedObject = WeatherReportParser.DeserializeModelWeather(apiResponse);

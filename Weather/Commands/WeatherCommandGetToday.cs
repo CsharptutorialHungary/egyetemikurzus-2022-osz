@@ -13,8 +13,10 @@ namespace Weather.Commands
 
         public async Task<bool> Execute()
         {
-            var weatherReoprts = (await WeatherReportParser.getCurrentWeather()).list;
-            var today = weatherReoprts.FindAll(x => DateTime.Parse(x.dt_txt).Day == DateTime.Now.Day);
+            var weatherReoprts = (await WeatherReportParser.GetCurrentWeather()).list;
+            if (weatherReoprts == null) return false;
+            DateTime time;
+            var today = weatherReoprts.FindAll(x => DateTime.TryParse(x.dt_txt, out time) && DateTime.Parse(x.dt_txt).Day == DateTime.Now.Day);
             var wrsb = new WeatherReportStringBuilder();
             Console.WriteLine("Todays forecast:");
             foreach (var i in today) {

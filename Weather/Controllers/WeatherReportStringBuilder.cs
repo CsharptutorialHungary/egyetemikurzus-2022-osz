@@ -16,18 +16,19 @@ namespace Weather.Controllers
             sb = new StringBuilder();
         }
 
-        public string formatWeatherReport(ModelWeatherReport weatherReport) { 
+        public string formatWeatherReport(ModelWeatherReport? weatherReport) {
+            if (weatherReport == null) return string.Empty;
             if (sb.Length != 0) sb.Clear();
             sb.AppendLine($"Time: {DateTime.Parse(weatherReport.dt_txt)}");
             sb.AppendLine($"\t{weatherReport.main}");
-            sb.AppendLine("\tModelWeather {");
+            sb.AppendLine("\tWeather {");
             foreach (var i in weatherReport.weather)
             {
                 sb.AppendLine($"\t\t{i}");
             }
             sb.AppendLine("\t}");
             sb.AppendLine($"\t{weatherReport.clouds}");
-            sb.AppendLine($"\t{weatherReport.rain}");
+            //sb.AppendLine($"\t{weatherReport.rain}");
             sb.AppendLine($"\t{weatherReport.wind}");
             sb.Append($"\tVisibility: {weatherReport.visibility}");
             return sb.ToString();
