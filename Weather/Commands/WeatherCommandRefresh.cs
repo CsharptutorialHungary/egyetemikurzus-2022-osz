@@ -21,7 +21,8 @@ namespace Weather.Commands
                 apiResponse = await WeatherAPI.GetWeatherDataAsync();
             }
             catch (Exception e)
-            {
+            {/*aswswarfgddujjjklkÉL122
+              65 <--- ez itt a macska műve*/
                 Console.WriteLine(e.Message);
                 return false;
             }

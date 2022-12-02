@@ -14,7 +14,7 @@ namespace Weather.Commands
         public async Task<bool> Execute()
         {
             var response = await WeatherReportParser.GetCurrentWeather();
-            if (response == null || response.list == null) return false;
+            if (response == null || response.list == null || response.list.Count == 0) return false;
             DateTime time;
             var today = response.list.FindAll(x => DateTime.TryParse(x.dt_txt, out time) && DateTime.Parse(x.dt_txt).Day == DateTime.Now.Day);
             var builder = new WeatherReportStringBuilder();

@@ -37,6 +37,10 @@ namespace Weather.Controllers
                     data = await sr.ReadToEndAsync();
                 }
             }
+            catch (FileNotFoundException fnfe)
+            {
+                Console.WriteLine($"Couldn't find file at: {path}. TRY RUNNING 'refresh'!");
+            }
             catch (IOException ioe)
             {
                 Console.WriteLine(ioe.Message);

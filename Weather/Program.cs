@@ -15,11 +15,11 @@ internal class Program
                 string? command = Console.ReadLine();
                 if (!string.IsNullOrEmpty(command) && loader.Commands.ContainsKey(command))
                 {
-                    loader.Commands[command].Execute().Wait();
+                    if (!await loader.Commands[command].Execute()) Console.WriteLine($"Couldn't process command: '{command}'");
                 }
                 else
                 {
-                    Console.WriteLine("The action you are looking for is unavailable!");
+                    Console.WriteLine("\tThe action you are looking for is unavailable!");
                 }
             }
         }

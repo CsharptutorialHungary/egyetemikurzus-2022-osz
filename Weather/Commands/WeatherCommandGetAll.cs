@@ -15,7 +15,7 @@ namespace Weather.Commands
         public async Task<bool> Execute()
         {
             var response = await WeatherReportParser.GetCurrentWeather();
-            if (response == null || response.list == null) return false;
+            if (response == null || response.list == null || response.list.Count == 0) return false;
             foreach (ModelWeatherReport i in response.list)
             {
                 Console.WriteLine(i.ToString());
