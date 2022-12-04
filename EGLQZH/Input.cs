@@ -2,25 +2,31 @@
     static class Input {
         public enum Action {
             Left, Right, Up, Down,
-            PlaceX, PlaceO, Clear, Exit
+            Place, Exit
         }
         public static T Read<T>(string prompt, Converter<string, T> converter, string? errorMessage = null, Predicate<T>? validate = null) {
-            Console.Clear();
-            Console.Write($"{prompt}: ");
+            GameController.renderer.DrawPrompt(prompt);
 
-            string displayErrorMessage = $"{errorMessage ?? prompt}: ";
             while (true) {
                 string input = Console.ReadLine() ?? "";
                 T converted;
                 try {
                     converted = converter(input);
                 } catch (Exception e) when (e is FormatException || e is ArgumentNullException || e is OverflowException)  {
-                    GameController.renderer.DrawError(displayErrorMessage);
+                    if (errorMessage != null) {
+                        GameController.renderer.DrawPrompt(prompt);
+                        GameController.renderer.DrawError(errorMessage);
+                    }
                     continue;
                 }
 
-                if (validate != null && !validate(converted))
-                    GameController.renderer.DrawError(displayErrorMessage);
+                if (validate != null && !validate(converted)) {
+                    if (errorMessage != null) {
+                        GameController.renderer.DrawPrompt(prompt);
+                        GameController.renderer.DrawError(errorMessage);
+                    }
+                    continue;
+                }
                     
                 return converted;
             }
@@ -39,9 +45,7 @@
             { ConsoleKey.RightArrow , Action.Right}, { ConsoleKey.D , Action.Right},
             { ConsoleKey.UpArrow , Action.Up }, { ConsoleKey.W , Action.Up },
             { ConsoleKey.DownArrow , Action.Down }, { ConsoleKey.S , Action.Down},
-            { ConsoleKey.X, Action.PlaceX },
-            { ConsoleKey.O, Action.PlaceO },
-            { ConsoleKey.Spacebar, Action.Clear },
+            { ConsoleKey.Enter, Action.Place },
             { ConsoleKey.Escape, Action.Exit }
         };
     }

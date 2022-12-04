@@ -5,16 +5,7 @@ namespace TicTacToe {
         Empty, X, O
     }
 
-    sealed class Cell {
-        public bool Selected {
-            get => _selected;
-            set {
-                if (_selected != value) {
-                    _selected = value;
-                    GameController.renderer.DrawCell(this);
-                }
-            }
-        }
+    sealed record class Cell {
         public CellState State {
             get => _state;
             set {
@@ -30,7 +21,19 @@ namespace TicTacToe {
             Position = new Vector(row, col);
         }
 
-        private bool _selected = false;
+        public void AddNeighbour(Cell neighbour) {
+            if (!this.IsNextTo(neighbour))
+                return;
+
+            if (!neighbours.Add(neighbour))
+                throw new Exception("The neighbour is already present in the set!");
+        }
+
+        private bool IsNextTo(Cell other) {
+            return Position.DistanceFrom(other.Position) == 1;
+        }
+
         private CellState _state = CellState.Empty;
+        private readonly HashSet<Cell> neighbours = new();
     }
 }

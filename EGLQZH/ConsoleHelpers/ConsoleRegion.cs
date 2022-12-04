@@ -14,7 +14,7 @@ namespace TicTacToe.ConsoleHelpers {
         public bool HasBorder { get; set; }
 
         public ConsoleRegion(int row, int col, int width, int height, Justify alignment = Justify.TopLeft, bool border = false) {
-            if (row < 0 || height < 0 || col < 0 || width < 0 || row + height > Console.WindowHeight || col + width > Console.WindowWidth)
+            if (row < 0 || height < 0 || col < 0 || width < 0 || row + height - 1 > Console.WindowHeight || col + width - 1 > Console.WindowWidth)
                 throw new ArgumentOutOfRangeException("The region parameters are out of the valid range of the console window");
 
             Position = new Vector(row, col);
@@ -50,11 +50,8 @@ namespace TicTacToe.ConsoleHelpers {
 
         public void ClearBuffer() => buffer.Clear();
 
-        public void Flush() {
-            ConsoleColor prevColor = Console.ForegroundColor;
-            var prevPosition = Console.GetCursorPosition();
-
-            Clear();
+        public void Flush(bool clear = true) {
+            if (clear) Clear();
 
             // Add row padding
             int rowPadding = Math.Max((int)((Size.Row - buffer.Count) * multiplier[Alignment].Row), 0);
@@ -73,7 +70,7 @@ namespace TicTacToe.ConsoleHelpers {
                 var row = buffer[i];
                 if (row.Count == 0)
                     continue;
-                
+
                 Console.SetCursorPosition(Position.Col, Position.Row + rowPadding - topOffset + i);
                 // Add column padding
                 int rowLength = row.Aggregate(0, (aggregate, next) => aggregate += next.text.Length);
@@ -89,9 +86,6 @@ namespace TicTacToe.ConsoleHelpers {
                     Console.Write(text.Substring(leftOffset, Math.Min(Size.Col, text.Length)));
                 }
             }
-
-            Console.ForegroundColor = prevColor;
-            Console.SetCursorPosition(prevPosition.Left, prevPosition.Top);
         }
 
         private void DrawBorder() {

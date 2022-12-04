@@ -1,32 +1,29 @@
-﻿using Utilities;
-using TicTacToe.ConsoleHelpers;
+﻿using TicTacToe.ConsoleHelpers;
+using Utilities;
 
 namespace TicTacToe {
     interface IRenderer {
-        void SetBoard(Board board);
-        void DrawCell(Cell cell);
-        void DrawBoard();
-        void DrawError(string message);
         void DrawGreeting(string message);
+        void DrawWin(Player winner);
+
+        void DrawBoard();
+        void DrawCell(Cell cell);
+
+        void DrawError(string message);
+        void DrawPrompt(string message);
     }
 
     class ConsoleRenderer : IRenderer {
         public ConsoleRenderer() {
-            // Init console window
-            //Console.WindowWidth = 120;
-            //Console.WindowHeight = 30;
-            Console.CursorVisible = false;
-        }
-
-        public void SetBoard(Board board) {
-            Board = board;
+            InitConsoleWindow();
             offset = new Vector(
                 0,
-                (Console.WindowWidth - (Board.Size * cellDimensions.Col + Board.Size + 1)) / 2
+                (Console.WindowWidth - (Board.size * cellDimensions.Col + Board.size + 1)) / 2
             );
         }
 
         public void DrawCell(Cell cell) {
+            ErrorCleanup();
             Vector start = cell.Position * (cellDimensions + 1) + offset;
             Console.SetCursorPosition(start.Col, start.Row);
 
@@ -38,7 +35,7 @@ namespace TicTacToe {
                 Console.SetCursorPosition(start.Col, start.Row + i + 1);
                 Console.Write("|"); // Vertical border
 
-                Console.ForegroundColor = shape.Color; // Set shape color
+                Console.ForegroundColor = shape.Color;
                 Console.Write(shape.Rows[i]);
 
                 SetBorderColors(cell);
@@ -49,46 +46,78 @@ namespace TicTacToe {
         }
 
         public void DrawBoard() {
+            ErrorCleanup();
             Console.Clear();
-            foreach (Cell cell in Board.Cells) {
+            foreach (Cell cell in GameController.board.Cells) {
                 DrawCell(cell);
             }
         }
 
-        /// Message should contain a \n if line break is needed
+        public void DrawPrompt(string message) {
+            ErrorCleanup();
+            promptRegion.Clear();
+            promptRegion.WriteLine($"{message}: ");
+            promptRegion.Flush();
+            promptRegion.ClearBuffer();
+        }
+
         public void DrawError(string message) {
-            ConsoleColor prevColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(message);
-            Console.ForegroundColor = prevColor;
+            ErrorCleanup();
+            SaveConsoleState();
+            errorRegion.Write(message, ConsoleColor.Red);
+            errorRegion.Flush();
+            errorRegion.ClearBuffer();
+            RestoreConsoleState();
         }
 
         public void DrawGreeting(string message) {
-            ConsoleColor prevColor = Console.ForegroundColor;
-            var prevPosition = Console.GetCursorPosition();
-            
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.SetCursorPosition((Console.WindowWidth - message.Length) / 2, Console.WindowHeight / 2);
+            SaveConsoleState();
+
+            ConsoleRegion greetingRegion = new(0, 0, 120, 30, Justify.CenterMiddle);
             foreach (char character in message) {
-                Console.Write(character);
+                greetingRegion.Write(character.ToString(), ConsoleColor.Green);
+                greetingRegion.Flush(false);
+                //Console.Write(character);
                 Thread.Sleep(20);
             }
 
-            // Restore previous values
-            Console.SetCursorPosition(prevPosition.Left, prevPosition.Top);
-            Console.ForegroundColor = prevColor;
+            RestoreConsoleState();
+        }
+
+        public void DrawWin(Player winner) {
+            ConsoleRegion winRegion = new(0, 0, 120, 30, Justify.CenterMiddle);
+            winRegion.Write($"{(winner.Team == CellState.X ? 'X' : 'O')} won!", ConsoleColor.White);
+            winRegion.Flush();
+        }
+
+        private static (int Left, int Top) cursorPosition;
+        private static ConsoleColor textColor;
+
+        private static void SaveConsoleState() {
+            cursorPosition = Console.GetCursorPosition();
+            textColor = Console.ForegroundColor;
+        }
+
+        private static void RestoreConsoleState() {
+            Console.SetCursorPosition(cursorPosition.Left, cursorPosition.Top);
+            Console.ForegroundColor = textColor;
         }
 
         private static void SetBorderColors(Cell cell) {
-            // When setting the bg and fg color it only applies to the consequent characters
-            Console.ForegroundColor = cell.Selected ? ConsoleColor.Green : ConsoleColor.White;
+            Console.ForegroundColor = (GameController.board.SelectedCell == cell) ? ConsoleColor.Green : ConsoleColor.White;
+        }
+
+        private static void ErrorCleanup() {
+            SaveConsoleState();
+            errorRegion.Clear();
+            RestoreConsoleState();
         }
 
         static ConsoleRenderer() {
             // Add paddings to the shapes with respect to the cell's dimensions
             // Assuming same length for all rows
             int padColsLen = (cellDimensions.Col - shapes[CellState.Empty].Rows[0].Length) / 2;
-            string padCols = new string(' ', padColsLen);
+            string padCols = new(' ', padColsLen);
 
             foreach (var (_, shape) in shapes) {
                 for (int i = 0; i < shape.Rows.Length; i++) {
@@ -97,10 +126,12 @@ namespace TicTacToe {
             }
         }
 
-        Board Board { get; set; }
-        Vector offset;
+        private readonly Vector offset;
         private static readonly Vector cellDimensions = new(4, 8);
-        // Relates states to shapes
+
+        private static readonly ConsoleRegion errorRegion = new(29, 0, 120, 1, Justify.TopRight);
+        private static readonly ConsoleRegion promptRegion = new(0, 0, 120, 28, Justify.CenterMiddle);
+
         private readonly static Dictionary<CellState, Shape> shapes = new() {
             { CellState.X, new Shape(
                 new string[] { "\\  /", " \\/ ", " /\\ ", "/  \\" },
@@ -113,11 +144,15 @@ namespace TicTacToe {
                 ConsoleColor.Gray)
             }
         };
-
         private static readonly string horizontalBorder = "+" + new string('-', cellDimensions.Col) + "+";
 
+        private static void InitConsoleWindow() {
+            //Console.WindowWidth = 120;
+            //Console.WindowHeight = 30;
+            //Console.CursorVisible = false;
+        }
+
         struct Shape {
-            // Each row of the shape that is written to the console
             public string[] Rows;
             public ConsoleColor Color;
 

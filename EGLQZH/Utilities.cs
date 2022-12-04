@@ -11,6 +11,9 @@
         public static Vector operator +(Vector left, Vector right)
             => new Vector(left.Row + right.Row, left.Col + right.Col);
 
+        public static Vector operator +(Vector left, (int Row, int Col) right)
+            => new Vector(left.Row + right.Row, left.Col + right.Col);
+
         public static Vector operator +(Vector left, int number)
             => new Vector(left.Row + number, left.Col + number);
 
@@ -25,6 +28,14 @@
 
         public static Vector operator *(Vector left, int number)
             => new Vector(left.Row * number, left.Col * number);
+
+        public void Deconstruct(out int Row, out int Col) {
+            Row = this.Row;
+            Col = this.Col;
+        }
+
+        public double DistanceFrom(Vector other)
+            => Math.Max(Math.Abs(other.Col - Col), Math.Abs(other.Row - Row));
     }
 
     static class BooleanExtensions {
