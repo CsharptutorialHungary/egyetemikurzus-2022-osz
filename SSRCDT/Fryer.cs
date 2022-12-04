@@ -1,34 +1,34 @@
 using System;
-using Meat;
 
 namespace SSRCDT
 {
     public class Fryer
     {
-        private readonly bool isKentuckyType;
-        private bool isFree;
-        private TimeSpan cookingTime;
+        public bool IsKentuckyType { get; }
+        public bool IsFree { get; set; }
+        public TimeSpan CookingTime { get; set; }
         private Meat meat;
 
         public Fryer(bool isKentuckyType)
         {
-            this.isKentuckyType = isKentuckyType;
-            this.isFree = true;
-            this.cookingTime = 0;
-            this.meat = null;
+            this.IsKentuckyType = isKentuckyType;
+            IsFree = true;
+            CookingTime = new TimeSpan(0, 0, 0);
+            meat = null;
         }
 
-        public fryMeat(Meat meat)
+        public void FryMeat(Meat meat)
         {
             this.meat = meat;
-            this.cookingTime = meat.cookingTime;
+            CookingTime = meat.CookingTime;
+            Console.WriteLine("Cooking...");
             //TODO remaining time
         }
 
-        public freeFryer()
+        public void FreeFryer()
         {
-            this.meat = null;
-            this.cookingTime = 0;
+            meat = null;
+            CookingTime = new TimeSpan(0, 0, 0);
         }
     }
 }
