@@ -17,17 +17,18 @@ namespace TUITodo.Utils
             WriteIndented = true
         };
 
-        public static async Task WriteToJSON(IList<TodoItem> items, string path = "todos.json")
+        public static async Task Serialize(IList<TodoItem> items, string path = "todos.json")
         {
             string json = JsonSerializer.Serialize(items, options);
             Trace.WriteLine(json);
             using (StreamWriter writer = File.CreateText(path))
             {
                 await writer.WriteAsync(json);
+                Program.DisplayStatusNotification($"Saved");
             }
         }
 
-        public async static Task<List<TodoItem>?> ReadFromJSON(string path = "todos.json")
+        public async static Task<List<TodoItem>?> Deserialize(string path = "todos.json")
         {
             try
             {
@@ -35,16 +36,17 @@ namespace TUITodo.Utils
                 {
                     string json =  await sr.ReadToEndAsync();
                 
-                        return JsonSerializer.Deserialize<List<TodoItem>>(json, options);
+                    return JsonSerializer.Deserialize<List<TodoItem>>(json, options);
                 
                 }
             }
             catch (Exception e)
             {
-                Trace.WriteLine($"Could not deserialize: {e}");
+                Program.DisplayStatusNotification($"Could not deserialize: {e}");
                 return null;
             }
 
         }
+
     }
 }

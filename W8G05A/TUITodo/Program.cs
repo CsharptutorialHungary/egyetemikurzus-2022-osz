@@ -18,12 +18,13 @@ namespace TUITodo
             Height = Dim.Fill() - 3
         };
 
+
         public static TaskListView TaskListView { get; } = new()
         {
             X = 1,
             Y = 1,
             Width = Dim.Fill(),
-            Height = Dim.Fill() - 2
+            Height = Dim.Fill(2) - 2
         };
 
         public static EditorView EditorView { get; } = new()
@@ -45,39 +46,50 @@ namespace TUITodo
 
         #endregion
 
-        private static async void DisplayStatusNotification(string message, int expireSeconds = 2)
+
+        public static async void DisplayStatusNotification(string message, int expireSeconds = 2)
         {
             statusBarMessage.Text = message;
-            await Task.Delay(TimeSpan.FromSeconds(expireSeconds));
-            statusBarMessage.Text = "";
+            if(expireSeconds > 0)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(expireSeconds));
+                statusBarMessage.Text = "";
+            }
+
         }
+
+        static StatusBar? activeStatusbar;
+        static void SetStatusBar(StatusBar statusBar)
+        {
+            Application.Top.Remove(activeStatusbar);
+            activeStatusbar = statusBar;
+            Application.Top.Add(activeStatusbar);
+        }
+
 
         private static void SwitchToView(View view)
         {
             MainWindow.RemoveAll();
-            Application.Top.Add(MainWindow);
             MainWindow.Add(view);
         }
 
         public static void EnterEditMode(TodoItem editedItem)
         {
-            Application.Top.RemoveAll();
             SwitchToView(EditorView);
-            Application.Top.Add(EditorView.statusBar);
+            SetStatusBar(EditorView.statusBar);
             EditorView.StartEditing(editedItem);
         }
 
         public static void ShowTaskListView()
         {
-            Application.Top.RemoveAll();
-            Application.Top.Add(TaskListView.statusBar);
+            SetStatusBar(TaskListView.statusBar);
             SwitchToView(TaskListView);
         }
 
-        static async Task Main(string[] args)
+        static async Task Main()
         {
 
-            List<TodoItem> savedTodos = await TodoItemSerializer.ReadFromJSON() ?? new List<TodoItem>();
+            List<TodoItem> savedTodos = await TodoItemSerializer.Deserialize() ?? new List<TodoItem>();
 
             Application.Init();
 
@@ -105,8 +117,6 @@ namespace TUITodo
 
             TaskListView.ExpandAll();
 
-            DisplayStatusNotification("HAO", 5);
-
             //AddItem focuses the last item, let's go back to the top
             TaskListView.GoToFirst();
 
@@ -115,6 +125,15 @@ namespace TUITodo
             Application.Driver.SetCursorVisibility(CursorVisibility.Invisible);
             Application.Run();
             Application.Shutdown();
+        }
+
+        public static void SaveTasks()
+        {
+            DisplayStatusNotification("Saving...", 0);
+            Task.Run(async () => {
+                await TodoItemSerializer.Serialize(TaskListView.Items);
+                DisplayStatusNotification("Saved");
+            });
         }
     }
 }

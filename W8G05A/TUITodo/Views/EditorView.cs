@@ -37,10 +37,7 @@ namespace TUITodo.Views
             Height = Dim.Fill() - 1,
         };
 
-        public StatusBar statusBar { get; } = new StatusBar()
-        {
-
-        };
+        public StatusBar statusBar { get; } = new();
 
         void Save()
         {
@@ -49,7 +46,7 @@ namespace TUITodo.Views
             editedItem.name = (string)titleTextField.Text;
             editedItem.description = (string)descriptionTextView.Text;
 
-            Task.Run(() => TodoItemSerializer.WriteToJSON(Program.TaskListView.Items));
+            Program.SaveTasks();
         }
 
         //Check for actual changes. TextField and TextView have an isDirty field,
