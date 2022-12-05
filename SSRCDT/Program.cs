@@ -14,10 +14,11 @@ namespace SSRCDT
             Fryer fryer_kent = new Fryer(true);
 
             string input = "";
-
-            while(input != "q")
+            Console.WriteLine("Udv az appban!");
+            while (input != "q")
             {
-                Console.WriteLine("A kilepeshez nyomj q-t");
+                Console.WriteLine("A segitsegert hasznald a '?' parancsot.");
+                Console.WriteLine("Kilepes: 'q' parancs.");
                 input = Console.ReadLine();
                 switch (input)
                 {
@@ -36,6 +37,11 @@ namespace SSRCDT
                             {
                                 Console.WriteLine("Hiba: Nem számot adtál meg!");
                             }
+                            break;
+                        }
+                    case "?":
+                        {
+                            Console.WriteLine("A suteshez hasznald a 'fry' parancsot.");
                             break;
                         }
                     default: break;
