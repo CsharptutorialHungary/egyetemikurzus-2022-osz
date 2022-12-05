@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SSRCDT
 {
@@ -8,10 +9,8 @@ namespace SSRCDT
         {
             MeatTypeLoader loader = new MeatTypeLoader();
             Console.WriteLine("hello");
-            Fryer fryer1 = new Fryer(false);
-            Fryer fryer2 = new Fryer(false);
-            Fryer fryer3 = new Fryer(false);
-            Fryer fryer_kent = new Fryer(true);
+            List<Fryer> normal_fryers = new List<Fryer> { new Fryer(false), new Fryer(false), new Fryer(false) };
+            List<Fryer> kentucky_fryers = new List<Fryer> { new Fryer(true) };
             MeatHolder meatHolder = new MeatHolder();
 
             string input = "";
@@ -33,12 +32,26 @@ namespace SSRCDT
                                 bool isParsable = int.TryParse(Console.ReadLine(), out int meatCount);
                                 if (isParsable)
                                 {
-                                    switch (meatType)
+                                    switch (meatType)  //Muszaj a switch. Elvileg az Activatorhoz tudnunk kene statikusan a tipust amire castolnank.
                                     {
                                         case "StripsMeat":
                                             {
-                                                meatHolder.AddToContainer(new StripsMeat(meatCount));
-                                                Console.WriteLine("Sikeresen hozzaadva.");
+                                                //meatHolder.AddToContainer(new StripsMeat(meatCount));
+                                                try
+                                                {
+                                                    int i = 0;
+                                                    while (!normal_fryers[i].IsFree)
+                                                    {
+                                                        i += 1;
+                                                    }
+
+                                                    normal_fryers[i].FryMeat(new StripsMeat(meatCount));
+                                                    Console.WriteLine("Sikeresen hozzaadva.");
+                                                }
+                                                catch (ArgumentOutOfRangeException)
+                                                {
+                                                    Console.WriteLine("Nincs szabad suto!");
+                                                }
                                                 break;
                                             }
                                     }
