@@ -60,7 +60,7 @@ namespace SSRCDT
                             Console.WriteLine("A suteshez hasznald a 'fry' parancsot.");
                             break;
                         }
-                    default: break;
+                    default: { Console.WriteLine("Helytelen parancs!"); break; } ;
                 }
             }
 
