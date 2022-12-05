@@ -7,7 +7,7 @@ namespace SSRCDT
         public bool IsKentuckyType { get; }
         public bool IsFree { get; set; }
         public TimeSpan CookingTime { get; set; }
-        private Meat meat;
+        public Meat meat { get; set; }
 
         public Fryer(bool isKentuckyType)
         {
@@ -20,6 +20,7 @@ namespace SSRCDT
         public void FryMeat(Meat meat)
         {
             this.meat = meat;
+            this.IsFree = false;
             CookingTime = meat.CookingTime;
             Console.WriteLine("Cooking...");
             //TODO remaining time
