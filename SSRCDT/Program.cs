@@ -6,12 +6,13 @@ namespace SSRCDT
     {
         static void Main(string[] args)
         {
+            MeatTypeLoader loader = new MeatTypeLoader();
             Console.WriteLine("hello");
-            System.Threading.Thread.Sleep(1000);
             Fryer fryer1 = new Fryer(false);
             Fryer fryer2 = new Fryer(false);
             Fryer fryer3 = new Fryer(false);
             Fryer fryer_kent = new Fryer(true);
+            MeatHolder meatHolder = new MeatHolder();
 
             string input = "";
             Console.WriteLine("Udv az appban!");
@@ -26,18 +27,26 @@ namespace SSRCDT
                         {
                             Console.WriteLine("Milyen húst szeretnél sütni? (StripsMeat)");
                             string meatType = Console.ReadLine();
-                            Console.WriteLine("Hány darabot sütsz? (szám)");
-                            bool isParsable = int.TryParse(Console.ReadLine(), out int meatCount);
-                            if (isParsable)
+                            if (loader.Meats.Contains(meatType))
                             {
-                                Console.WriteLine(meatType);
-                                Console.WriteLine(meatCount);
+                                Console.WriteLine("Hány darabot sütsz? (szám)");
+                                bool isParsable = int.TryParse(Console.ReadLine(), out int meatCount);
+                                if (isParsable)
+                                {
+                                    Console.WriteLine(meatType);
+                                    Console.WriteLine(meatCount);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Hiba: Nem számot adtál meg!");
+                                }
                             }
                             else
                             {
-                                Console.WriteLine("Hiba: Nem számot adtál meg!");
+                                Console.WriteLine("Hiba: Nem megfelelő hús típus!");
                             }
                             break;
+                            
                         }
                     case "?":
                         {
