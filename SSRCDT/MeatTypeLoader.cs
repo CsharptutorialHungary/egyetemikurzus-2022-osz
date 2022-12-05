@@ -9,11 +9,11 @@ namespace SSRCDT
 {
     internal class MeatTypeLoader
     {
-        public Dictionary<string, Meat> Meats { get; }
+        public List<string> Meats { get; }
 
         public MeatTypeLoader()
         {
-            Meats = new Dictionary<string, Meat>();
+            Meats = new List<string>();
             Assembly asm = Assembly.GetAssembly(typeof(MeatTypeLoader));
             if (asm == null)
                 throw new InvalidOperationException("Error: Assembly is null.");
@@ -28,11 +28,7 @@ namespace SSRCDT
             {
                 foreach (var type in types)
                 {
-                    Console.WriteLine(type.Name);
-                    if (Activator.CreateInstance(type) is Meat meat)
-                    {
-                        Meats.Add(meat.GetType().Name, meat);
-                    }
+                        Meats.Add(type.Name);
                 }
             }
             catch (Exception e)
