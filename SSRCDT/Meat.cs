@@ -8,6 +8,8 @@ namespace SSRCDT
         public int amount { get; }
         public TimeSpan CookingTime { get; internal set; }
 
+        public Meat () { } // Kell default konstruktor, foleg a Loaderhez
+
         public Meat(int amount, TimeSpan cookingTime)
         {
             this.amount = amount;
