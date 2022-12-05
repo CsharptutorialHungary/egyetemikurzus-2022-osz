@@ -85,7 +85,7 @@ namespace TUITodo.Views
         {
             statusBar.Items = new StatusItem[]
             {
-                new StatusItem(Key.Esc, "~Esc Exit", Exit)
+                new StatusItem(Key.Esc, "~Esc Exit", Exit),
             };
             Add(titleTextField, descriptionTextView);
             statusBar.Y = Pos.Bottom(descriptionTextView);
