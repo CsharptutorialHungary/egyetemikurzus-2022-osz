@@ -25,16 +25,23 @@ namespace SSRCDT
                 {
                     case "fry":
                         {
-                            Console.WriteLine("Milyen húst szeretnél sütni? (StripsMeat)");
+                            Console.WriteLine("Milyen húst szeretnél sütni? (pl. StripsMeat)");
                             string meatType = Console.ReadLine();
                             if (loader.Meats.Contains(meatType))
                             {
-                                Console.WriteLine("Hány darabot sütsz? (szám)");
+                                Console.WriteLine("Hány darabot sütsz? (pl. 30)");
                                 bool isParsable = int.TryParse(Console.ReadLine(), out int meatCount);
                                 if (isParsable)
                                 {
-                                    Console.WriteLine(meatType);
-                                    Console.WriteLine(meatCount);
+                                    switch (meatType)
+                                    {
+                                        case "StripsMeat":
+                                            {
+                                                meatHolder.AddToContainer(new StripsMeat(meatCount));
+                                                Console.WriteLine("Sikeresen hozzaadva.");
+                                                break;
+                                            }
+                                    }
                                 }
                                 else
                                 {
