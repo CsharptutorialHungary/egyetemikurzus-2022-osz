@@ -3,28 +3,34 @@
         public static Board board = new();
         public static IRenderer renderer = new ConsoleRenderer();
 
-        public static void Run() {
+        public static async Task Run() {
             renderer.DrawGreeting("Welcome to TicTacToe Console!");
-            // Wait so that the user can read the message
-            Thread.Sleep(1000);
 
-            Player p1 = InitializePlayer("Enter the first player's (X) name", CellState.X);
-            Player p2 = InitializePlayer("Enter the second player's (O) name", CellState.O);
-
-            renderer.DrawBoard();
-
-            while (true) {
-                p1.TakeTurn();
-                if (board.IsInWinState) {
-                    renderer.DrawWin(p1);
-                    break;
-                }
-                p2.TakeTurn();
-                if (board.IsInWinState) {
-                    renderer.DrawWin(p2);
-                    break;
-                }
+            Console.WriteLine("Waiting for discover messages...");
+            var clients = await NetworkController.Discover();
+            foreach (var item in clients) {
+                Console.WriteLine(item);
             }
+            //// Wait so that the user can read the message
+            //Thread.Sleep(1000);
+
+            //Player p1 = InitializePlayer("Enter the first player's (X) name", CellState.X);
+            //Player p2 = InitializePlayer("Enter the second player's (O) name", CellState.O);
+
+            //renderer.DrawBoard();
+
+            //while (true) {
+            //    p1.TakeTurn();
+            //    if (board.IsInWinState) {
+            //        renderer.DrawWin(p1);
+            //        break;
+            //    }
+            //    p2.TakeTurn();
+            //    if (board.IsInWinState) {
+            //        renderer.DrawWin(p2);
+            //        break;
+            //    }
+            //}
 
             Console.ReadKey();
         }

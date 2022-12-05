@@ -40,6 +40,14 @@
             return keybindings[inputKey];
         }
 
+        public static void WaitKey(ConsoleKey key) {
+            while (true) {
+                ConsoleKey readKey = Console.ReadKey(true).Key;
+                if (readKey == key)
+                    return;
+            }
+        }
+
         private static readonly Dictionary<ConsoleKey, Action> keybindings = new() {
             { ConsoleKey.LeftArrow , Action.Left }, { ConsoleKey.A , Action.Left },
             { ConsoleKey.RightArrow , Action.Right}, { ConsoleKey.D , Action.Right},

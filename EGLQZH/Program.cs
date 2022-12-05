@@ -1,3 +1,3 @@
 ﻿using TicTacToe;
 
-GameController.Run();
+await GameController.Run();
