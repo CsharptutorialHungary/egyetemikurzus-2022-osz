@@ -12,6 +12,7 @@ namespace SSRCDT
             List<Fryer> normal_fryers = new List<Fryer> { new Fryer(false), new Fryer(false), new Fryer(false) };
             List<Fryer> kentucky_fryers = new List<Fryer> { new Fryer(true) };
             MeatHolder meatHolder = new MeatHolder();
+            //TODO record class ami tarolja a sutoket es a methodokat
 
             string input = "";
             Console.WriteLine("Udv az appban!");
@@ -66,14 +67,14 @@ namespace SSRCDT
                                 Console.WriteLine("Hiba: Nem megfelelő hús típus!");
                             }
                             break;
-                            
+
                         }
                     case "?":
                         {
                             Console.WriteLine("A suteshez hasznald a 'fry' parancsot.");
                             break;
                         }
-                    default: { Console.WriteLine("Helytelen parancs!"); break; } ;
+                    default: { Console.WriteLine("Helytelen parancs!"); break; };
                 }
             }
 

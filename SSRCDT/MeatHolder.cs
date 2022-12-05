@@ -10,7 +10,7 @@ namespace SSRCDT
     internal class MeatHolder
     {
         public List<Meat> Container;
-        public MeatHolder() 
+        public MeatHolder()
         {
             this.Container = new List<Meat>();
         }

@@ -14,21 +14,20 @@ namespace SSRCDT
         public MeatTypeLoader()
         {
             Meats = new List<string>();
-            Assembly asm = Assembly.GetAssembly(typeof(MeatTypeLoader));
+            Assembly? asm = Assembly.GetAssembly(typeof(MeatTypeLoader));
             if (asm == null)
                 throw new InvalidOperationException("Error: Assembly is null.");
 
             var types = asm.GetTypes()
                 .Where(type => type.IsClass
                         && (type.IsSubclassOf(typeof(Meat)))
-                        || (type == typeof(Meat))  // szukseges sor, mivel az IsSubclassOf() nem erzekeli magat a parent osztalyt
                         );
 
             try
             {
                 foreach (var type in types)
                 {
-                        Meats.Add(type.Name);
+                    Meats.Add(type.Name);
                 }
             }
             catch (Exception e)
