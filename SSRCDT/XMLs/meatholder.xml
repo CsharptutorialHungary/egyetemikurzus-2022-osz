@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MeatHolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Container>
+    <Meat xsi:type="StripsMeat">
+      <expirationDate>2022-12-07T01:34:26.59441+01:00</expirationDate>
+      <amount>10</amount>
+      <CookingTime>PT10S</CookingTime>
+    </Meat>
+    <Meat xsi:type="StripsMeat">
+      <expirationDate>2022-12-07T01:34:30.6216172+01:00</expirationDate>
+      <amount>30</amount>
+      <CookingTime>PT10S</CookingTime>
+    </Meat>
+    <Meat xsi:type="KentuckyMeat">
+      <expirationDate>2022-12-07T01:35:22.9622329+01:00</expirationDate>
+      <amount>14</amount>
+      <CookingTime>PT25S</CookingTime>
+    </Meat>
+    <Meat xsi:type="WingsMeat">
+      <expirationDate>2022-12-07T01:35:28.4547526+01:00</expirationDate>
+      <amount>65</amount>
+      <CookingTime>PT20S</CookingTime>
+    </Meat>
+  </Container>
+</MeatHolder>
