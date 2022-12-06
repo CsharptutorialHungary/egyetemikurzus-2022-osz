@@ -10,8 +10,9 @@ namespace SSRCDT
         {
             MeatTypeLoader loader = new MeatTypeLoader();
             Console.WriteLine("hello");
-            List<Fryer> normal_fryers = new List<Fryer> { new Fryer(false), new Fryer(false), new Fryer(false) };
-            List<Fryer> kentucky_fryers = new List<Fryer> { new Fryer(true) };
+            Kitchen kitchen = new Kitchen();
+            //List<Fryer> normal_fryers = new List<Fryer> { new Fryer(false), new Fryer(false), new Fryer(false) };
+            //List<Fryer> kentucky_fryers = new List<Fryer> { new Fryer(true) };
             MeatHolder meatHolder = new MeatHolder();
             //TODO record class ami tarolja a sutoket es a methodokat
 
@@ -34,63 +35,29 @@ namespace SSRCDT
                                 bool isParsable = int.TryParse(Console.ReadLine(), out int meatCount);
                                 if (isParsable)
                                 {
-                                    switch (meatType)  //Muszaj a switch. Elvileg az Activatorhoz tudnunk kene statikusan a tipust amire castolnank.
+                                    bool isKentucky = meatType == "KentuckyMeat" ? true : false;
+                                    int index = kitchen.findFreeFryer(isKentucky);
+                                    if (index != -1)
                                     {
-                                        case "StripsMeat":
-                                            {
-                                                try
+                                        switch (meatType)  //Muszaj a switch. Elvileg az Activatorhoz tudnunk kene statikusan a tipust amire castolnank.
+                                        {
+                                            case "StripsMeat":
                                                 {
-                                                    int i = 0;
-                                                    while (!normal_fryers[i].IsFree)
-                                                    {
-                                                        i += 1;
-                                                    }
-
-                                                    Task.Factory.StartNew(() => normal_fryers[i].FryMeat(new StripsMeat(meatCount), meatHolder));
+                                                    _ = Task.Factory.StartNew(() => kitchen.NormalFryers[index].FryMeat(new StripsMeat(meatCount), meatHolder));
+                                                    break;
                                                 }
-                                                catch (ArgumentOutOfRangeException)
+                                            case "WingsMeat":
                                                 {
-                                                    Console.WriteLine("Nincs szabad suto!");
+                                                    _ = Task.Factory.StartNew(() => kitchen.NormalFryers[index].FryMeat(new WingsMeat(meatCount), meatHolder));
+                                                    break;
                                                 }
-                                                break;
-                                            }
-                                        case "WingsMeat":
-                                            {
-                                                try
+                                            case "KentuckyMeat":
                                                 {
-                                                    int i = 0;
-                                                    while (!normal_fryers[i].IsFree)
-                                                    {
-                                                        i += 1;
-                                                    }
-
-                                                    Task.Factory.StartNew(() => normal_fryers[i].FryMeat(new WingsMeat(meatCount), meatHolder));
+                                                    _ = Task.Factory.StartNew(() => kitchen.KentuckyFryers[index].FryMeat(new KentuckyMeat(meatCount), meatHolder));
+                                                    break;
                                                 }
-                                                catch (ArgumentOutOfRangeException)
-                                                {
-                                                    Console.WriteLine("Nincs szabad suto!");
-                                                }
-                                                break;
-                                            }
-                                        case "KentuckyMeat":
-                                            {
-                                                try
-                                                {
-                                                    int i = 0;
-                                                    while (!kentucky_fryers[i].IsFree)
-                                                    {
-                                                        i += 1;
-                                                    }
-
-                                                    Task.Factory.StartNew(() => kentucky_fryers[i].FryMeat(new KentuckyMeat(meatCount), meatHolder));
-                                                }
-                                                catch (ArgumentOutOfRangeException)
-                                                {
-                                                    Console.WriteLine("Nincs szabad suto!");
-                                                }
-                                                break;
-                                            }
-                                    }
+                                        }
+                                    } else Console.WriteLine("Nincs szabad suto!");
                                 }
                                 else
                                 {
@@ -107,6 +74,7 @@ namespace SSRCDT
                     case "?":
                         {
                             Console.WriteLine("A suteshez hasznald a 'fry' parancsot.");
+                            Console.WriteLine("Lehetseges husok: 'KentuckyMeat', 'StripsMeat', 'WingsMeat'");
                             break;
                         }
                     default: { Console.WriteLine("Helytelen parancs!"); break; };
