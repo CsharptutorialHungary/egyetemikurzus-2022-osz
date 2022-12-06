@@ -38,7 +38,6 @@ namespace SSRCDT
                                     {
                                         case "StripsMeat":
                                             {
-                                                //meatHolder.AddToContainer(new StripsMeat(meatCount));
                                                 try
                                                 {
                                                     int i = 0;
@@ -48,7 +47,6 @@ namespace SSRCDT
                                                     }
 
                                                     Task.Factory.StartNew(() => normal_fryers[i].FryMeat(new StripsMeat(meatCount), meatHolder));
-                                                    //Console.WriteLine("Sikeresen hozzaadva.");
                                                 }
                                                 catch (ArgumentOutOfRangeException)
                                                 {

@@ -21,14 +21,21 @@ namespace SSRCDT
 
         public async Task FryMeat(Meat meat, MeatHolder meatHolder)
         {
-            this.meat = meat;
-            this.IsFree = false;
-            CookingTime = meat.CookingTime;
-            Console.WriteLine("Cooking " + meat.amount + " db " + meat.GetType().Name);
-            Task<Meat>.Delay(CookingTime).Wait();
-            Console.WriteLine(meat.amount + " db " + meat.GetType().Name +  " Cooked! Placing in container...");
-            meatHolder.AddToContainer(meat);
-            Console.WriteLine("Added to container!");
+            try
+            {
+                this.meat = meat;
+                this.IsFree = false;
+                CookingTime = meat.CookingTime;
+                Console.WriteLine(meat.amount + " db " + meat.GetType().Name + " bekerult a sutobe...");
+                Task<Meat>.Delay(CookingTime).Wait();
+                Console.WriteLine(meat.amount + " db " + meat.GetType().Name + " Megsult! Taroloba helyezes...");
+                meatHolder.AddToContainer(meat);
+                Console.WriteLine("Behelyezve a taroloba!");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         public void FreeFryer()
