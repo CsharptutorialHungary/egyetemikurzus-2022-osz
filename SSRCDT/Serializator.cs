@@ -16,10 +16,10 @@ namespace SSRCDT
                 XmlSerializer serializer = new XmlSerializer(typeof(Kitchen));
 
                 var writer = new StreamWriter(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + "/XMLs/kitchen.xml");
+                //Az aktuális project gyökerére mutat, és azon belül az adott string path-ra
 
                 Kitchen kitchen = new Kitchen();
 
-                // Serializes the object.  
                 serializer.Serialize(writer, kitchen);
                 writer.Close();
                 Console.WriteLine("Konyha szerializálva!");
@@ -40,21 +40,7 @@ namespace SSRCDT
 
                 MeatHolder newMeatHolder = new MeatHolder() {
                     Container = meatHolder.Container
-                };
-
-        /*        foreach(var meat in meatHolder.Container)
-                {
-                    switch(meat.GetType().Name)
-                    {
-                        case "StripsMeat":
-                            {
-                                newMeatHolder.AddToContainer(new StripsMeat() { amount = meat.amount });
-                                break;
-                            }
-                    }
-                } */
-
-                // Serializes the object.  
+                };  
                 serializer.Serialize(writer, newMeatHolder);
                 writer.Close();
                 Console.WriteLine("Hústároló szerializálva!");

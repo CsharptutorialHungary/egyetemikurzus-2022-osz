@@ -33,7 +33,7 @@ namespace SSRCDT
                 Console.WriteLine(meat.amount + " db " + meat.GetType().Name + " Kész! Tárolóba helyezés...");
                 meatHolder.AddToContainer(meat);
                 FreeFryer();
-                Console.WriteLine(meat.GetType().Name + "Behelyezve a tárolóba!");
+                Console.WriteLine(meat.GetType().Name + " Behelyezve a tárolóba!");
             }
             catch(Exception ex)
             {
