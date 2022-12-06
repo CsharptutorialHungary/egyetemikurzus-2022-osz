@@ -20,7 +20,7 @@ namespace TUITodo.Utils
         public static async Task Serialize(IList<TodoItem> items, string path = "todos.json")
         {
             string json = JsonSerializer.Serialize(items, options);
-            Trace.WriteLine(json);
+            //Trace.WriteLine(json);
             using (StreamWriter writer = File.CreateText(path))
             {
                 await writer.WriteAsync(json);

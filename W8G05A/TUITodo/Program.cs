@@ -19,7 +19,7 @@ namespace TUITodo
         };
 
 
-        public static TaskTree TaskListView { get; } = new()
+        public static TaskListView TaskListView { get; } = new()
         {
             X = 1,
             Y = 1,
@@ -86,17 +86,19 @@ namespace TUITodo
             SwitchToView(TaskListView);
         }
 
-        static async Task Main()
+        static void Main()
         {
 
-            List<TodoItem> savedTodos = await TodoItemSerializer.Deserialize() ?? new List<TodoItem>();
-
             Application.Init();
+
+            Application.MainLoop.Invoke(async () =>
+            {
+                await TaskListView.LoadSavedTasks();
+            });
 
             #region Color scheme, style setup
             Colors.Base.Normal = Application.Driver.MakeAttribute(Color.Green, Color.Black);
             Colors.Base.HotNormal = Application.Driver.MakeAttribute(Color.Brown, Color.Black);
-
 
             #endregion
 
@@ -114,19 +116,14 @@ namespace TUITodo
             });
 
             #endregion
-
-            savedTodos.ForEach(t => TaskListView.AddItem(t));
+            //TaskListView.LoadSavedTasks(savedTodos);
             ShowTaskListView();
-
-            TaskListView.ExpandAll();
-
-            //AddItem focuses the last item, let's go back to the top
-            TaskListView.GoToFirst();
 
             Application.Top.Add(menu, MainWindow, statusBarMessage);
 
             Application.Driver.SetCursorVisibility(CursorVisibility.Invisible);
             Application.Run();
+
             Application.Shutdown();
         }
 
@@ -134,7 +131,7 @@ namespace TUITodo
         {
             DisplayStatusNotification("Saving...", 0);
             Task.Run(async () => {
-                await TodoItemSerializer.Serialize(TaskListView.Items);
+                await TaskListView.SaveTasks();
                 DisplayStatusNotification("Saved");
             });
         }

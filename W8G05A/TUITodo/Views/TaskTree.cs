@@ -24,44 +24,9 @@ namespace TUITodo.Views
             }
         }
 
-        public StatusBar statusBar = new();
 
         public TaskTree(List<TodoItem>? items = null)
         {
-            #region status bar items
-            statusBar.Items = new StatusItem[]
-            {
-                //Vannak olyan keyek, amikre az életbe nem érzékel
-                //Totál random hogy melyik működik
-                //Ezért hülyeségek a gombválasztások
-                new (Key.E, "~Shift + E~ Edit task", () => {
-                    if (SelectedObject is TodoItem selected) Program.EnterEditMode(selected);
-                }),
-                new ((Key)'+', "~+~ New task", () => {
-                    AddItem(new TodoItem("New task"));
-                }),
-                new ((Key)'-', "~-~ New subtask", () => {
-                    if (SelectedObject is TodoItem selected)
-                        AddItem(new TodoItem("New subtask"), parent:selected);
-                }),
-                new (Key.Space, "~Space~ Task complete", () => {
-                    if (SelectedObject is TodoItem selected){
-                        selected.ToggleDone();
-                        SetNeedsDisplay();
-                        Program.SaveTasks();
-                    }
-                }),
-                new (Key.D, "~Shift + D~ Delete", () => {
-                    if (SelectedObject is TodoItem selected){
-                        if (MessageBox.Query("Delete task", 
-                            $"Are you sure you want to delete the task '{selected.name}'?",
-                            "Delete it", "Nevermind") == 0) DeleteItem(selected);
-                    }
-                })
-            };
-
-            #endregion
-
             Items = items ?? new List<TodoItem>();
         }
 
@@ -84,7 +49,7 @@ namespace TUITodo.Views
             this.GoTo(item);
         }
 
-        void DeleteItem(TodoItem item)
+        public void DeleteItem(TodoItem item)
         {
             //Remove(item);
             items.Remove(item);
