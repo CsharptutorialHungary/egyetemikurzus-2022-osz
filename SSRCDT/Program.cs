@@ -9,7 +9,6 @@ namespace SSRCDT
         static async Task Main(string[] args)
         {
             MeatTypeLoader loader = new MeatTypeLoader();
-            Console.WriteLine("hello");
             Kitchen kitchen = new Kitchen();
             //List<Fryer> normal_fryers = new List<Fryer> { new Fryer(false), new Fryer(false), new Fryer(false) };
             //List<Fryer> kentucky_fryers = new List<Fryer> { new Fryer(true) };
@@ -17,9 +16,9 @@ namespace SSRCDT
             //TODO record class ami tarolja a sutoket es a methodokat
 
             string input = "";
-            Console.WriteLine("Udv az appban!");
-            Console.WriteLine("A segitsegert hasznald a '?' parancsot.");
-            Console.WriteLine("Kilepes: 'q' parancs.");
+            Console.WriteLine("LFV Hússütöde");
+            Console.WriteLine("Segítségért használd a '?' parancsot.");
+            Console.WriteLine("Kilépés: 'q' parancs.");
             while (input != "q")
             {
                 input = Console.ReadLine();
@@ -31,14 +30,15 @@ namespace SSRCDT
                             string meatType = Console.ReadLine();
                             if (loader.Meats.Contains(meatType))
                             {
+                                bool isKentucky = meatType == "KentuckyMeat" ? true : false;
+                                int index = kitchen.findFreeFryer(isKentucky);
+
+                                if (index == -1) { Console.WriteLine("Nincs szabad sütő ehhez a húshoz!"); break; }
+
                                 Console.WriteLine("Hány darabot sütsz? (pl. 30)");
                                 bool isParsable = int.TryParse(Console.ReadLine(), out int meatCount);
                                 if (isParsable)
                                 {
-                                    bool isKentucky = meatType == "KentuckyMeat" ? true : false;
-                                    int index = kitchen.findFreeFryer(isKentucky);
-                                    if (index != -1)
-                                    {
                                         switch (meatType)  //Muszaj a switch. Elvileg az Activatorhoz tudnunk kene statikusan a tipust amire castolnank.
                                         {
                                             case "StripsMeat":
@@ -57,7 +57,6 @@ namespace SSRCDT
                                                     break;
                                                 }
                                         }
-                                    } else Console.WriteLine("Nincs szabad suto!");
                                 }
                                 else
                                 {
@@ -71,13 +70,25 @@ namespace SSRCDT
                             break;
 
                         }
-                    case "?":
+                    case "printContainer":
                         {
-                            Console.WriteLine("A suteshez hasznald a 'fry' parancsot.");
-                            Console.WriteLine("Lehetseges husok: 'KentuckyMeat', 'StripsMeat', 'WingsMeat'");
+                            meatHolder.PrintContainer();
                             break;
                         }
-                    default: { Console.WriteLine("Helytelen parancs!"); break; };
+                    case "removeExpired":
+                        {
+                            meatHolder.RemoveExpired();
+                            break;
+                        }
+                    case "?":
+                        {
+                            Console.WriteLine("A sütéshez használd a fry parancsot.");
+                            Console.WriteLine("Lehetséges húsok: 'KentuckyMeat', 'StripsMeat', 'WingsMeat'");
+                            Console.WriteLine("A tároló kiírata: printContainer");
+                            Console.WriteLine("Romlott húsok kivétele a tárolóból: removeExpired");
+                            break;
+                        }
+                    default: { if (input != "q") { Console.WriteLine("Helytelen parancs!"); } break; };
                 }
             }
 

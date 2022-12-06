@@ -9,7 +9,7 @@ namespace SSRCDT
         public bool IsKentuckyType { get; }
         public bool IsFree { get; set; }
         public TimeSpan CookingTime { get; set; }
-        public Meat meat { get; set; }
+        public Meat? meat { get; set; }
 
         public Fryer(bool isKentuckyType)
         {
@@ -26,12 +26,12 @@ namespace SSRCDT
                 this.meat = meat;
                 this.IsFree = false;
                 CookingTime = meat.CookingTime;
-                Console.WriteLine(meat.amount + " db " + meat.GetType().Name + " bekerult a sutobe...");
-                Task<Meat>.Delay(CookingTime).Wait();
-                this.IsFree = true;
-                Console.WriteLine(meat.amount + " db " + meat.GetType().Name + " Megsult! Taroloba helyezes...");
+                Console.WriteLine(meat.amount + " db " + meat.GetType().Name + " bekerült a sütőbe...");
+                Task.Delay(CookingTime).Wait();
+                Console.WriteLine(meat.amount + " db " + meat.GetType().Name + " Kész! Tárolóba helyezés...");
                 meatHolder.AddToContainer(meat);
-                Console.WriteLine("Behelyezve a taroloba!");
+                FreeFryer();
+                Console.WriteLine(meat.GetType().Name + "Behelyezve a tárolóba!");
             }
             catch(Exception ex)
             {
@@ -41,6 +41,7 @@ namespace SSRCDT
 
         public void FreeFryer()
         {
+            IsFree = true;
             meat = null;
             CookingTime = new TimeSpan(0, 0, 0);
         }
