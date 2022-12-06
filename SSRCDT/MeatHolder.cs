@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SSRCDT
 {
-    internal class MeatHolder
+    public class MeatHolder
     {
         public List<Meat> Container;
         public MeatHolder()
