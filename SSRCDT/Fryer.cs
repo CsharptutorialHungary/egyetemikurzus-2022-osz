@@ -19,7 +19,7 @@ namespace SSRCDT
             meat = null;
         }
 
-        public async Task FryMeat(Meat meat, MeatHolder meatHolder)
+        public async Task FryMeat(Meat meat, MeatHolder meatHolder, FryingReportHandler reportHandler)
         {
             try
             {
@@ -30,6 +30,7 @@ namespace SSRCDT
                 Task.Delay(CookingTime).Wait();
                 Console.WriteLine(meat.amount + " db " + meat.GetType().Name + " Kész! Tárolóba helyezés...");
                 meatHolder.AddToContainer(meat);
+                reportHandler.AddToDailyReport(meat);
                 FreeFryer();
                 Console.WriteLine(meat.GetType().Name + "Behelyezve a tárolóba!");
             }

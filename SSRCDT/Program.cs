@@ -13,6 +13,7 @@ namespace SSRCDT
             //List<Fryer> normal_fryers = new List<Fryer> { new Fryer(false), new Fryer(false), new Fryer(false) };
             //List<Fryer> kentucky_fryers = new List<Fryer> { new Fryer(true) };
             MeatHolder meatHolder = new MeatHolder();
+            FryingReportHandler reportHandler = new FryingReportHandler();
             //TODO record class ami tarolja a sutoket es a methodokat
 
             string input = "";
@@ -43,17 +44,17 @@ namespace SSRCDT
                                         {
                                             case "StripsMeat":
                                                 {
-                                                    _ = Task.Factory.StartNew(() => kitchen.NormalFryers[index].FryMeat(new StripsMeat(meatCount), meatHolder));
+                                                    _ = Task.Factory.StartNew(() => kitchen.NormalFryers[index].FryMeat(new StripsMeat(meatCount), meatHolder, reportHandler));
                                                     break;
                                                 }
                                             case "WingsMeat":
                                                 {
-                                                    _ = Task.Factory.StartNew(() => kitchen.NormalFryers[index].FryMeat(new WingsMeat(meatCount), meatHolder));
+                                                    _ = Task.Factory.StartNew(() => kitchen.NormalFryers[index].FryMeat(new WingsMeat(meatCount), meatHolder, reportHandler));
                                                     break;
                                                 }
                                             case "KentuckyMeat":
                                                 {
-                                                    _ = Task.Factory.StartNew(() => kitchen.KentuckyFryers[index].FryMeat(new KentuckyMeat(meatCount), meatHolder));
+                                                    _ = Task.Factory.StartNew(() => kitchen.KentuckyFryers[index].FryMeat(new KentuckyMeat(meatCount), meatHolder, reportHandler));
                                                     break;
                                                 }
                                         }
