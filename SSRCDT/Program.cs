@@ -13,7 +13,7 @@ namespace SSRCDT
             //List<Fryer> normal_fryers = new List<Fryer> { new Fryer(false), new Fryer(false), new Fryer(false) };
             //List<Fryer> kentucky_fryers = new List<Fryer> { new Fryer(true) };
             MeatHolder meatHolder = new MeatHolder();
-            FryingReportHandler reportHandler = new FryingReportHandler();
+            Serializator serializator = new Serializator();
             //TODO record class ami tarolja a sutoket es a methodokat
 
             string input = "";
@@ -44,17 +44,17 @@ namespace SSRCDT
                                         {
                                             case "StripsMeat":
                                                 {
-                                                    _ = Task.Factory.StartNew(() => kitchen.NormalFryers[index].FryMeat(new StripsMeat(meatCount), meatHolder, reportHandler));
+                                                    _ = Task.Factory.StartNew(() => kitchen.NormalFryers[index].FryMeat(new StripsMeat(meatCount), meatHolder));
                                                     break;
                                                 }
                                             case "WingsMeat":
                                                 {
-                                                    _ = Task.Factory.StartNew(() => kitchen.NormalFryers[index].FryMeat(new WingsMeat(meatCount), meatHolder, reportHandler));
+                                                    _ = Task.Factory.StartNew(() => kitchen.NormalFryers[index].FryMeat(new WingsMeat(meatCount), meatHolder));
                                                     break;
                                                 }
                                             case "KentuckyMeat":
                                                 {
-                                                    _ = Task.Factory.StartNew(() => kitchen.KentuckyFryers[index].FryMeat(new KentuckyMeat(meatCount), meatHolder, reportHandler));
+                                                    _ = Task.Factory.StartNew(() => kitchen.KentuckyFryers[index].FryMeat(new KentuckyMeat(meatCount), meatHolder));
                                                     break;
                                                 }
                                         }
@@ -79,6 +79,16 @@ namespace SSRCDT
                     case "removeExpired":
                         {
                             meatHolder.RemoveExpired();
+                            break;
+                        }
+                    case "serializeKitchen":
+                        {
+                            serializator.serializeKitchen();
+                            break;
+                        }
+                    case "serializeMeatHolder":
+                        {
+                            serializator.serializeMeatHolder(meatHolder);
                             break;
                         }
                     case "?":

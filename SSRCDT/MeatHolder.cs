@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace SSRCDT
 {
+    [XmlInclude(typeof(StripsMeat)), XmlInclude(typeof(WingsMeat)), XmlInclude(typeof(KentuckyMeat))]
     public class MeatHolder
     {
         public List<Meat> Container;

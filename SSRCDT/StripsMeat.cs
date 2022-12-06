@@ -9,5 +9,6 @@ namespace SSRCDT
             return CookingTime;
         }
         public StripsMeat(int amount) : base(amount, new TimeSpan(0, 0, 10)) { }
+        public StripsMeat() { }
     }
 }
