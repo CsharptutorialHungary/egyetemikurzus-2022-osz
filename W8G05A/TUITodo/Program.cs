@@ -19,7 +19,7 @@ namespace TUITodo
         };
 
 
-        public static TaskListView TaskListView { get; } = new()
+        public static TaskTree TaskListView { get; } = new()
         {
             X = 1,
             Y = 1,
@@ -105,7 +105,10 @@ namespace TUITodo
             var menu = new MenuBar(new MenuBarItem[] {
                 new MenuBarItem ("_File", new MenuItem [] {
                     new MenuItem ("_Quit", "", () => {
-                        Application.RequestStop ();
+                        Application.RequestStop();
+                    }),
+                    new MenuItem ("_Save", "", () => {
+                        SaveTasks();
                     })
                 }),
             });
