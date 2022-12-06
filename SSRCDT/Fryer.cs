@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SSRCDT
 {
@@ -17,13 +19,16 @@ namespace SSRCDT
             meat = null;
         }
 
-        public void FryMeat(Meat meat)
+        public async Task FryMeat(Meat meat, MeatHolder meatHolder)
         {
             this.meat = meat;
             this.IsFree = false;
             CookingTime = meat.CookingTime;
-            Console.WriteLine("Cooking...");
-            //TODO remaining time
+            Console.WriteLine("Cooking " + meat.amount + " db " + meat.GetType().Name);
+            Task<Meat>.Delay(CookingTime).Wait();
+            Console.WriteLine(meat.amount + " db " + meat.GetType().Name +  " Cooked! Placing in container...");
+            meatHolder.AddToContainer(meat);
+            Console.WriteLine("Added to container!");
         }
 
         public void FreeFryer()
