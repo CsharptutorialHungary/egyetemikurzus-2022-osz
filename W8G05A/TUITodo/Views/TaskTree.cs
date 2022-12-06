@@ -16,7 +16,7 @@ namespace TUITodo.Views
         public List<TodoItem> Items
         {
             get => items;
-            protected set
+            set
             {
                 items = value;
                 base.ClearObjects();

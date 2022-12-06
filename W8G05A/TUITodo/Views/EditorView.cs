@@ -95,7 +95,7 @@ namespace TUITodo.Views
                 {
                     Application.MainLoop.Invoke(() =>
                     {
-                        Program.EditorView.FocusNext();
+                        descriptionTextView.SetFocus();
                     });
                 }
             };

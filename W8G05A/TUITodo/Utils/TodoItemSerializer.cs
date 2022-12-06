@@ -30,6 +30,8 @@ namespace TUITodo.Utils
 
         public async static Task<List<TodoItem>?> Deserialize(string path = "todos.json")
         {
+            if (!File.Exists(path)) return null;
+
             try
             {
                 using (StreamReader sr = new StreamReader(path))
