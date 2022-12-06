@@ -28,6 +28,7 @@ namespace SSRCDT
                 CookingTime = meat.CookingTime;
                 Console.WriteLine(meat.amount + " db " + meat.GetType().Name + " bekerult a sutobe...");
                 Task<Meat>.Delay(CookingTime).Wait();
+                this.IsFree = true;
                 Console.WriteLine(meat.amount + " db " + meat.GetType().Name + " Megsult! Taroloba helyezes...");
                 meatHolder.AddToContainer(meat);
                 Console.WriteLine("Behelyezve a taroloba!");
