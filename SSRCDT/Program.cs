@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SSRCDT
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             MeatTypeLoader loader = new MeatTypeLoader();
             Console.WriteLine("hello");
@@ -46,8 +47,8 @@ namespace SSRCDT
                                                         i += 1;
                                                     }
 
-                                                    normal_fryers[i].FryMeat(new StripsMeat(meatCount));
-                                                    Console.WriteLine("Sikeresen hozzaadva.");
+                                                    Task.Factory.StartNew(() => normal_fryers[i].FryMeat(new StripsMeat(meatCount), meatHolder));
+                                                    //Console.WriteLine("Sikeresen hozzaadva.");
                                                 }
                                                 catch (ArgumentOutOfRangeException)
                                                 {
