@@ -2,12 +2,13 @@
 
 namespace SSRCDT
 {
-    public sealed class StripsMeat : Meat
+    public sealed class KentuckyMeat : Meat 
     {
         public TimeSpan GetCookingTime()
         {
             return CookingTime;
         }
-        public StripsMeat(int amount) : base(amount, new TimeSpan(0, 0, 10)) { }
+        public KentuckyMeat(int amount) : base(amount, new TimeSpan(0, 0, 25)) { }
+
     }
 }
