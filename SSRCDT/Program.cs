@@ -17,10 +17,10 @@ namespace SSRCDT
 
             string input = "";
             Console.WriteLine("Udv az appban!");
+            Console.WriteLine("A segitsegert hasznald a '?' parancsot.");
+            Console.WriteLine("Kilepes: 'q' parancs.");
             while (input != "q")
             {
-                Console.WriteLine("A segitsegert hasznald a '?' parancsot.");
-                Console.WriteLine("Kilepes: 'q' parancs.");
                 input = Console.ReadLine();
                 switch (input)
                 {
@@ -47,6 +47,42 @@ namespace SSRCDT
                                                     }
 
                                                     Task.Factory.StartNew(() => normal_fryers[i].FryMeat(new StripsMeat(meatCount), meatHolder));
+                                                }
+                                                catch (ArgumentOutOfRangeException)
+                                                {
+                                                    Console.WriteLine("Nincs szabad suto!");
+                                                }
+                                                break;
+                                            }
+                                        case "WingsMeat":
+                                            {
+                                                try
+                                                {
+                                                    int i = 0;
+                                                    while (!normal_fryers[i].IsFree)
+                                                    {
+                                                        i += 1;
+                                                    }
+
+                                                    Task.Factory.StartNew(() => normal_fryers[i].FryMeat(new WingsMeat(meatCount), meatHolder));
+                                                }
+                                                catch (ArgumentOutOfRangeException)
+                                                {
+                                                    Console.WriteLine("Nincs szabad suto!");
+                                                }
+                                                break;
+                                            }
+                                        case "KentuckyMeat":
+                                            {
+                                                try
+                                                {
+                                                    int i = 0;
+                                                    while (!kentucky_fryers[i].IsFree)
+                                                    {
+                                                        i += 1;
+                                                    }
+
+                                                    Task.Factory.StartNew(() => kentucky_fryers[i].FryMeat(new KentuckyMeat(meatCount), meatHolder));
                                                 }
                                                 catch (ArgumentOutOfRangeException)
                                                 {
