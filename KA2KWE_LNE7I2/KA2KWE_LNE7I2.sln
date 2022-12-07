@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KA2KWE_LNE7I2", "KA2KWE_LNE7I2\KA2KWE_LNE7I2.csproj", "{5835BC21-6E36-493F-8181-45C3A007CB6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KA2KWE_LNE7I2Tests", "KA2KWE_LNE7I2Tests\KA2KWE_LNE7I2Tests.csproj", "{CDABB595-9C04-4262-BC94-F22C1A131520}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5835BC21-6E36-493F-8181-45C3A007CB6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5835BC21-6E36-493F-8181-45C3A007CB6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5835BC21-6E36-493F-8181-45C3A007CB6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5835BC21-6E36-493F-8181-45C3A007CB6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDABB595-9C04-4262-BC94-F22C1A131520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDABB595-9C04-4262-BC94-F22C1A131520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDABB595-9C04-4262-BC94-F22C1A131520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDABB595-9C04-4262-BC94-F22C1A131520}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DE47A104-8D76-4B2C-ACCA-B1E2FD39AEBE}
+	EndGlobalSection
+EndGlobal
