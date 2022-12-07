@@ -6,18 +6,14 @@ using System.Threading.Tasks;
 
 namespace ConnectFive
 {
-    sealed internal class Player
+    public record class Player
     {
-        //public enum Color { green, red }
-        //public Color color { get; protected set; }
-        //public Player(Color color)
-        //{
-        //    this.color = color;
-        //}
-        public string color { get; protected set; }
-        public Player(string color)
+        public string color { get; private set; }
+        public string name { get; private set; }
+        public Player(string color,string name)
         {
             this.color = color;
+            this.name = name;
         }
     }
 }

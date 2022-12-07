@@ -9,30 +9,41 @@ namespace ConnectFive
 {
     internal class Input
     {
-        public static int ColInput(int min, int max) {
+        public static int ColInput(int min, int max)
+        {
             bool wrongInput = true;
-            //AnsiConsole.Clear();
             while (wrongInput)
             {
+                Console.Write($"Adjon meg egy oszlopotd [{min}-{max}]: ");
+                string input = Console.ReadLine() ?? "";
                 try
                 {
-                    Console.Write($"Adjon meg egy oszlopotd [{min}-{max}]: ");
-                    int col = int.Parse(Console.ReadLine());
+                    int col = int.Parse(input);
                     if (col >= min && col <= max)
                     {
                         wrongInput = false;
-                        return col-1;
+                        return col - 1;
                     }
-                    else AnsiConsole.WriteLine("[red]Rossz érték[/]");
+                    else
+                    {
+                        AnsiConsole.Write(new Markup("[red] Rossz érték [/]"));
+                        AnsiConsole.Cursor.MoveUp(1);
+                        AnsiConsole.Cursor.MoveLeft(200);
+                    }
 
                 }
                 catch (ArgumentNullException)
                 {
-                    AnsiConsole.WriteLine("[red]Rossz oszlop[/]");
+                    AnsiConsole.Write(new Markup("[red]????[/]"));
+                    AnsiConsole.Cursor.MoveUp(1);
+                    AnsiConsole.Cursor.MoveLeft(200);
                 }
-                catch (FormatException ex)
+                catch (FormatException)
                 {
-                    AnsiConsole.WriteLine("[red]Rossz oszlop[/]");
+                    if (input.ToLower() == "save")
+                        AnsiConsole.Write(new Markup("[red]Rossz oszlop[/]"));
+                    AnsiConsole.Cursor.MoveUp(1);
+                    AnsiConsole.Cursor.MoveLeft(200);
                 }
             }
             return -1;
