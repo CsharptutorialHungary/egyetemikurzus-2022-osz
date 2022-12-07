@@ -1,9 +1,13 @@
-﻿using TicTacToe.ConsoleHelpers;
+﻿using System.Net;
+using TicTacToe.ConsoleHelpers;
 using Utilities;
 
 namespace TicTacToe {
     interface IRenderer {
         void DrawGreeting(string message);
+        void DrawOptions<T>(IEnumerable<T> options);
+        void DrawOptionsPrompt<T>(string prompt, IEnumerable<T> options);
+        void DrawDiscover<T>(IEnumerable<T> options);
         void DrawWin(Player winner);
 
         void DrawBoard();
@@ -54,6 +58,7 @@ namespace TicTacToe {
         }
 
         public void DrawPrompt(string message) {
+            ConsoleRegion promptRegion = new(0, 0, 120, 28, Justify.CenterMiddle);
             ErrorCleanup();
             promptRegion.Clear();
             promptRegion.WriteLine($"{message}: ");
@@ -86,12 +91,41 @@ namespace TicTacToe {
 
         public void DrawWin(Player winner) {
             ConsoleRegion winRegion = new(0, 0, 120, 30, Justify.CenterMiddle);
-            winRegion.Write($"{(winner.Team == CellState.X ? 'X' : 'O')} won!", ConsoleColor.White);
+            winRegion.WriteLine($"{(winner.Team == CellState.X ? 'X' : 'O')} won!", ConsoleColor.White);
+            winRegion.WriteLine($"Press R to play another game");
+            winRegion.Write($"Press E to exit");
             winRegion.Flush();
         }
 
-        private static (int Left, int Top) cursorPosition;
-        private static ConsoleColor textColor;
+        public void DrawOptions<T>(IEnumerable<T> options) {
+            ConsoleRegion optionsRegion = new(5, 0, 120, 20, Justify.CenterMiddle);
+            optionsRegion.Clear();
+            int index = 0;
+            foreach (T? option in options) {
+                optionsRegion.WriteLine($"{index}. {option?.ToString() ?? ""}");
+                index++;
+            }
+            optionsRegion.Flush();
+        }
+
+        public void DrawOptionsPrompt<T>(string prompt, IEnumerable<T> options) {
+            ConsoleRegion titleRegion = new(4, 0, 120, 1, Justify.CenterMiddle);
+            titleRegion.Clear();
+            titleRegion.Write(prompt);
+            titleRegion.Flush();
+            DrawOptions(options);
+            ConsoleRegion promptRegion = new(29, 0, 60, 1, Justify.TopLeft);
+            promptRegion.Clear();
+            promptRegion.Write("Selection: ");
+            promptRegion.Flush();
+        }
+
+        public void DrawDiscover<T>(IEnumerable<T> options) {
+            ConsoleRegion titleRegion = new(4, 0, 120, 1, Justify.CenterMiddle);
+            titleRegion.Write("Available clients (Press ESC to stop discovery)");
+            titleRegion.Flush();
+            DrawOptions(options);
+        }
 
         private static void SaveConsoleState() {
             cursorPosition = Console.GetCursorPosition();
@@ -126,11 +160,12 @@ namespace TicTacToe {
             }
         }
 
+        private static (int Left, int Top) cursorPosition;
+        private static ConsoleColor textColor;
         private readonly Vector offset;
         private static readonly Vector cellDimensions = new(4, 8);
 
-        private static readonly ConsoleRegion errorRegion = new(29, 0, 120, 1, Justify.TopRight);
-        private static readonly ConsoleRegion promptRegion = new(0, 0, 120, 28, Justify.CenterMiddle);
+        private static readonly ConsoleRegion errorRegion = new(29, 60, 60, 1, Justify.TopRight);
 
         private readonly static Dictionary<CellState, Shape> shapes = new() {
             { CellState.X, new Shape(

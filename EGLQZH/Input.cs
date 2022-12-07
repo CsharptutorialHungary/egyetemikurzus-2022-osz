@@ -1,42 +1,67 @@
 ﻿namespace TicTacToe {
     static class Input {
         public enum Action {
-            Left, Right, Up, Down,
-            Place, Exit
+            MoveLeft, MoveRight, MoveUp, MoveDown,
+            PlaceMark,
+            PlayAgain, Exit
+        }
+
+        private static T ReadBase<T>(Converter<string, T> converter, Predicate<T>? validate = null) {
+            string input = Console.ReadLine() ?? "";
+            T converted;
+            try {
+                converted = converter(input);
+            } catch (Exception e) when (e is FormatException || e is ArgumentNullException || e is OverflowException) {
+                throw new FormatException();
+            }
+
+            if (validate != null && !validate(converted))
+                throw new InvalidDataException();
+
+            return converted;
         }
         public static T Read<T>(string prompt, Converter<string, T> converter, string? errorMessage = null, Predicate<T>? validate = null) {
-            GameController.renderer.DrawPrompt(prompt);
+            renderer.DrawPrompt(prompt);
 
             while (true) {
-                string input = Console.ReadLine() ?? "";
-                T converted;
                 try {
-                    converted = converter(input);
-                } catch (Exception e) when (e is FormatException || e is ArgumentNullException || e is OverflowException)  {
-                    if (errorMessage != null) {
-                        GameController.renderer.DrawPrompt(prompt);
-                        GameController.renderer.DrawError(errorMessage);
-                    }
-                    continue;
+                    T read = ReadBase(converter, validate);
+                    return read;
+                } catch (Exception e) when (e is FormatException || e is InvalidDataException) {
+                    renderer.DrawPrompt(prompt);
+                    if (errorMessage != null)
+                        renderer.DrawError(errorMessage);
+                }   
+            }
+        }
+        public static int Select<T>(string prompt, IEnumerable<T> options) {
+            renderer.DrawOptionsPrompt(prompt, options);
+            while (true) {
+                try {
+                    int selection = ReadBase(
+                        converter: int.Parse,
+                        n => n >= 0 && n < options.Count());
+                    return selection;
+                } catch (Exception e) when (e is FormatException || e is InvalidDataException) {
+                    renderer.DrawError("Please enter a number from the available options!");
                 }
-
-                if (validate != null && !validate(converted)) {
-                    if (errorMessage != null) {
-                        GameController.renderer.DrawPrompt(prompt);
-                        GameController.renderer.DrawError(errorMessage);
-                    }
-                    continue;
-                }
-                    
-                return converted;
             }
         }
 
-        public static Action ReadKey() {
+
+        public static Action ReadKey(params Action[] validActions) {
             ConsoleKey inputKey;
-            do {
+
+            while (true) {
                 inputKey = Console.ReadKey(true).Key;
-            } while (!keybindings.ContainsKey(inputKey));
+                if (!keybindings.ContainsKey(inputKey)) continue;
+
+                var action = keybindings[inputKey];
+                if (validActions.Length > 0 && !validActions.Contains(action)) continue;
+
+                break;
+            }
+
             return keybindings[inputKey];
         }
 
@@ -48,13 +73,15 @@
             }
         }
 
+        private static readonly IRenderer renderer = GameController.renderer;
         private static readonly Dictionary<ConsoleKey, Action> keybindings = new() {
-            { ConsoleKey.LeftArrow , Action.Left }, { ConsoleKey.A , Action.Left },
-            { ConsoleKey.RightArrow , Action.Right}, { ConsoleKey.D , Action.Right},
-            { ConsoleKey.UpArrow , Action.Up }, { ConsoleKey.W , Action.Up },
-            { ConsoleKey.DownArrow , Action.Down }, { ConsoleKey.S , Action.Down},
-            { ConsoleKey.Enter, Action.Place },
-            { ConsoleKey.Escape, Action.Exit }
+            { ConsoleKey.LeftArrow , Action.MoveLeft }, { ConsoleKey.A , Action.MoveLeft },
+            { ConsoleKey.RightArrow , Action.MoveRight}, { ConsoleKey.D , Action.MoveRight},
+            { ConsoleKey.UpArrow , Action.MoveUp }, { ConsoleKey.W , Action.MoveUp },
+            { ConsoleKey.DownArrow , Action.MoveDown }, { ConsoleKey.S , Action.MoveDown},
+            { ConsoleKey.Enter, Action.PlaceMark },
+            { ConsoleKey.R, Action.PlayAgain },
+            { ConsoleKey.E, Action.Exit },
         };
     }
 }

@@ -1,19 +1,27 @@
-﻿using System.Runtime.CompilerServices;
-using Utilities;
+﻿using System.Text.Json.Serialization;
 
 namespace TicTacToe {
     class Player {
-        public int Score { get; private set; }
+        public int Score { get; set; }
         public string Name { get; private set; }
-        public CellState Team { get; private set; }
 
-        public Player(string name, CellState team) {
+        private CellState _team;
+        [JsonIgnore]
+        public CellState Team {
+            get => _team;
+            set {
+                if (value == CellState.Empty)
+                    throw new InvalidOperationException("Cannot set player team to empty!");
+
+                _team = value;
+            }
+        }
+
+        public Player(string name, CellState team, int score = 0) {
             Name = name;
-            Score = 0;
+            Score = score;
 
-            if (team == CellState.Empty)
-                throw new InvalidOperationException("A player's team cannot be 'CellState.Empty'");
-            Team = team;
+            _team = team;
         }
 
         public void TakeTurn() {

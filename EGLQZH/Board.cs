@@ -44,7 +44,7 @@ namespace TicTacToe {
                     currCol = MathOperation.Mod(currCol + directions[action].Col, size);
 
                     SelectedCell = Cells[currRow, currCol];
-                } else if (action == Input.Action.Place) {
+                } else if (action == Input.Action.PlaceMark) {
                     if (SelectedCell.State != CellState.Empty) {
                         GameController.renderer.DrawError("The selected cell is occupied!");
                         continue;
@@ -53,6 +53,14 @@ namespace TicTacToe {
                     CheckWinState();
                     return;
                 }
+            }
+        }
+
+        public void Reset() {
+            SelectedCell = null;
+            IsInWinState = false;
+            foreach (var cell in Cells) {
+                cell.State = CellState.Empty;
             }
         }
 
@@ -107,10 +115,10 @@ namespace TicTacToe {
 
         readonly Dictionary<Input.Action, (int Row, int Col)> directions = new()
         {
-            { Input.Action.Left, (0, -1) },
-            { Input.Action.Right, (0, 1) },
-            { Input.Action.Up, (-1, 0) },
-            { Input.Action.Down, (1, 0) }
+            { Input.Action.MoveLeft, (0, -1) },
+            { Input.Action.MoveRight, (0, 1) },
+            { Input.Action.MoveUp, (-1, 0) },
+            { Input.Action.MoveDown, (1, 0) }
         };
         private Cell? _selectedCell = null;
     }
